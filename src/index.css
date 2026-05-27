@@ -1,0 +1,100 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 96.5%;
+    --foreground: 0 0% 0%;
+    --card: 0 0% 94.5%;
+    --card-foreground: 0 0% 0%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 0%;
+    --primary: 54 100% 50%;
+    --primary-foreground: 0 0% 0%;
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
+    --muted: 0 0% 91%;
+    --muted-foreground: 0 0% 20%;
+    --accent: 54 100% 50%;
+    --accent-foreground: 0 0% 0%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 85%;
+    --input: 0 0% 85%;
+    --ring: 54 100% 50%;
+    --radius: 0.625rem;
+  }
+
+  body {
+    @apply bg-temacon-offwhite text-temacon-black antialiased;
+    font-family: 'Inter', sans-serif;
+    overflow-x: hidden;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@layer components {
+  .font-display {
+    font-family: 'Space Grotesk', sans-serif;
+  }
+
+  .font-body {
+    font-family: 'Inter', sans-serif;
+  }
+
+  .font-mono {
+    font-family: 'IBM Plex Mono', monospace;
+  }
+
+  .text-t1 {
+    font-size: clamp(2.5rem, 8vw, 6.25rem);
+    line-height: 0.9;
+    letter-spacing: -0.02em;
+  }
+
+  .text-t2 {
+    font-size: clamp(2.25rem, 6vw, 5rem);
+    line-height: 1;
+    letter-spacing: -0.015em;
+  }
+
+  .text-t3 {
+    font-size: clamp(2rem, 4vw, 3.75rem);
+    line-height: 1;
+    letter-spacing: -0.01em;
+  }
+
+  .text-t4 {
+    font-size: clamp(1.75rem, 3vw, 2.5rem);
+    line-height: 1.1;
+    letter-spacing: -0.005em;
+  }
+
+  .text-t5 {
+    font-size: clamp(1.5rem, 2.5vw, 2rem);
+    line-height: 1.2;
+    letter-spacing: -0.003em;
+  }
+
+  .text-t6 {
+    font-size: clamp(1.25rem, 1.5vw, 1.5rem);
+    line-height: 1.2;
+    letter-spacing: normal;
+  }
+
+  .wrapper {
+    @apply px-5 lg:px-10 mx-auto w-full max-w-[1440px];
+  }
+
+  .section-padding {
+    @apply py-10 lg:py-20;
+  }
+
+  .page-padding {
+    @apply py-[60px] lg:py-[120px];
+  }
+}
