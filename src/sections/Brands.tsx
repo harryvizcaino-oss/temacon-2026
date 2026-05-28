@@ -145,7 +145,9 @@ export default function Brands() {
         {/* CTAs */}
         <div className="mt-10 flex flex-col items-center gap-4">
           <a
-            href="mailto:patrocinios@temacon.com"
+            href="https://wa.me/573113782522?text=Hola%20quisiera%20ser%20patrocinador%20en%20TEMACON%202026"
+            target="_blank"
+            rel="noopener noreferrer"
             className="inline-flex items-center gap-2 border-2 border-[#E31E24]/20 text-[#E31E24] px-8 py-3.5 rounded-full font-mono text-xs tracking-wider hover:bg-[#E31E24] hover:text-white hover:border-[#E31E24] transition-all duration-300"
           >
             Conviertete en Patrocinador
