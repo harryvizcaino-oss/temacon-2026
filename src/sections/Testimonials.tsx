@@ -107,7 +107,7 @@ export default function Testimonials() {
   const t = TESTIMONIALS[activeIndex];
 
   return (
-    <section ref={sectionRef} className="bg-temacon-offwhite page-padding">
+    <section ref={sectionRef} className="bg-temacon-offwhite page-padding" data-nav-light>
       <div className="wrapper">
         <h2
           ref={titleRef}

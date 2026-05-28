@@ -4,6 +4,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import {
   Calendar, Clock, Coffee, Utensils, Users, Mic, Presentation, Network, Award,
 } from 'lucide-react';
+import TeaserOverlay from '@/components/TeaserOverlay';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -202,6 +203,12 @@ export default function Agenda() {
           <p className="mt-3 font-mono text-[10px] text-white/30">Programa sujeto a cambios menores</p>
         </div>
       </div>
+
+      {/* Teaser: Agenda aun no confirmada */}
+      <TeaserOverlay
+        message="Conoce mas pronto"
+        submessage="Estamos confirmando los speakers y armando la agenda para ti"
+      />
     </section>
   );
 }

@@ -58,10 +58,21 @@ export default function Venue() {
 
   return (
     <section id="venue" ref={sectionRef} className="relative bg-[#f2f2f2] overflow-hidden" data-nav-light>
+      {/* Header — above the image */}
+      <div className="text-center pt-12 pb-6">
+        <p className="font-mono text-[10px] tracking-[0.4em] text-[#E31E24] uppercase mb-3">
+          Centro de Operaciones
+        </p>
+        <h2 className="font-display text-4xl lg:text-5xl text-black tracking-tight">
+          Sede <span className="text-[#E31E24]">TEMACON 2026</span>
+        </h2>
+        <p className="mt-3 text-sm text-black/50 max-w-md mx-auto">
+          1-2 Septiembre 2026 · Bogotá, Colombia
+        </p>
+      </div>
+
       {/* ═══════════════════════════════════════════
-         TOP: Venue Photo
-         Mobile: Limpia, sin overlays
-         Desktop: Street View style con overlays
+         Venue Photo
          ═══════════════════════════════════════════ */}
       <div ref={photoRef} className="relative w-full h-[40vh] sm:h-[55vh] lg:h-[60vh]">
         {/* Photo */}
@@ -151,21 +162,8 @@ export default function Venue() {
         </div>
       </div>
 
-      {/* Header */}
-      <div className="text-center py-10 lg:py-14">
-        <p className="font-mono text-[10px] tracking-[0.4em] text-[#E31E24] uppercase mb-3">
-          Centro de Operaciones
-        </p>
-        <h2 className="font-display text-4xl lg:text-5xl text-black tracking-tight">
-          Sede <span className="text-[#E31E24]">TEMACON 2026</span>
-        </h2>
-        <p className="mt-3 text-sm text-black/50 max-w-md mx-auto">
-          Todo lo que necesitas saber para llegar al evento.
-        </p>
-      </div>
-
       {/* ═══════════════════════════════════════════
-         MIDDLE: Info Cards
+         Info Cards
          ═══════════════════════════════════════════ */}
       <div className="venue-cards-grid wrapper py-10 lg:py-14">
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 lg:gap-4">

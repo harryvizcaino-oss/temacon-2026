@@ -17,6 +17,8 @@ interface BrandItem {
 const BRANDS: BrandItem[] = [
   { name: 'LogiMiles', logo: '/brands/logimiles.png' },
   { name: 'puntored', logo: '/brands/puntored.png' },
+  { name: 'RPV-05', logo: '/brands/rpv-05.png' },
+  { name: 'RPV-26', logo: '/brands/rpv-26.png' },
   { name: 'Volvo', logo: '' },
   { name: 'Kenworth', logo: '' },
   { name: 'Michelin', logo: '' },
@@ -140,31 +142,21 @@ export default function Brands() {
         {/* Row 2 — right */}
         <LogoMarquee brands={row2} reverse />
 
-        {/* Stats */}
-        <div className="mt-10 flex items-center justify-center gap-8">
-          <div className="text-center">
-            <p className="font-display text-3xl text-black">24</p>
-            <p className="font-mono text-[9px] text-black/30 uppercase tracking-wider mt-1">Marcas</p>
-          </div>
-          <div className="w-px h-8 bg-black/10" />
-          <div className="text-center">
-            <p className="font-display text-3xl text-[#E31E24]">6</p>
-            <p className="font-mono text-[9px] text-black/30 uppercase tracking-wider mt-1">Paises</p>
-          </div>
-          <div className="w-px h-8 bg-black/10" />
-          <div className="text-center">
-            <p className="font-display text-3xl text-black">4</p>
-            <p className="font-mono text-[9px] text-black/30 uppercase tracking-wider mt-1">Sectores</p>
-          </div>
-        </div>
-
-        {/* CTA */}
-        <div className="mt-10 text-center">
+        {/* CTAs */}
+        <div className="mt-10 flex flex-col items-center gap-4">
           <a
             href="mailto:patrocinios@temacon.com"
             className="inline-flex items-center gap-2 border-2 border-[#E31E24]/20 text-[#E31E24] px-8 py-3.5 rounded-full font-mono text-xs tracking-wider hover:bg-[#E31E24] hover:text-white hover:border-[#E31E24] transition-all duration-300"
           >
             Conviertete en Patrocinador
+          </a>
+          <a
+            href="/temacon-portafolio-vinculacion.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 bg-[#E31E24] text-white px-8 py-3.5 rounded-full font-mono text-xs tracking-wider hover:bg-white hover:text-[#E31E24] transition-all duration-300 shadow-lg shadow-[#E31E24]/20"
+          >
+            Conoce todas las opciones de vinculacion Aqui
           </a>
         </div>
       </div>

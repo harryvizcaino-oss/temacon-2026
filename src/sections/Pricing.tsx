@@ -3,18 +3,17 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import {
   Plane, Calendar, MapPin, Clock, QrCode, CheckCircle2, Stamp,
-  Luggage, Utensils, Wifi, Award, Users, Video,
+  Luggage, Utensils, Award, Users,
 } from 'lucide-react';
 
 gsap.registerPlugin(ScrollTrigger);
 
 const FEATURES = [
-  { icon: Luggage,      label: 'Acceso total a sesiones' },
-  { icon: Utensils,     label: 'Coffee breaks + lunch' },
-  { icon: Wifi,         label: 'Material digital del evento' },
-  { icon: Award,        label: 'Certificado de participación' },
-  { icon: Users,        label: 'Networking presencial' },
-  { icon: Video,        label: 'Grabaciones (30 días)' },
+  { icon: Calendar,     label: 'Acceso a 2 días de evento' },
+  { icon: Luggage,      label: 'Acceso total a conferencias y muestra comercial' },
+  { icon: Utensils,     label: 'Coffee breaks + Lunch BOX' },
+  { icon: Award,        label: 'Certificado de Participación' },
+  { icon: Users,        label: 'Acceso a Networking especializado' },
 ];
 
 export default function Pricing() {
@@ -220,10 +219,10 @@ export default function Pricing() {
               <div className="mb-8">
                 <p className="font-mono text-[9px] text-white/30 tracking-wider mb-2">PRECIO GENERAL</p>
                 <div className="flex items-baseline gap-2">
-                  <span className="font-display text-6xl lg:text-7xl text-white tracking-tight">$2,150</span>
-                  <span className="font-mono text-sm text-white/30">USD</span>
+                  <span className="font-display text-5xl lg:text-6xl text-white tracking-tight">$400,000</span>
+                  <span className="font-mono text-sm text-white/30">COP</span>
                 </div>
-                <p className="font-mono text-[10px] text-white/20 mt-1">IVA incluido</p>
+                <p className="font-mono text-[10px] text-white/20 mt-1">+ IVA</p>
               </div>
 
               {/* Features as in-flight services */}
@@ -243,10 +242,13 @@ export default function Pricing() {
               </div>
 
               {/* CTA */}
-              <button className="w-full py-4 bg-[#E31E24] text-white rounded-xl font-display font-semibold text-base hover:bg-white hover:text-[#E31E24] transition-all duration-300 shadow-lg shadow-[#E31E24]/20 flex items-center justify-center gap-2">
+              <a
+                href="#register"
+                className="w-full py-4 bg-[#E31E24] text-white rounded-xl font-display font-semibold text-base hover:bg-white hover:text-[#E31E24] transition-all duration-300 shadow-lg shadow-[#E31E24]/20 flex items-center justify-center gap-2"
+              >
                 <QrCode size={18} />
-                Reservar Ahora
-              </button>
+                Adquirir Ingreso Ahora
+              </a>
 
               {/* Barcode */}
               <div className="mt-6 flex flex-col items-center">
@@ -274,21 +276,6 @@ export default function Pricing() {
           />
         </div>
 
-        {/* Trust info */}
-        <div className="mt-12 flex flex-wrap items-center justify-center gap-6 text-white/20">
-          <div className="flex items-center gap-2">
-            <CheckCircle2 size={14} className="text-[#E31E24]" />
-            <span className="font-mono text-[10px] tracking-wider">PAGO SEGURO</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <CheckCircle2 size={14} className="text-[#E31E24]" />
-            <span className="font-mono text-[10px] tracking-wider">REEMBOLSO HASTA 30 DÍAS ANTES</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <CheckCircle2 size={14} className="text-[#E31E24]" />
-            <span className="font-mono text-[10px] tracking-wider">FACTURA INCLUIDA</span>
-          </div>
-        </div>
       </div>
 
       {/* Scan line keyframe */}

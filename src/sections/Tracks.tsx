@@ -7,6 +7,12 @@ gsap.registerPlugin(ScrollTrigger);
 
 const TRACKS = [
   {
+    id: 0,
+    title: 'Mantenimiento Correctivo \u0026 Gestión de Talleres',
+    description: 'Gestión eficiente de reparaciones post-falla, diagnóstico rápido de averías, control de repuestos críticos, KPIs de tiempos de reparación (MTTR) y gestión de talleres internos y proveedores de servicio. Minimiza el downtime cuando más lo necesitas.',
+    topics: ['Diagnóstico Rápido de Fallas', 'Gestión de Talleres y Proveedores', 'Control de Repuestos e Inventarios', 'KPIs MTTR y Disponibilidad'],
+  },
+  {
     id: 1,
     title: 'Confiabilidad de Flotas \u0026 Gestión de Activos Rodantes',
     description: 'RCM aplicado a transporte, análisis de fallos vehiculares, gestión del ciclo de vida de camiones y remolques, ISO 55000 para flotas. Maximiza el uptime de tu operación.',
@@ -71,7 +77,7 @@ function TrackAccordion({ track, isOpen, onToggle }: { track: typeof TRACKS[0]; 
 }
 
 export default function Tracks() {
-  const [openId, setOpenId] = useState<number | null>(1);
+  const [openId, setOpenId] = useState<number | null>(0);
   const sectionRef = useRef<HTMLElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
   const listRef = useRef<HTMLDivElement>(null);

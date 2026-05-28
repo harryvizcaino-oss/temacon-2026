@@ -56,14 +56,22 @@ export default function Preloader({ onComplete }: PreloaderProps) {
     };
   }, []);
 
-  /*─── BURST phase ───*/
+  /*─── BURST phase — smooth exit ───*/
   useEffect(() => {
     if (phase !== 'burst') return;
 
     const tl = gsap.timeline({
       onComplete: () => {
-        setPhase('done');
-        setTimeout(onComplete, 100);
+        // Keep preloader invisible but mounted briefly for smooth transition
+        gsap.to(containerRef.current, {
+          opacity: 0,
+          duration: 0.6,
+          ease: 'power2.inOut',
+          onComplete: () => {
+            setPhase('done');
+            onComplete();
+          },
+        });
       },
     });
 
@@ -74,23 +82,16 @@ export default function Preloader({ onComplete }: PreloaderProps) {
       { scale: 3, opacity: 0, duration: 0.8, ease: 'power2.out' }
     );
 
-    // Logo glows to full brightness
+    // Logo glows to full brightness then fades
     tl.to(
       logoRef.current,
       {
-        filter: 'brightness(1) drop-shadow(0 0 60px rgba(227,30,36,0.8))',
-        scale: 1.05,
-        duration: 0.5,
+        filter: 'brightness(1.2) drop-shadow(0 0 80px rgba(227,30,36,1))',
+        scale: 1.1,
+        duration: 0.4,
         ease: 'power2.out',
       },
       0
-    );
-
-    // Fade out entire preloader
-    tl.to(
-      containerRef.current,
-      { opacity: 0, duration: 0.5, ease: 'power2.inOut' },
-      0.4
     );
   }, [phase, onComplete]);
 
@@ -110,10 +111,8 @@ export default function Preloader({ onComplete }: PreloaderProps) {
   return (
     <div
       ref={containerRef}
-      className={`fixed inset-0 z-[9999] bg-black flex flex-col items-center justify-center transition-opacity ${
-        phase === 'done' ? 'opacity-0 pointer-events-none' : 'opacity-100'
-      }`}
-      style={{ transitionDuration: phase === 'done' ? '0s' : '0.5s' }}
+      className="fixed inset-0 z-[9999] bg-black flex flex-col items-center justify-center"
+      style={{ opacity: phase === 'done' ? 0 : 1, transition: 'opacity 0.6s ease', pointerEvents: phase === 'done' ? 'none' : 'auto' }}
     >
       {/* Grid background */}
       <div

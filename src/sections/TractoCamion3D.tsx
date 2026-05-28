@@ -1,6 +1,6 @@
 import { useRef, useState, useEffect } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { Html, OrbitControls, Environment, ContactShadows, PerspectiveCamera } from '@react-three/drei';
+import { Html, OrbitControls, Environment, ContactShadows, PerspectiveCamera, useTexture } from '@react-three/drei';
 import * as THREE from 'three';
 import { gsap } from 'gsap';
 import { X, RotateCcw, ZoomIn, Info } from 'lucide-react';
@@ -67,9 +67,9 @@ const COMPONENTES: ComponenteData[] = [
     color: '#C0C0C0',
   },
   {
-    id: 'ejes', nombre: 'Ejes y Suspensión 6×4',
-    descripcion: 'Configuración 6×4 con 3 ejes: 1 direccional y 2 tractores. Suspensión neumática con diferencial locking.',
-    specs: [{ label: 'Configuración', value: '6×4 Tractor' }, { label: 'Capacidad eje', value: '9,000 - 13,000 kg' }, { label: 'Suspensión', value: 'Neumática / Muelle' }, { label: 'Diferencial', value: 'Locking electrónico' }, { label: 'Capacidad total', value: '36,300 kg GCW' }],
+    id: 'suspension', nombre: 'Suspensión y Ejes 6x4',
+    descripcion: 'Configuración 6x4 con 3 ejes: 1 direccional y 2 tractores. Suspensión neumática con diferencial locking.',
+    specs: [{ label: 'Configuración', value: '6x4 Tractor' }, { label: 'Capacidad eje', value: '9,000 - 13,000 kg' }, { label: 'Suspensión', value: 'Neumática / Muelle' }, { label: 'Diferencial', value: 'Locking electrónico' }, { label: 'Capacidad total', value: '36,300 kg GCW' }],
     mantenimiento: 'Revisión de lubricación cada 100,000 km. Alineación cada 150,000 km. Inspección de suspensión cada 50,000 km.',
     color: '#222222',
   },
@@ -93,6 +93,7 @@ const COMPONENTES: ComponenteData[] = [
 
 function KenworthT800({ selectedId, onSelect, isExploded }: { selectedId: string | null; onSelect: (id: string | null) => void; isExploded: boolean }) {
   const groupRef = useRef<THREE.Group>(null);
+  const [lightsOn, setLightsOn] = useState(false);
 
   useFrame(() => {
     if (groupRef.current && !selectedId) {
@@ -100,18 +101,18 @@ function KenworthT800({ selectedId, onSelect, isExploded }: { selectedId: string
     }
   });
 
-  // Kenworth blue
-  const cabBlue = '#4A90C4';
-  const chrome = '#C8D0D8';
-  const chromeDark = '#9098A0';
+  // Real Kenworth colors
+  const cabBlue = '#1B3A5C';
+  const chrome = '#E8ECF0';
+  const chromeDark = '#8A929C';
   const chassisBlack = '#1A1A1A';
-  const tireBlack = '#111111';
-  const rimSilver = '#A0A8B0';
-  const glassDark = '#1A2A3A';
-  const redLight = '#CC0000';
-  const amberLight = '#FF8800';
+  const tireBlack = '#0D0D0D';
+  const rimSilver = '#B8C0C8';
+  const glassDark = '#0D1B2A';
+  const redLight = '#FF1A1A';
+  const amberLight = '#FFAA00';
   const grillDark = '#2A2A2A';
-  const stepsChrome = '#C0C8D0';
+  const stepsChrome = '#D0D8E0';
 
   // Component click wrapper
   function ParteClickable({ componentId, explodedPos, children }: { componentId: string; explodedPos: [number, number, number]; children: React.ReactNode }) {
@@ -123,9 +124,11 @@ function KenworthT800({ selectedId, onSelect, isExploded }: { selectedId: string
     useFrame(() => {
       if (!group.current) return;
       const target = isExploded ? explodedPos : [0, 0, 0];
-      group.current.position.x += (target[0] - group.current.position.x) * 0.08;
-      group.current.position.y += (target[1] - group.current.position.y) * 0.08;
-      group.current.position.z += (target[2] - group.current.position.z) * 0.08;
+      // Smooth interpolation — slower for stable raycasting
+      const lerpFactor = 0.04;
+      group.current.position.x += (target[0] - group.current.position.x) * lerpFactor;
+      group.current.position.y += (target[1] - group.current.position.y) * lerpFactor;
+      group.current.position.z += (target[2] - group.current.position.z) * lerpFactor;
     });
 
     return (
@@ -135,7 +138,6 @@ function KenworthT800({ selectedId, onSelect, isExploded }: { selectedId: string
         onPointerOut={() => { setHovered(false); document.body.style.cursor = 'auto'; }}
       >
         {children}
-        {/* Hover glow ring */}
         {(hovered || isSelected) && (
           <mesh position={[0, 0.5, 0]}><sphereGeometry args={[0.02, 8, 8]} />
             <meshBasicMaterial color="#E31E24" transparent opacity={0} />
@@ -159,17 +161,83 @@ function KenworthT800({ selectedId, onSelect, isExploded }: { selectedId: string
     );
   }
 
+  /* ─── Tienda Logo Decal ─── */
+  function LogoDecal({ position, rotation }: { position: [number, number, number]; rotation: [number, number, number] }) {
+    const texture = useTexture('/logo-tienda-decal.png');
+    return (
+      <mesh position={position} rotation={rotation}>
+        <planeGeometry args={[0.5, 0.12]} />
+        <meshStandardMaterial
+          map={texture}
+          transparent
+          opacity={0.95}
+          emissive="#ffffff"
+          emissiveIntensity={0.15}
+          emissiveMap={texture}
+          side={THREE.DoubleSide}
+          depthWrite={false}
+        />
+      </mesh>
+    );
+  }
+
+  /* ─── Tire Component with tread pattern ─── */
+  function Tire({ position, scale = 1 }: { position: [number, number, number]; scale?: number }) {
+    const tireRef = useRef<THREE.Mesh>(null);
+    return (
+      <group position={position} scale={scale}>
+        {/* Main tire - rotated correctly so tread faces OUTWARD */}
+        <mesh ref={tireRef} rotation={[Math.PI / 2, 0, 0]} castShadow>
+          <cylinderGeometry args={[0.38, 0.38, 0.22, 32]} />
+          <meshStandardMaterial color={tireBlack} metalness={0.05} roughness={0.98} />
+        </mesh>
+        {/* Tread grooves - visible on the side */}
+        {[0.32, 0.28, 0.24, 0.20, 0.16, 0.12].map((r, i) => (
+          <mesh key={i} rotation={[Math.PI / 2, 0, 0]}>
+            <torusGeometry args={[r, 0.008, 4, 32]} />
+            <meshStandardMaterial color="#1A1A1A" metalness={0.1} roughness={0.95} />
+          </mesh>
+        ))}
+        {/* Rim */}
+        <mesh rotation={[Math.PI / 2, 0, 0]}>
+          <cylinderGeometry args={[0.24, 0.24, 0.24, 16]} />
+          <meshStandardMaterial color={rimSilver} metalness={0.9} roughness={0.1} />
+        </mesh>
+        {/* Rim hub cap */}
+        <mesh position={[0, 0, 0.12]}>
+          <circleGeometry args={[0.15, 16]} />
+          <meshStandardMaterial color={chrome} metalness={0.95} roughness={0.05} side={THREE.DoubleSide} />
+        </mesh>
+        {/* Lug nuts */}
+        {[0, 1, 2, 3, 4, 5, 6, 7].map((n) => {
+          const angle = (n / 8) * Math.PI * 2;
+          return (
+            <mesh key={n} position={[Math.cos(angle) * 0.1, Math.sin(angle) * 0.1, 0.13]}>
+              <cylinderGeometry args={[0.018, 0.018, 0.02, 6]} />
+              <meshStandardMaterial color={chrome} metalness={0.95} roughness={0.05} />
+            </mesh>
+          );
+        })}
+        {/* Hub bolts ring */}
+        <mesh position={[0, 0, 0.125]}>
+          <ringGeometry args={[0.05, 0.055, 16]} />
+          <meshStandardMaterial color={chromeDark} metalness={0.8} roughness={0.2} side={THREE.DoubleSide} />
+        </mesh>
+      </group>
+    );
+  }
+
   return (
-    <group ref={groupRef} position={[0, 0, 0]}>
+    <group ref={groupRef} position={[0, 0, 0]} onPointerOver={() => setLightsOn(true)} onPointerOut={() => setLightsOn(false)}>
 
       {/* ══════ HOOD & MOTOR ══════ */}
-      <ParteClickable componentId="motor" explodedPos={[0, 0.3, 0]}>
+      <ParteClickable componentId="motor" explodedPos={[1.2, 0.5, 0]}>
         {/* Hood - long sloped nose */}
         <mesh position={[2.0, 0.9, 0]} castShadow>
           <boxGeometry args={[1.8, 0.55, 1.45]} />
           <meshStandardMaterial color={cabBlue} metalness={0.5} roughness={0.35} />
         </mesh>
-        {/* Hood slope */}
+        {/* Hood slope front */}
         <mesh position={[2.6, 0.85, 0]} castShadow>
           <boxGeometry args={[0.6, 0.45, 1.35]} />
           <meshStandardMaterial color={cabBlue} metalness={0.5} roughness={0.35} />
@@ -179,10 +247,21 @@ function KenworthT800({ selectedId, onSelect, isExploded }: { selectedId: string
           <boxGeometry args={[1.6, 0.04, 0.8]} />
           <meshStandardMaterial color={cabBlue} metalness={0.5} roughness={0.35} />
         </mesh>
+        {/* Hood side vents */}
+        {[-0.7, 0.7].map((z, i) => (
+          <mesh key={i} position={[2.0, 0.85, z]}>
+            <boxGeometry args={[1.2, 0.08, 0.02]} />
+            <meshStandardMaterial color="#152D47" metalness={0.6} roughness={0.3} />
+          </mesh>
+        ))}
       </ParteClickable>
 
+      {/* ══════ TIENDA LOGO DECAL — Side of hood ══════ */}
+      <LogoDecal position={[2.0, 0.88, 0.74]} rotation={[0, 0, 0]} />
+      <LogoDecal position={[2.0, 0.88, -0.74]} rotation={[0, Math.PI, 0]} />
+
       {/* ══════ PARRILLA ══════ */}
-      <ParteClickable componentId="parrilla" explodedPos={[0.5, 0, 0]}>
+      <ParteClickable componentId="parrilla" explodedPos={[2.0, 0.2, 0]}>
         {/* Chrome frame */}
         <mesh position={[2.92, 0.8, 0]}>
           <boxGeometry args={[0.08, 0.7, 1.25]} />
@@ -195,14 +274,27 @@ function KenworthT800({ selectedId, onSelect, isExploded }: { selectedId: string
             <meshStandardMaterial color={i === 3 ? '#E31E24' : grillDark} metalness={0.9} roughness={0.1} />
           </mesh>
         ))}
-        {/* Headlights - rectangular */}
+        {/* Kenworth emblem oval */}
+        <mesh position={[2.95, 0.78, 0]}>
+          <boxGeometry args={[0.02, 0.1, 0.18]} />
+          <meshStandardMaterial color="#E31E24" metalness={0.8} roughness={0.2} />
+        </mesh>
+        {/* Headlights - rectangular with glow */}
         <mesh position={[2.9, 0.55, 0.55]}>
           <boxGeometry args={[0.08, 0.1, 0.2]} />
-          <meshStandardMaterial color="#e0e8f0" emissive="#ccddff" emissiveIntensity={0.3} />
+          <meshStandardMaterial
+            color="#e0e8f0"
+            emissive={lightsOn ? "#ffffff" : "#8899bb"}
+            emissiveIntensity={lightsOn ? 2 : 0.3}
+          />
         </mesh>
         <mesh position={[2.9, 0.55, -0.55]}>
           <boxGeometry args={[0.08, 0.1, 0.2]} />
-          <meshStandardMaterial color="#e0e8f0" emissive="#ccddff" emissiveIntensity={0.3} />
+          <meshStandardMaterial
+            color="#e0e8f0"
+            emissive={lightsOn ? "#ffffff" : "#8899bb"}
+            emissiveIntensity={lightsOn ? 2 : 0.3}
+          />
         </mesh>
         {/* Bumper */}
         <mesh position={[2.95, 0.35, 0]} castShadow>
@@ -212,11 +304,11 @@ function KenworthT800({ selectedId, onSelect, isExploded }: { selectedId: string
         {/* Bumper fog lights */}
         <mesh position={[2.95, 0.25, 0.5]}>
           <boxGeometry args={[0.05, 0.06, 0.12]} />
-          <meshStandardMaterial color="#e0e8f0" emissive="#ccddff" emissiveIntensity={0.2} />
+          <meshStandardMaterial color="#e0e8f0" emissive={lightsOn ? "#ccddff" : "#667788"} emissiveIntensity={lightsOn ? 1 : 0.2} />
         </mesh>
         <mesh position={[2.95, 0.25, -0.5]}>
           <boxGeometry args={[0.05, 0.06, 0.12]} />
-          <meshStandardMaterial color="#e0e8f0" emissive="#ccddff" emissiveIntensity={0.2} />
+          <meshStandardMaterial color="#e0e8f0" emissive={lightsOn ? "#ccddff" : "#667788"} emissiveIntensity={lightsOn ? 1 : 0.2} />
         </mesh>
         {/* Amber marker lights */}
         {[-0.65, 0, 0.65].map((z, i) => (
@@ -225,40 +317,54 @@ function KenworthT800({ selectedId, onSelect, isExploded }: { selectedId: string
             <meshStandardMaterial color={amberLight} emissive={amberLight} emissiveIntensity={0.6} />
           </mesh>
         ))}
+        {/* Turn signal lights on sides */}
+        <mesh position={[2.85, 0.65, 0.72]}>
+          <boxGeometry args={[0.06, 0.04, 0.08]} />
+          <meshStandardMaterial color={amberLight} emissive={amberLight} emissiveIntensity={0.5} />
+        </mesh>
+        <mesh position={[2.85, 0.65, -0.72]}>
+          <boxGeometry args={[0.06, 0.04, 0.08]} />
+          <meshStandardMaterial color={amberLight} emissive={amberLight} emissiveIntensity={0.5} />
+        </mesh>
       </ParteClickable>
 
       {/* ══════ CABINA ══════ */}
-      <ParteClickable componentId="cabina" explodedPos={[0, 0.4, 0]}>
+      <ParteClickable componentId="cabina" explodedPos={[0, 1.0, 0]}>
         {/* Main cab */}
         <mesh position={[0.3, 1.15, 0]} castShadow>
           <boxGeometry args={[1.4, 1.15, 1.5]} />
           <meshStandardMaterial color={cabBlue} metalness={0.5} roughness={0.35} />
         </mesh>
-        {/* Cab roof */}
+        {/* Cab roof with sleeper */}
         <mesh position={[0.3, 1.75, 0]}>
           <boxGeometry args={[1.35, 0.05, 1.45]} />
           <meshStandardMaterial color={cabBlue} metalness={0.5} roughness={0.35} />
         </mesh>
-        {/* Windshield */}
-        <mesh position={[1.02, 1.25, 0]}>
+        {/* Sleeper back (taller) */}
+        <mesh position={[-0.25, 1.3, 0]}>
+          <boxGeometry args={[0.2, 0.85, 1.4]} />
+          <meshStandardMaterial color={cabBlue} metalness={0.5} roughness={0.35} />
+        </mesh>
+        {/* Windshield - angled */}
+        <mesh position={[1.02, 1.25, 0]} rotation={[0, 0, -0.05]}>
           <boxGeometry args={[0.05, 0.65, 1.2]} />
-          <meshStandardMaterial color={glassDark} metalness={0.9} roughness={0.05} transparent opacity={0.6} />
+          <meshStandardMaterial color={glassDark} metalness={0.95} roughness={0.02} transparent opacity={0.5} />
         </mesh>
         {/* Side windows */}
         <mesh position={[0.3, 1.3, 0.76]}>
           <boxGeometry args={[0.8, 0.45, 0.04]} />
-          <meshStandardMaterial color={glassDark} metalness={0.9} roughness={0.05} transparent opacity={0.6} />
+          <meshStandardMaterial color={glassDark} metalness={0.95} roughness={0.02} transparent opacity={0.5} />
         </mesh>
         <mesh position={[0.3, 1.3, -0.76]}>
           <boxGeometry args={[0.8, 0.45, 0.04]} />
-          <meshStandardMaterial color={glassDark} metalness={0.9} roughness={0.05} transparent opacity={0.6} />
+          <meshStandardMaterial color={glassDark} metalness={0.95} roughness={0.02} transparent opacity={0.5} />
         </mesh>
         {/* Back window */}
         <mesh position={[-0.42, 1.3, 0]}>
           <boxGeometry args={[0.04, 0.45, 1.0]} />
-          <meshStandardMaterial color={glassDark} metalness={0.9} roughness={0.05} transparent opacity={0.5} />
+          <meshStandardMaterial color={glassDark} metalness={0.95} roughness={0.02} transparent opacity={0.4} />
         </mesh>
-        {/* Door handles */}
+        {/* Door handles chrome */}
         <mesh position={[0.6, 1.0, 0.77]}>
           <boxGeometry args={[0.08, 0.03, 0.03]} />
           <meshStandardMaterial color={chromeDark} metalness={0.9} roughness={0.1} />
@@ -272,13 +378,22 @@ function KenworthT800({ selectedId, onSelect, isExploded }: { selectedId: string
           <boxGeometry args={[0.5, 0.08, 1.3]} />
           <meshStandardMaterial color={cabBlue} metalness={0.5} roughness={0.35} />
         </mesh>
-        {/* Roof lights */}
-        {[-0.5, 0, 0.5].map((z, i) => (
+        {/* Roof lights - 5 marker lights */}
+        {[-0.55, -0.25, 0, 0.25, 0.55].map((z, i) => (
           <mesh key={i} position={[0.3, 1.78, z]}>
-            <sphereGeometry args={[0.03, 8, 8]} />
+            <sphereGeometry args={[0.025, 8, 8]} />
             <meshStandardMaterial color={amberLight} emissive={amberLight} emissiveIntensity={0.8} />
           </mesh>
         ))}
+        {/* Windshield wipers */}
+        <mesh position={[1.05, 1.32, 0.3]} rotation={[0, 0, -0.3]}>
+          <boxGeometry args={[0.3, 0.01, 0.01]} />
+          <meshStandardMaterial color={chassisBlack} metalness={0.3} roughness={0.8} />
+        </mesh>
+        <mesh position={[1.05, 1.32, -0.3]} rotation={[0, 0, -0.3]}>
+          <boxGeometry args={[0.3, 0.01, 0.01]} />
+          <meshStandardMaterial color={chassisBlack} metalness={0.3} roughness={0.8} />
+        </mesh>
       </ParteClickable>
 
       {/* ══════ ESPEJOS ══════ */}
@@ -292,7 +407,7 @@ function KenworthT800({ selectedId, onSelect, isExploded }: { selectedId: string
           <cylinderGeometry args={[0.015, 0.015, 0.25, 8]} />
           <meshStandardMaterial color={chromeDark} metalness={0.9} roughness={0.1} />
         </mesh>
-        {/* Mirror heads */}
+        {/* Mirror heads - chrome housing */}
         <mesh position={[0.6, 1.28, 0.92]}>
           <boxGeometry args={[0.08, 0.15, 0.03]} />
           <meshStandardMaterial color={chrome} metalness={0.9} roughness={0.1} />
@@ -304,14 +419,14 @@ function KenworthT800({ selectedId, onSelect, isExploded }: { selectedId: string
       </group>
 
       {/* ══════ STACKS ESCAPE ══════ */}
-      <ParteClickable componentId="escape" explodedPos={[-0.5, 0.3, 0]}>
+      <ParteClickable componentId="escape" explodedPos={[-1.5, 0.8, 0]}>
         {/* Left stack */}
         <mesh position={[-0.45, 1.4, 0.65]} castShadow>
           <cylinderGeometry args={[0.04, 0.05, 1.3, 16]} />
           <meshStandardMaterial color={chrome} metalness={0.95} roughness={0.05} />
         </mesh>
-        {/* Left stack cap - curved */}
-        <mesh position={[-0.45, 2.08, 0.65]} rotation={[0, 0, 0]}>
+        {/* Left stack curved cap */}
+        <mesh position={[-0.43, 2.08, 0.65]} rotation={[0, 0, -0.4]}>
           <cylinderGeometry args={[0.035, 0.04, 0.12, 16]} />
           <meshStandardMaterial color={chrome} metalness={0.95} roughness={0.05} />
         </mesh>
@@ -320,12 +435,12 @@ function KenworthT800({ selectedId, onSelect, isExploded }: { selectedId: string
           <cylinderGeometry args={[0.04, 0.05, 1.3, 16]} />
           <meshStandardMaterial color={chrome} metalness={0.95} roughness={0.05} />
         </mesh>
-        {/* Right stack cap */}
-        <mesh position={[-0.45, 2.08, -0.65]}>
+        {/* Right stack curved cap */}
+        <mesh position={[-0.43, 2.08, -0.65]} rotation={[0, 0, -0.4]}>
           <cylinderGeometry args={[0.035, 0.04, 0.12, 16]} />
           <meshStandardMaterial color={chrome} metalness={0.95} roughness={0.05} />
         </mesh>
-        {/* Horizontal pipes connecting to engine */}
+        {/* Horizontal pipes */}
         <mesh position={[0.8, 0.7, 0.65]} rotation={[0, 0, Math.PI / 2]}>
           <cylinderGeometry args={[0.035, 0.035, 2.5, 12]} />
           <meshStandardMaterial color={chromeDark} metalness={0.9} roughness={0.1} />
@@ -337,7 +452,7 @@ function KenworthT800({ selectedId, onSelect, isExploded }: { selectedId: string
       </ParteClickable>
 
       {/* ══════ TANQUES COMBUSTIBLE ══════ */}
-      <ParteClickable componentId="combustible" explodedPos={[0, 0, 0.7]}>
+      <ParteClickable componentId="combustible" explodedPos={[0, 0.2, 1.2]}>
         {/* Left tank */}
         <mesh position={[0.5, 0.55, 0.68]} castShadow>
           <cylinderGeometry args={[0.22, 0.22, 1.4, 32]} />
@@ -362,16 +477,25 @@ function KenworthT800({ selectedId, onSelect, isExploded }: { selectedId: string
             <meshStandardMaterial color={chassisBlack} metalness={0.6} roughness={0.4} />
           </mesh>
         ))}
-        {/* AdBlue tank (smaller) */}
+        {/* AdBlue tank */}
         <mesh position={[-0.5, 0.4, 0.68]}>
           <cylinderGeometry args={[0.12, 0.12, 0.4, 16]} />
           <meshStandardMaterial color="#2E6FB0" metalness={0.6} roughness={0.3} />
         </mesh>
+        {/* Tank caps */}
+        <mesh position={[1.2, 0.55, 0.68]}>
+          <cylinderGeometry args={[0.04, 0.04, 0.08, 8]} />
+          <meshStandardMaterial color={chrome} metalness={0.9} roughness={0.1} />
+        </mesh>
+        <mesh position={[1.2, 0.55, -0.68]}>
+          <cylinderGeometry args={[0.04, 0.04, 0.08, 8]} />
+          <meshStandardMaterial color={chrome} metalness={0.9} roughness={0.1} />
+        </mesh>
       </ParteClickable>
 
       {/* ══════ STEPS ══════ */}
-      <ParteClickable componentId="ejes" explodedPos={[0, -0.15, 0]}>
-        {/* Chrome steps */}
+      <ParteClickable componentId="suspension" explodedPos={[0, 0.1, 0]}>
+        {/* Steps + axles + suspension — all chassis parts */}
         {[0.8, 0.55, 0.3].map((x, i) => (
           <group key={i}>
             <mesh position={[x, 0.2 + i * 0.12, 0.82]}>
@@ -388,6 +512,40 @@ function KenworthT800({ selectedId, onSelect, isExploded }: { selectedId: string
         <mesh position={[0.5, 0.78, 0]}>
           <boxGeometry args={[1.0, 0.02, 0.4]} />
           <meshStandardMaterial color={chromeDark} metalness={0.8} roughness={0.2} />
+        </mesh>
+
+        {/* Axles */}
+        <mesh position={[2.35, 0.35, 0]} rotation={[0, 0, Math.PI / 2]}>
+          <cylinderGeometry args={[0.06, 0.06, 1.4, 16]} />
+          <meshStandardMaterial color={chromeDark} metalness={0.8} roughness={0.2} />
+        </mesh>
+        <mesh position={[-1.0, 0.35, 0]} rotation={[0, 0, Math.PI / 2]}>
+          <cylinderGeometry args={[0.08, 0.08, 1.45, 16]} />
+          <meshStandardMaterial color={chromeDark} metalness={0.8} roughness={0.2} />
+        </mesh>
+        <mesh position={[-2.2, 0.35, 0]} rotation={[0, 0, Math.PI / 2]}>
+          <cylinderGeometry args={[0.08, 0.08, 1.45, 16]} />
+          <meshStandardMaterial color={chromeDark} metalness={0.8} roughness={0.2} />
+        </mesh>
+        {/* Spring packs */}
+        {[-1.0, -2.2].map((x, i) => (
+          <group key={i}>
+            {[0.5, -0.5].map((z, j) => (
+              <mesh key={j} position={[x, 0.42, z]}>
+                <boxGeometry args={[0.25, 0.1, 0.15]} />
+                <meshStandardMaterial color="#555" metalness={0.5} roughness={0.6} />
+              </mesh>
+            ))}
+          </group>
+        ))}
+        {/* Differential housing */}
+        <mesh position={[-1.0, 0.35, 0]}>
+          <boxGeometry args={[0.4, 0.25, 0.3]} />
+          <meshStandardMaterial color={chassisBlack} metalness={0.7} roughness={0.3} />
+        </mesh>
+        <mesh position={[-2.2, 0.35, 0]}>
+          <boxGeometry args={[0.4, 0.25, 0.3]} />
+          <meshStandardMaterial color={chassisBlack} metalness={0.7} roughness={0.3} />
         </mesh>
       </ParteClickable>
 
@@ -428,7 +586,7 @@ function KenworthT800({ selectedId, onSelect, isExploded }: { selectedId: string
       </group>
 
       {/* ══════ EJES Y TRANSMISIÓN ══════ */}
-      <ParteClickable componentId="transmision" explodedPos={[0, -0.1, 0.5]}>
+      <ParteClickable componentId="transmision" explodedPos={[0.5, 0.2, 0]}>
         {/* Transmission housing */}
         <mesh position={[0.5, 0.48, 0]}>
           <boxGeometry args={[0.5, 0.3, 0.35]} />
@@ -441,8 +599,8 @@ function KenworthT800({ selectedId, onSelect, isExploded }: { selectedId: string
         </mesh>
       </ParteClickable>
 
-      {/* ══════ FRENOS (brake drums behind wheels) ══════ */}
-      <ParteClickable componentId="frenos" explodedPos={[0, 0, -0.7]}>
+      {/* ══════ FRENOS ══════ */}
+      <ParteClickable componentId="frenos" explodedPos={[0, 0.2, -1.2]}>
         {/* Brake drums */}
         {[-1.0, -2.2].map((x, wi) => (
           <group key={wi}>
@@ -462,7 +620,7 @@ function KenworthT800({ selectedId, onSelect, isExploded }: { selectedId: string
       </ParteClickable>
 
       {/* ══════ QUINTA RUEDA ══════ */}
-      <ParteClickable componentId="quinta" explodedPos={[0, 0.2, 0]}>
+      <ParteClickable componentId="quinta" explodedPos={[-1.0, 0.2, 0]}>
         <mesh position={[-1.0, 0.52, 0]}>
           <cylinderGeometry args={[0.35, 0.35, 0.06, 32]} />
           <meshStandardMaterial color="#3A3A3A" metalness={0.8} roughness={0.3} />
@@ -474,104 +632,19 @@ function KenworthT800({ selectedId, onSelect, isExploded }: { selectedId: string
         </mesh>
       </ParteClickable>
 
-      {/* ══════ NEUMÁTICOS ══════ */}
-      <ParteClickable componentId="neumaticos" explodedPos={[0, 0, 0.8]}>
-        {/* Front single axle */}
-        <group>
-          {[[2.35, 0.35, 0.6], [2.35, 0.35, -0.6]].map((pos, i) => (
-            <group key={`front-${i}`}>
-              <mesh position={pos as [number, number, number]} rotation={[0, 0, Math.PI / 2]} castShadow>
-                <cylinderGeometry args={[0.38, 0.38, 0.2, 32]} />
-                <meshStandardMaterial color={tireBlack} metalness={0.1} roughness={0.95} />
-              </mesh>
-              {/* Rim with holes */}
-              <mesh position={pos as [number, number, number]} rotation={[0, 0, Math.PI / 2]}>
-                <cylinderGeometry args={[0.22, 0.22, 0.22, 16]} />
-                <meshStandardMaterial color={rimSilver} metalness={0.9} roughness={0.1} />
-              </mesh>
-              {/* Lug nuts */}
-              {[0, 1, 2, 3, 4, 5, 6, 7].map((n) => {
-                const angle = (n / 8) * Math.PI * 2;
-                return (
-                  <mesh key={n} position={[
-                    pos[0] + Math.cos(angle) * 0.1,
-                    pos[1] + Math.sin(angle) * 0.1,
-                    pos[2] + (pos[2] > 0 ? 0.11 : -0.11)
-                  ]}>
-                    <sphereGeometry args={[0.02, 6, 6]} />
-                    <meshStandardMaterial color={chrome} metalness={0.95} roughness={0.05} />
-                  </mesh>
-                );
-              })}
-            </group>
-          ))}
-        </group>
-        {/* Rear axle 1 - dual wheels */}
-        <group>
-          {[[-1.0, 0.35, 0.62], [-1.0, 0.35, -0.62]].map((pos, i) => (
-            <group key={`rear1-${i}`}>
-              <mesh position={pos as [number, number, number]} rotation={[0, 0, Math.PI / 2]} castShadow>
-                <cylinderGeometry args={[0.38, 0.38, 0.22, 32]} />
-                <meshStandardMaterial color={tireBlack} metalness={0.1} roughness={0.95} />
-              </mesh>
-              <mesh position={pos as [number, number, number]} rotation={[0, 0, Math.PI / 2]}>
-                <cylinderGeometry args={[0.22, 0.22, 0.24, 16]} />
-                <meshStandardMaterial color={rimSilver} metalness={0.9} roughness={0.1} />
-              </mesh>
-            </group>
-          ))}
-        </group>
-        {/* Rear axle 2 - dual wheels */}
-        <group>
-          {[[-2.2, 0.35, 0.62], [-2.2, 0.35, -0.62]].map((pos, i) => (
-            <group key={`rear2-${i}`}>
-              <mesh position={pos as [number, number, number]} rotation={[0, 0, Math.PI / 2]} castShadow>
-                <cylinderGeometry args={[0.38, 0.38, 0.22, 32]} />
-                <meshStandardMaterial color={tireBlack} metalness={0.1} roughness={0.95} />
-              </mesh>
-              <mesh position={pos as [number, number, number]} rotation={[0, 0, Math.PI / 2]}>
-                <cylinderGeometry args={[0.22, 0.22, 0.24, 16]} />
-                <meshStandardMaterial color={rimSilver} metalness={0.9} roughness={0.1} />
-              </mesh>
-            </group>
-          ))}
-        </group>
-      </ParteClickable>
+      {/* ══════ NEUMÁTICOS — CORRECTLY ORIENTED ══════ */}
+      <ParteClickable componentId="neumaticos" explodedPos={[0, 0.4, 1.0]}>
+        {/* Front single axle — tires rotated correctly */}
+        <Tire position={[2.35, 0.35, 0.6]} />
+        <Tire position={[2.35, 0.35, -0.6]} />
 
-      {/* ══════ EJES (axles) ══════ */}
-      <ParteClickable componentId="ejes" explodedPos={[0, -0.15, 0]}>
-        <mesh position={[2.35, 0.35, 0]} rotation={[0, 0, Math.PI / 2]}>
-          <cylinderGeometry args={[0.06, 0.06, 1.4, 16]} />
-          <meshStandardMaterial color={chromeDark} metalness={0.8} roughness={0.2} />
-        </mesh>
-        <mesh position={[-1.0, 0.35, 0]} rotation={[0, 0, Math.PI / 2]}>
-          <cylinderGeometry args={[0.08, 0.08, 1.45, 16]} />
-          <meshStandardMaterial color={chromeDark} metalness={0.8} roughness={0.2} />
-        </mesh>
-        <mesh position={[-2.2, 0.35, 0]} rotation={[0, 0, Math.PI / 2]}>
-          <cylinderGeometry args={[0.08, 0.08, 1.45, 16]} />
-          <meshStandardMaterial color={chromeDark} metalness={0.8} roughness={0.2} />
-        </mesh>
-        {/* Spring packs */}
-        {[-1.0, -2.2].map((x, i) => (
-          <group key={i}>
-            {[0.5, -0.5].map((z, j) => (
-              <mesh key={j} position={[x, 0.42, z]}>
-                <boxGeometry args={[0.25, 0.1, 0.15]} />
-                <meshStandardMaterial color="#555" metalness={0.5} roughness={0.6} />
-              </mesh>
-            ))}
-          </group>
-        ))}
-        {/* Differential housing */}
-        <mesh position={[-1.0, 0.35, 0]}>
-          <boxGeometry args={[0.4, 0.25, 0.3]} />
-          <meshStandardMaterial color={chassisBlack} metalness={0.7} roughness={0.3} />
-        </mesh>
-        <mesh position={[-2.2, 0.35, 0]}>
-          <boxGeometry args={[0.4, 0.25, 0.3]} />
-          <meshStandardMaterial color={chassisBlack} metalness={0.7} roughness={0.3} />
-        </mesh>
+        {/* Rear axle 1 — dual wheels */}
+        <Tire position={[-1.0, 0.35, 0.62]} />
+        <Tire position={[-1.0, 0.35, -0.62]} />
+
+        {/* Rear axle 2 — dual wheels */}
+        <Tire position={[-2.2, 0.35, 0.62]} />
+        <Tire position={[-2.2, 0.35, -0.62]} />
       </ParteClickable>
 
       {/* ══════ GROUND ══════ */}

@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { Menu, X, ChevronRight } from 'lucide-react';
 
 /* ═══════════════════════════════════════════════════════════════
-   NAVIGATION — Adaptive logo + Full mobile menu
+   NAVIGATION — Desktop + Mobile menu with all sections
    ═══════════════════════════════════════════════════════════════ */
 
 interface NavSection {
@@ -13,17 +13,15 @@ interface NavSection {
 
 const MAIN_SECTIONS: NavSection[] = [
   { label: 'Inicio', href: '#hero' },
-  { label: 'Tracks', href: '#tracks', description: '6 tracks especializados' },
-  { label: 'Speakers', href: '#speakers', description: '8 líderes internacionales' },
-  { label: 'Agenda', href: '#agenda', description: 'Programa de 2 días' },
-  { label: 'Perfil del Asistente', href: '#audience', description: '12 perfiles profesionales' },
-  { label: 'Marcas', href: '#brands', description: 'Patrocinadores confirmados' },
-  { label: 'Lugar', href: '#venue', description: 'Cámara de Comercio · Bogotá' },
-  { label: 'Registro', href: '#register', description: 'Paquete General · $2,150 USD' },
+  { label: 'Tracks', href: '#tracks', description: '7 tracks especializados' },
+  { label: 'Speakers', href: '#speakers', description: 'Conferencistas confirmados' },
+  { label: 'Agenda', href: '#agenda', description: 'Programa de 2 dias' },
+  { label: 'Marcas', href: '#brands', description: 'Patrocinadores' },
+  { label: 'Lugar', href: '#venue', description: 'Bogota, Colombia' },
 ];
 
-const SUB_SECTIONS: NavSection[] = [
-  { label: 'Exploración 3D', href: '#tractocamion', description: 'Kenworth T800 interactivo' },
+const EXP_SECTIONS: NavSection[] = [
+  { label: 'Exploracion 3D', href: '#tractocamion', description: 'Kenworth T800 interactivo' },
   { label: 'Flujo de Mantenimiento', href: '#flujo', description: 'Sistema en vivo de 6 pasos' },
   { label: 'Perfil del Asistente', href: '#audience', description: '12 perfiles profesionales' },
 ];
@@ -67,7 +65,6 @@ export default function Navigation() {
     return () => window.removeEventListener('scroll', checkSection);
   }, []);
 
-  /*─── Logo color: dark when scrolled or on light section ───*/
   const logoDark = scrolled || onLightSection;
 
   return (
@@ -81,7 +78,7 @@ export default function Navigation() {
         }`}
       >
         <div className="wrapper flex items-center justify-between w-full px-4 sm:px-6">
-          {/* Logo — adaptive color */}
+          {/* Logo */}
           <a href="#" className="flex items-center gap-2 z-10">
             <img
               src="/logo-v2.png"
@@ -109,20 +106,20 @@ export default function Navigation() {
               </a>
             ))}
             <a
-              href="#register"
+              href="#pricing"
               className="bg-[#E31E24] text-white px-5 py-2 rounded-full text-sm font-semibold hover:bg-black hover:text-white transition-all duration-300"
             >
-              Registrarse
+              Adquirir Ingreso Ahora
             </a>
           </div>
 
-          {/* Mobile Menu Button — adaptive color */}
+          {/* Mobile Menu Button */}
           <button
             className={`lg:hidden p-2 rounded-lg transition-colors ${
               logoDark ? 'text-black' : 'text-white'
             }`}
             onClick={() => setMobileOpen(true)}
-            aria-label="Abrir menú"
+            aria-label="Abrir menu"
           >
             <Menu size={24} />
           </button>
@@ -130,7 +127,7 @@ export default function Navigation() {
       </nav>
 
       {/* ═══════════════════════════════════════════
-         MOBILE MENU — Full screen overlay
+         MOBILE MENU
          ═══════════════════════════════════════════ */}
       <div
         className={`fixed inset-0 z-[100] lg:hidden transition-all duration-300 ${
@@ -157,7 +154,7 @@ export default function Navigation() {
             <button
               className="p-2 text-white/60 hover:text-white"
               onClick={() => setMobileOpen(false)}
-              aria-label="Cerrar menú"
+              aria-label="Cerrar menu"
             >
               <X size={24} />
             </button>
@@ -192,16 +189,15 @@ export default function Navigation() {
               </div>
             </div>
 
-            {/* Divider */}
             <div className="mx-4 h-px bg-white/10" />
 
-            {/* Interactive sections */}
+            {/* Experience sections */}
             <div className="p-4">
               <p className="font-mono text-[9px] text-[#E31E24] tracking-[0.3em] uppercase mb-3 px-3">
                 Experiencias Interactivas
               </p>
               <div className="space-y-1">
-                {SUB_SECTIONS.map((link) => (
+                {EXP_SECTIONS.map((link) => (
                   <a
                     key={link.label}
                     href={link.href}
@@ -222,24 +218,23 @@ export default function Navigation() {
               </div>
             </div>
 
-            {/* Divider */}
             <div className="mx-4 h-px bg-white/10" />
 
             {/* CTA */}
             <div className="p-4">
               <a
-                href="#register"
+                href="#pricing"
                 className="flex items-center justify-center gap-2 bg-[#E31E24] text-white py-4 rounded-xl font-display font-semibold hover:bg-white hover:text-[#E31E24] transition-all"
                 onClick={() => setMobileOpen(false)}
               >
-                Reserva tu lugar — $2,150 USD
+                Adquirir Ingreso Ahora — $400,000 COP
               </a>
             </div>
 
             {/* Footer info */}
             <div className="px-6 pb-6">
               <p className="font-mono text-[8px] text-white/20 text-center">
-                1-2 Septiembre 2026 · Bogotá, Colombia
+                1-2 Septiembre 2026 · Bogota, Colombia
               </p>
             </div>
           </div>

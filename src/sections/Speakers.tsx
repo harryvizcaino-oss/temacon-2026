@@ -2,6 +2,7 @@ import { useEffect, useRef, useState, useCallback } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { MoveHorizontal } from 'lucide-react';
+import TeaserOverlay from '@/components/TeaserOverlay';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -399,6 +400,12 @@ export default function Speakers() {
           </div>
         </div>
       </div>
+
+      {/* Teaser: Speakers aun no confirmados */}
+      <TeaserOverlay
+        message="Conoce mas pronto"
+        submessage="Estamos confirmando los conferencistas especializados en transporte de carga"
+      />
     </section>
   );
 }

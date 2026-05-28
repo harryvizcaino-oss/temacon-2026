@@ -1,5 +1,5 @@
 import { useCountdown } from '@/hooks/useCountdown';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import {
   Truck, Cpu, Wrench, ShieldCheck, Route, Radio, Zap, Activity,
@@ -9,60 +9,97 @@ const TARGET_DATE = new Date('2026-09-01T08:00:00');
 function pad(n: number) { return n.toString().padStart(2, '0'); }
 
 /* ═══════════════════════════════════════════
-   CONFIG — 3 orbits (responsive radii)
+   BOUNCING TECH ICONS — DVD screensaver style
+   Each icon bounces diagonally off walls at slow speed
    ═══════════════════════════════════════════ */
-const ORBITS = [
-  {
-    r: 105, rMobile: 60, speed: 40, color: 'rgba(227,30,36,0.35)',
-    items: [
-      { Icon: Truck, label: 'TRANSPORTE', offset: 0 },
-      { Icon: Cpu, label: 'TECNOLOGÍA', offset: 120 },
-      { Icon: Wrench, label: 'MANTENIMIENTO', offset: 240 },
-    ],
-  },
-  {
-    r: 175, rMobile: 95, speed: 55, color: 'rgba(227,30,36,0.18)',
-    items: [
-      { Icon: ShieldCheck, label: 'CONFIABILIDAD', offset: 60 },
-      { Icon: Route, label: 'RUTAS', offset: 180 },
-      { Icon: Radio, label: 'COMUNICACIÓN', offset: 300 },
-    ],
-  },
-  {
-    r: 210, rMobile: 120, speed: 70, color: 'rgba(255,255,255,0.10)',
-    items: [
-      { Icon: Zap, label: 'EFICIENCIA', offset: 30 },
-      { Icon: Activity, label: 'MONITOREO', offset: 210 },
-    ],
-  },
+
+interface BouncingIcon {
+  Icon: React.ComponentType<{ size?: number; className?: string }>;
+  label: string;
+  startX: string;
+  startY: string;
+  dx: number;
+  dy: number;
+  duration: number;
+  size: number;
+}
+
+const BOUNCING_ICONS: BouncingIcon[] = [
+  { Icon: Truck,    label: 'TRANSPORTE',    startX: '5%',  startY: '20%', dx: 40, dy: 30,  duration: 18, size: 22 },
+  { Icon: Cpu,      label: 'TECNOLOGÍA',    startX: '85%', startY: '15%', dx: -35, dy: 25, duration: 22, size: 20 },
+  { Icon: Wrench,   label: 'MANTENIMIENTO', startX: '10%', startY: '70%', dx: 30, dy: -20, duration: 20, size: 18 },
+  { Icon: ShieldCheck, label: 'CONFIABILIDAD', startX: '75%', startY: '75%', dx: -25, dy: -30, duration: 24, size: 20 },
+  { Icon: Route,    label: 'RUTAS',         startX: '90%', startY: '45%', dx: -40, dy: 15, duration: 19, size: 16 },
+  { Icon: Radio,    label: 'COMUNICACIÓN',  startX: '8%',  startY: '45%', dx: 35, dy: -15, duration: 21, size: 16 },
+  { Icon: Zap,      label: 'EFICIENCIA',    startX: '30%', startY: '85%', dx: 20, dy: -35, duration: 23, size: 18 },
+  { Icon: Activity, label: 'MONITOREO',     startX: '60%', startY: '88%', dx: -20, dy: -25, duration: 17, size: 16 },
 ];
 
-/* ═══════════════════════════════════════════
-   COMPONENT
-   ═══════════════════════════════════════════ */
+/* Single bouncing square icon */
+function BouncingSquare({ icon, duration, delay = 0 }: { icon: BouncingIcon; duration: number; delay?: number }) {
+  const { Icon, label, startX, startY, dx, dy, size } = icon;
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
+    // Animate from starting position with diagonal movement
+    gsap.fromTo(
+      el,
+      { left: startX, top: startY, x: 0, y: 0 },
+      {
+        x: dx * 5,
+        y: dy * 5,
+        duration: duration,
+        ease: 'none',
+        repeat: -1,
+        yoyo: true,
+        delay: delay,
+      }
+    );
+  }, [startX, startY, dx, dy, duration, delay]);
+
+  return (
+    <div
+      ref={ref}
+      className="absolute z-20 hidden sm:flex flex-col items-center group"
+      style={{
+        left: startX,
+        top: startY,
+        transform: 'translate(-50%, -50%)',
+      }}
+    >
+      <div className="relative">
+        {/* Glow halo */}
+        <div className="absolute -inset-2 bg-[#E31E24]/15 rounded-xl blur-md group-hover:bg-[#E31E24]/30 transition-all" />
+        {/* Square */}
+        <div className="relative w-14 h-14 lg:w-16 lg:h-16 bg-[#0a0a0a] border-2 border-[#E31E24] rounded-xl flex items-center justify-center shadow-lg shadow-[#E31E24]/30 group-hover:shadow-[#E31E24]/60 group-hover:scale-110 transition-all duration-300">
+          <Icon size={size} className="text-[#E31E24]" />
+        </div>
+        {/* Pulsing dot */}
+        <div className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-[#E31E24] rounded-full animate-pulse" />
+      </div>
+      <span className="font-mono text-[6px] lg:text-[7px] text-white/40 tracking-wider mt-2 bg-black/70 px-1.5 py-0.5 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+        {label}
+      </span>
+    </div>
+  );
+}
+
 export default function Hero3D() {
   const timeLeft = useCountdown(TARGET_DATE);
   const logoRef = useRef<HTMLDivElement>(null);
-  const [mounted, setMounted] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    setMounted(true);
-    const check = () => setIsMobile(window.innerWidth < 768);
-    check();
-    window.addEventListener('resize', check);
-
     const ctx = gsap.context(() => {
       gsap.from(logoRef.current, {
         y: 60, opacity: 0, scale: 0.85,
-        duration: 1.2, ease: 'power3.out', delay: 0.1,
+        duration: 1.2, ease: 'power3.out', delay: 0.3,
       });
     });
-    return () => { ctx.revert(); window.removeEventListener('resize', check); };
+    return () => { ctx.revert(); };
   }, []);
-
-  // Responsive orbit container size
-  const orbitSize = isMobile ? 280 : 460;
 
   return (
     <section id="hero" className="relative min-h-[100dvh] flex flex-col items-center overflow-hidden bg-black">
@@ -79,13 +116,28 @@ export default function Hero3D() {
               top: Math.random() * 100 + '%',
               opacity: 0.1 + Math.random() * 0.3,
               animationDuration: 2 + Math.random() * 5 + 's',
+              animationDelay: Math.random() * 3 + 's',
             }}
           />
         ))}
       </div>
 
+      {/* ═══════════════════════════════════════════
+         BOUNCING SQUARES — DVD screensaver style
+         ═══════════════════════════════════════════ */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {BOUNCING_ICONS.map((icon, i) => (
+          <BouncingSquare
+            key={icon.label}
+            icon={icon}
+            duration={icon.duration}
+            delay={i * 0.5}
+          />
+        ))}
+      </div>
+
       {/* ─── TOP: date + countdown ─── */}
-      <div className="relative z-30 flex flex-col items-center text-center pt-20 sm:pt-16 lg:pt-8">
+      <div className="relative z-30 flex flex-col items-center text-center pt-24 sm:pt-20 lg:pt-24">
         <p className="font-mono text-[10px] lg:text-xs tracking-[0.3em] text-white/40 uppercase mb-2">
           1-2 Septiembre 2026 · Bogotá, Colombia
         </p>
@@ -109,90 +161,8 @@ export default function Hero3D() {
         </div>
       </div>
 
-      {/* ─── CENTER: GIANT Logo + Orbit System ─── */}
+      {/* ─── CENTER: GIANT Logo ─── */}
       <div className="relative z-20 flex-1 flex items-center justify-center w-full" style={{ minHeight: 0 }}>
-        {/* Orbit container — absolute behind logo */}
-        <div
-          className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none"
-          style={{ width: orbitSize, height: orbitSize }}
-        >
-          {/* Rings */}
-          {ORBITS.map((o, i) => {
-            const r = isMobile ? o.rMobile : o.r;
-            return (
-              <div
-                key={`ring-${i}`}
-                className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full"
-                style={{ width: r * 2, height: r * 2, border: `2px solid ${o.color}` }}
-              >
-                {/* Tick marks */}
-                {Array.from({ length: 12 }).map((_, t) => {
-                  const a = (t * 30 * Math.PI) / 180;
-                  const tx = Math.cos(a) * r;
-                  const ty = Math.sin(a) * r;
-                  return (
-                    <div
-                      key={t}
-                      className="absolute w-1 h-1 bg-[#E31E24] rounded-full"
-                      style={{ left: `calc(50% + ${tx}px)`, top: `calc(50% + ${ty}px)`, transform: 'translate(-50%,-50%)', opacity: 0.3 }}
-                    />
-                  );
-                })}
-              </div>
-            );
-          })}
-
-          {/* Center hub */}
-          <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-3 h-3 bg-[#E31E24] rounded-full opacity-40" />
-
-          {/* Rotating icons */}
-          {ORBITS.map((o, oi) => {
-            const r = isMobile ? o.rMobile : o.r;
-            return (
-              <div
-                key={`arm-${oi}`}
-                className="absolute left-1/2 top-1/2"
-                style={{
-                  animation: `orbitSpin${oi % 2 === 0 ? '' : 'R'} ${o.speed}s linear infinite`,
-                }}
-              >
-                {o.items.map(({ Icon, label, offset }) => {
-                  const a = (offset * Math.PI) / 180;
-                  const x = Math.cos(a) * r;
-                  const y = Math.sin(a) * r;
-                  return (
-                    <div
-                      key={label}
-                      className="absolute flex flex-col items-center"
-                      style={{
-                        left: x, top: y,
-                        transform: 'translate(-50%,-50%)',
-                        opacity: mounted ? 1 : 0,
-                        transition: 'opacity .6s ease',
-                      }}
-                    >
-                      <div style={{ animation: `orbitSpin${oi % 2 === 0 ? 'R' : ''} ${o.speed}s linear infinite` }}>
-                        {/* Tech-styled icon */}
-                        <div className="relative group cursor-pointer">
-                          <div className="absolute -inset-1.5 sm:-inset-2 bg-[#E31E24]/20 rounded-lg blur-sm group-hover:bg-[#E31E24]/40 transition-all" />
-                          <div className="relative w-9 h-9 sm:w-12 sm:h-12 lg:w-14 lg:h-14 bg-[#0a0a0a] border-2 border-[#E31E24] rounded-lg flex items-center justify-center shadow-lg shadow-[#E31E24]/30 group-hover:shadow-[#E31E24]/60 group-hover:scale-110 transition-all">
-                            <Icon size={isMobile ? 14 : 20} className="text-[#E31E24]" />
-                          </div>
-                          <div className="absolute -top-1 -right-1 w-2 h-2 bg-[#E31E24] rounded-full animate-pulse" />
-                        </div>
-                        <span className="font-mono text-[5px] sm:text-[6px] lg:text-[7px] text-white/40 tracking-wider block text-center mt-1 bg-black/70 px-1 py-0.5 rounded">
-                          {label}
-                        </span>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            );
-          })}
-        </div>
-
-        {/* GIANT Logo — 60% of viewport */}
         <div ref={logoRef} className="relative z-30 flex flex-col items-center">
           <img
             src="/logo-v2.png"
@@ -215,14 +185,9 @@ export default function Hero3D() {
           href="#register"
           className="bg-[#E31E24] text-white px-6 sm:px-10 py-3 sm:py-4 rounded-full font-display text-sm sm:text-lg font-semibold hover:bg-white hover:text-[#E31E24] transition-all duration-300 shadow-lg shadow-[#E31E24]/30"
         >
-          Reserva tu lugar
+          Adquirir Ingreso Ahora
         </a>
       </div>
-
-      <style>{`
-        @keyframes orbitSpin { from { transform: translate(-50%,-50%) rotate(0deg); } to { transform: translate(-50%,-50%) rotate(360deg); } }
-        @keyframes orbitSpinR { from { transform: translate(-50%,-50%) rotate(0deg); } to { transform: translate(-50%,-50%) rotate(-360deg); } }
-      `}</style>
     </section>
   );
 }
