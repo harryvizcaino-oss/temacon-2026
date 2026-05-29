@@ -52,7 +52,7 @@ export default function Pricing() {
   }, [hovered]);
 
   return (
-    <section id="register" ref={sectionRef} className="relative bg-black overflow-hidden">
+    <section id="pricing" ref={sectionRef} className="relative bg-black overflow-hidden">
       {/* Subtle grid */}
       <div className="absolute inset-0 opacity-[0.03]"
         style={{

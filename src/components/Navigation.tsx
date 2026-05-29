@@ -148,95 +148,89 @@ export default function Navigation() {
             mobileOpen ? 'translate-x-0' : 'translate-x-full'
           }`}
         >
-          {/* Header */}
-          <div className="flex items-center justify-between p-4 border-b border-white/10">
-            <img src="/logo-v2.png" alt="TEMACON" className="h-10 object-contain" />
+          {/* Header — compacto */}
+          <div className="flex items-center justify-between px-4 py-3 border-b border-white/10">
+            <img src="/logo-v2.png" alt="TEMACON" className="h-8 object-contain" />
             <button
-              className="p-2 text-white/60 hover:text-white"
+              className="p-1.5 text-white/60 hover:text-white"
               onClick={() => setMobileOpen(false)}
               aria-label="Cerrar menu"
             >
-              <X size={24} />
+              <X size={20} />
             </button>
           </div>
 
-          {/* Content */}
-          <div className="overflow-y-auto h-[calc(100%-65px)]">
+          {/* Content — compacto para que quepa el boton CTA */}
+          <div className="overflow-y-auto flex-1">
             {/* Main sections */}
-            <div className="p-4">
-              <p className="font-mono text-[9px] text-[#E31E24] tracking-[0.3em] uppercase mb-3 px-3">
+            <div className="px-3 pt-2 pb-1">
+              <p className="font-mono text-[8px] text-[#E31E24] tracking-[0.3em] uppercase mb-1 px-2">
                 Secciones Principales
               </p>
-              <div className="space-y-1">
+              <div className="space-y-0">
                 {MAIN_SECTIONS.map((link) => (
                   <a
                     key={link.label}
                     href={link.href}
-                    className="flex items-center gap-3 px-3 py-3 rounded-xl hover:bg-white/5 transition-colors group"
+                    className="flex items-center gap-2 px-2 py-2 rounded-lg hover:bg-white/5 transition-colors group"
                     onClick={() => setMobileOpen(false)}
                   >
                     <div className="flex-1 min-w-0">
-                      <p className="text-white font-display text-base group-hover:text-[#E31E24] transition-colors">
+                      <p className="text-white font-display text-sm group-hover:text-[#E31E24] transition-colors leading-tight">
                         {link.label}
                       </p>
                       {link.description && (
-                        <p className="font-mono text-[9px] text-white/30 mt-0.5">{link.description}</p>
+                        <p className="font-mono text-[8px] text-white/30 leading-tight">{link.description}</p>
                       )}
                     </div>
-                    <ChevronRight size={16} className="text-white/20 group-hover:text-[#E31E24] transition-colors flex-shrink-0" />
+                    <ChevronRight size={14} className="text-white/20 group-hover:text-[#E31E24] transition-colors flex-shrink-0" />
                   </a>
                 ))}
               </div>
             </div>
 
-            <div className="mx-4 h-px bg-white/10" />
+            <div className="mx-3 h-px bg-white/10 my-1" />
 
             {/* Experience sections */}
-            <div className="p-4">
-              <p className="font-mono text-[9px] text-[#E31E24] tracking-[0.3em] uppercase mb-3 px-3">
-                Experiencias Interactivas
+            <div className="px-3 py-1">
+              <p className="font-mono text-[8px] text-[#E31E24] tracking-[0.3em] uppercase mb-1 px-2">
+                Experiencias
               </p>
-              <div className="space-y-1">
+              <div className="space-y-0">
                 {EXP_SECTIONS.map((link) => (
                   <a
                     key={link.label}
                     href={link.href}
-                    className="flex items-center gap-3 px-3 py-3 rounded-xl hover:bg-white/5 transition-colors group"
+                    className="flex items-center gap-2 px-2 py-2 rounded-lg hover:bg-white/5 transition-colors group"
                     onClick={() => setMobileOpen(false)}
                   >
                     <div className="flex-1 min-w-0">
-                      <p className="text-white font-display text-sm group-hover:text-[#E31E24] transition-colors">
+                      <p className="text-white font-display text-sm group-hover:text-[#E31E24] transition-colors leading-tight">
                         {link.label}
                       </p>
                       {link.description && (
-                        <p className="font-mono text-[9px] text-white/30 mt-0.5">{link.description}</p>
+                        <p className="font-mono text-[8px] text-white/30 leading-tight">{link.description}</p>
                       )}
                     </div>
-                    <ChevronRight size={16} className="text-white/20 group-hover:text-[#E31E24] transition-colors flex-shrink-0" />
+                    <ChevronRight size={14} className="text-white/20 group-hover:text-[#E31E24] transition-colors flex-shrink-0" />
                   </a>
                 ))}
               </div>
             </div>
+          </div>
 
-            <div className="mx-4 h-px bg-white/10" />
-
-            {/* CTA */}
-            <div className="p-4">
-              <a
-                href="#pricing"
-                className="flex items-center justify-center gap-2 bg-[#E31E24] text-white py-4 rounded-xl font-display font-semibold hover:bg-white hover:text-[#E31E24] transition-all"
-                onClick={() => setMobileOpen(false)}
-              >
-                Adquirir Ingreso Ahora — $400,000 COP
-              </a>
-            </div>
-
-            {/* Footer info */}
-            <div className="px-6 pb-6">
-              <p className="font-mono text-[8px] text-white/20 text-center">
-                1-2 Septiembre 2026 · Bogota, Colombia
-              </p>
-            </div>
+          {/* CTA — siempre visible abajo */}
+          <div className="px-3 py-3 border-t border-white/10 bg-[#0a0a0a]">
+            <a
+              href="#pricing"
+              className="flex items-center justify-center gap-2 bg-[#E31E24] text-white py-3 rounded-xl font-display font-semibold text-sm hover:bg-white hover:text-[#E31E24] transition-all"
+              onClick={() => setMobileOpen(false)}
+            >
+              Adquirir Ingreso Ahora
+            </a>
+            <p className="font-mono text-[8px] text-white/30 text-center mt-2">
+              $400,000 COP · 1-2 Sept 2026 · Bogota
+            </p>
           </div>
         </div>
       </div>
