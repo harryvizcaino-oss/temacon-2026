@@ -11,19 +11,20 @@ interface NavSection {
   description?: string;
 }
 
-const MAIN_SECTIONS: NavSection[] = [
-  { label: 'Inicio', href: '#hero' },
-  { label: 'Tracks', href: '#tracks', description: '7 tracks especializados' },
+/*─── Las 12 secciones en orden de aparicion en la pagina ───*/
+const ALL_SECTIONS: NavSection[] = [
+  { label: 'Inicio', href: '#hero', description: 'Hero principal' },
+  { label: 'El evento lider de mantenimiento', href: '#about', description: 'Sobre TEMACON 2026' },
+  { label: 'Flujo de Mantenimiento Inteligente', href: '#flujo', description: 'Sistema en vivo de 6 pasos' },
+  { label: 'Marcas Confirmadas', href: '#brands', description: 'Patrocinadores del evento' },
+  { label: 'Perfil del asistente', href: '#audience', description: '12 perfiles profesionales' },
+  { label: 'Kenworth Experience', href: '#tractocamion', description: 'Exploracion 3D T800' },
+  { label: 'TRACKS', href: '#tracks', description: '7 pistas especializadas' },
   { label: 'Speakers', href: '#speakers', description: 'Conferencistas confirmados' },
+  { label: 'Lo que dicen', href: '#testimonials', description: 'Testimonios de lideres' },
   { label: 'Agenda', href: '#agenda', description: 'Programa de 2 dias' },
-  { label: 'Marcas', href: '#brands', description: 'Patrocinadores' },
-  { label: 'Lugar', href: '#venue', description: 'Bogota, Colombia' },
-];
-
-const EXP_SECTIONS: NavSection[] = [
-  { label: 'Exploracion 3D', href: '#tractocamion', description: 'Kenworth T800 interactivo' },
-  { label: 'Flujo de Mantenimiento', href: '#flujo', description: 'Sistema en vivo de 6 pasos' },
-  { label: 'Perfil del Asistente', href: '#audience', description: '12 perfiles profesionales' },
+  { label: 'Sede', href: '#venue', description: 'Bogota, Colombia' },
+  { label: 'Registrate', href: '#pricing', description: 'Adquiere tu ingreso' },
 ];
 
 export default function Navigation() {
@@ -89,22 +90,28 @@ export default function Navigation() {
             />
           </a>
 
-          {/* Desktop Nav */}
+          {/* Desktop Nav — 5 links clave */}
           <div className="hidden lg:flex items-center gap-6 xl:gap-8">
-            {MAIN_SECTIONS.map((link) => (
-              <a
-                key={link.label}
-                href={link.href}
-                className={`relative group text-sm font-medium transition-colors ${
-                  logoDark
-                    ? 'text-black hover:text-[#E31E24]'
-                    : 'text-white hover:text-[#E31E24]'
-                }`}
-              >
-                {link.label}
-                <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-[#E31E24] rounded-full transition-all duration-300 group-hover:w-full" />
-              </a>
-            ))}
+            <a href="#hero" className={`relative group text-sm font-medium transition-colors ${logoDark ? 'text-black hover:text-[#E31E24]' : 'text-white hover:text-[#E31E24]'}`}>
+              Inicio
+              <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-[#E31E24] rounded-full transition-all duration-300 group-hover:w-full" />
+            </a>
+            <a href="#flujo" className={`relative group text-sm font-medium transition-colors ${logoDark ? 'text-black hover:text-[#E31E24]' : 'text-white hover:text-[#E31E24]'}`}>
+              Flujo
+              <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-[#E31E24] rounded-full transition-all duration-300 group-hover:w-full" />
+            </a>
+            <a href="#brands" className={`relative group text-sm font-medium transition-colors ${logoDark ? 'text-black hover:text-[#E31E24]' : 'text-white hover:text-[#E31E24]'}`}>
+              Sponsors
+              <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-[#E31E24] rounded-full transition-all duration-300 group-hover:w-full" />
+            </a>
+            <a href="#tractocamion" className={`relative group text-sm font-medium transition-colors ${logoDark ? 'text-black hover:text-[#E31E24]' : 'text-white hover:text-[#E31E24]'}`}>
+              3D Experience
+              <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-[#E31E24] rounded-full transition-all duration-300 group-hover:w-full" />
+            </a>
+            <a href="#agenda" className={`relative group text-sm font-medium transition-colors ${logoDark ? 'text-black hover:text-[#E31E24]' : 'text-white hover:text-[#E31E24]'}`}>
+              Agenda
+              <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-[#E31E24] rounded-full transition-all duration-300 group-hover:w-full" />
+            </a>
             <a
               href="#pricing"
               className="bg-[#E31E24] text-white px-5 py-2 rounded-full text-sm font-semibold hover:bg-black hover:text-white transition-all duration-300"
@@ -160,62 +167,40 @@ export default function Navigation() {
             </button>
           </div>
 
-          {/* Content — compacto para que quepa el boton CTA */}
+          {/* Content — 12 secciones en orden */}
           <div className="overflow-y-auto flex-1">
-            {/* Main sections */}
-            <div className="px-3 pt-2 pb-1">
-              <p className="font-mono text-[8px] text-[#E31E24] tracking-[0.3em] uppercase mb-1 px-2">
-                Secciones Principales
+            {/* Counter header */}
+            <div className="px-4 pt-3 pb-1 flex items-center justify-between">
+              <p className="font-mono text-[8px] text-[#E31E24] tracking-[0.3em] uppercase">
+                Secciones
               </p>
-              <div className="space-y-0">
-                {MAIN_SECTIONS.map((link) => (
-                  <a
-                    key={link.label}
-                    href={link.href}
-                    className="flex items-center gap-2 px-2 py-2 rounded-lg hover:bg-white/5 transition-colors group"
-                    onClick={() => setMobileOpen(false)}
-                  >
-                    <div className="flex-1 min-w-0">
-                      <p className="text-white font-display text-sm group-hover:text-[#E31E24] transition-colors leading-tight">
-                        {link.label}
-                      </p>
-                      {link.description && (
-                        <p className="font-mono text-[8px] text-white/30 leading-tight">{link.description}</p>
-                      )}
-                    </div>
-                    <ChevronRight size={14} className="text-white/20 group-hover:text-[#E31E24] transition-colors flex-shrink-0" />
-                  </a>
-                ))}
-              </div>
+              <p className="font-mono text-[8px] text-white/30 tracking-wider">
+                {ALL_SECTIONS.length} SECCIONES
+              </p>
             </div>
-
-            <div className="mx-3 h-px bg-white/10 my-1" />
-
-            {/* Experience sections */}
-            <div className="px-3 py-1">
-              <p className="font-mono text-[8px] text-[#E31E24] tracking-[0.3em] uppercase mb-1 px-2">
-                Experiencias
-              </p>
-              <div className="space-y-0">
-                {EXP_SECTIONS.map((link) => (
-                  <a
-                    key={link.label}
-                    href={link.href}
-                    className="flex items-center gap-2 px-2 py-2 rounded-lg hover:bg-white/5 transition-colors group"
-                    onClick={() => setMobileOpen(false)}
-                  >
-                    <div className="flex-1 min-w-0">
-                      <p className="text-white font-display text-sm group-hover:text-[#E31E24] transition-colors leading-tight">
-                        {link.label}
-                      </p>
-                      {link.description && (
-                        <p className="font-mono text-[8px] text-white/30 leading-tight">{link.description}</p>
-                      )}
-                    </div>
-                    <ChevronRight size={14} className="text-white/20 group-hover:text-[#E31E24] transition-colors flex-shrink-0" />
-                  </a>
-                ))}
-              </div>
+            <div className="px-3 pb-1 space-y-0">
+              {ALL_SECTIONS.map((link, i) => (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  className="flex items-center gap-3 px-2 py-[6px] rounded-lg hover:bg-white/5 transition-colors group"
+                  onClick={() => setMobileOpen(false)}
+                >
+                  {/* Section number */}
+                  <span className="font-mono text-[9px] text-white/20 w-4 text-right flex-shrink-0">
+                    {String(i + 1).padStart(2, '0')}
+                  </span>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-white font-display text-[13px] group-hover:text-[#E31E24] transition-colors leading-tight">
+                      {link.label}
+                    </p>
+                    {link.description && (
+                      <p className="font-mono text-[7px] text-white/30 leading-tight">{link.description}</p>
+                    )}
+                  </div>
+                  <ChevronRight size={12} className="text-white/20 group-hover:text-[#E31E24] transition-colors flex-shrink-0" />
+                </a>
+              ))}
             </div>
           </div>
 
