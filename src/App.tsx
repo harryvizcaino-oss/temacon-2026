@@ -3,6 +3,9 @@ import Navigation from '@/components/Navigation';
 import CustomCursor from '@/components/CustomCursor';
 import Preloader from '@/components/Preloader';
 import ZohoIntegration from '@/components/ZohoIntegration';
+import SectionIndicator from '@/components/SectionIndicator';
+import CookieConsentReveal from '@/components/CookieConsentReveal';
+
 import Hero3D from '@/sections/Hero3D';
 import Intro from '@/sections/Intro';
 import FlujoMantenimiento from '@/sections/FlujoMantenimiento';
@@ -47,8 +50,14 @@ function App() {
       {/* 6. Custom Cursor */}
       <CustomCursor />
 
-      {/* Zoho Integration: SalesIQ Chatbot + Forms + Campaigns */}
-      <ZohoIntegration />
+      {/* Cookie consent banner — se revela despues del preloader */}
+      {preloaderDone && <CookieConsentReveal />}
+
+      {/* Zoho Integration: SalesIQ Chatbot — carga despues del preloader */}
+      {preloaderDone && <ZohoIntegration />}
+
+      {/* Section Indicator HUD — arriba del chatbot */}
+      {preloaderDone && <SectionIndicator />}
 
       {/* 1. Preloader */}
       {!preloaderDone && <Preloader onComplete={handlePreloaderComplete} />}

@@ -135,8 +135,26 @@
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
 
-    <!-- Zoho SalesIQ Chatbot -->
-    <script>window.$zoho=window.$zoho || {}; $zoho.salesiq=$zoho.salesiq||{ready:function(){}}</script>
-    <script id="zsiqscript" src="https://salesiq.zohopublic.com/widget?wc=siqa4b5821555df5cc54cc2d95913658e0267e96af13f996ac83cfc22c121fd0a94" defer></script>
+    <!--
+    Zoho SalesIQ se carga ahora desde el componente ZohoSalesIQ.tsx
+    despues de que el preloader termine.
+    -->
+
+    <!-- Ocultar banner de cookies hasta que termine el preloader -->
+    <style id="cookie-hide">
+      .zpconsent-banner,
+      .zpcookie-banner,
+      [class*="cookie"][class*="banner"],
+      [class*="consent"][class*="banner"],
+      #cookie-banner,
+      #consent-banner,
+      .cookie-consent,
+      .consent-banner {
+        opacity: 0 !important;
+        visibility: hidden !important;
+        pointer-events: none !important;
+        transition: opacity 0.5s ease, visibility 0.5s ease;
+      }
+    </style>
   </body>
 </html>

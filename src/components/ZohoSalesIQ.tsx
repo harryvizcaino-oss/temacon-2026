@@ -2,39 +2,45 @@ import { useEffect } from 'react';
 
 /**
  * Zoho SalesIQ - Chatbot & Live Chat Embed
- *
- * Configuracion requerida en Zoho SalesIQ:
- * 1. Ve a Settings > Brands > [Tu marca] > Installation > Website
- * 2. Copia el codigo de instalacion
- * 3. Extrae el widget code y reemplaza las variables de entorno
- *
- * Para el chatbot (Zobot):
- * - Ve a Settings > Bots > Zobot > Add
- * - Configura el bot con preguntas frecuentes sobre TEMACON
- * - Asocia el bot al brand de tu sitio web
+ * 
+ * Carga el widget de Zoho SalesIQ via script URL.
+ * Solo se renderiza despues de que el preloader termine.
  */
 
 interface ZohoSalesIQProps {
   widgetCode?: string;
 }
 
-// Widget code por defecto - REEMPLAZAR con el tuyo de Zoho SalesIQ
-const DEFAULT_WIDGET_CODE = import.meta.env.VITE_ZOHO_SALESIQ_WIDGET || '';
+// URL del widget de Zoho SalesIQ para TEMACON
+const WIDGET_SCRIPT_URL = 'https://salesiq.zohopublic.com/widget?wc=siqa4b5821555df5cc54cc2d95913658e0267e96af13f996ac83cfc22c121fd0a94';
 
-export default function ZohoSalesIQ({ widgetCode = DEFAULT_WIDGET_CODE }: ZohoSalesIQProps) {
+export default function ZohoSalesIQ({ widgetCode }: ZohoSalesIQProps) {
   useEffect(() => {
-    if (!widgetCode) {
-      console.warn('[Zoho SalesIQ] No widget code configurado. Ve a Settings > Brands > Installation en Zoho SalesIQ para obtenerlo.');
-      return;
+    // Preparar el objeto window.$zoho
+    if (!(window as any).$zoho) {
+      (window as any).$zoho = {};
+    }
+    if (!(window as any).$zoho.salesiq) {
+      (window as any).$zoho.salesiq = { ready: function(){} };
     }
 
-    // Insertar el script de Zoho SalesIQ
-    const script = document.createElement('script');
-    script.type = 'text/javascript';
-    script.id = 'zsiqscript';
-    script.defer = true;
-    script.innerHTML = widgetCode;
-    document.body.appendChild(script);
+    // Si hay widgetCode inline, usarlo
+    if (widgetCode) {
+      const script = document.createElement('script');
+      script.type = 'text/javascript';
+      script.id = 'zsiqscript';
+      script.defer = true;
+      script.innerHTML = widgetCode;
+      document.body.appendChild(script);
+    } else {
+      // Sino, cargar via URL (como estaba en index.html)
+      const script = document.createElement('script');
+      script.type = 'text/javascript';
+      script.id = 'zsiqscript';
+      script.src = WIDGET_SCRIPT_URL;
+      script.defer = true;
+      document.body.appendChild(script);
+    }
 
     // Insertar el div del chat widget
     if (!document.getElementById('zsiqchat')) {
@@ -51,7 +57,7 @@ export default function ZohoSalesIQ({ widgetCode = DEFAULT_WIDGET_CODE }: ZohoSa
     };
   }, [widgetCode]);
 
-  return null; // Este componente no renderiza nada visible
+  return null;
 }
 
 // Hook para tracking de acciones personalizadas
