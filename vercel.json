@@ -33,14 +33,6 @@
         {
           "key": "Strict-Transport-Security",
           "value": "max-age=63072000; includeSubDomains; preload"
-        },
-        {
-          "key": "X-DNS-Prefetch-Control",
-          "value": "on"
-        },
-        {
-          "key": "Content-Security-Policy",
-          "value": "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.pagesense.io https://salesiq.zohopublic.com https://js.zohocdn.com https://checkout.zoho.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https: blob:; connect-src 'self' https://*.zoho.com https://*.zohopublic.com; frame-src https://*.zoho.com https://*.zohopublic.com; media-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self' https://*.zoho.com;"
         }
       ]
     },
