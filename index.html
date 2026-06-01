@@ -8,6 +8,29 @@
          SEO — Meta Tags Optimizados
          ═══════════════════════════════════════════ -->
 
+    <!-- ═══════════════════════════════════════════
+         PERFORMANCE — DNS prefetch + preconnect + preload
+         ═══════════════════════════════════════════ -->
+
+    <!-- Precarga de imagenes críticas del hero -->
+    <link rel="preload" href="/hero-bg.jpg" as="image" />
+    <link rel="preload" href="/logo-temacon.png" as="image" />
+    <link rel="preload" href="/favicon.png" as="image" />
+
+    <!-- Prefetch de imagenes de secciones visibles pronto -->
+    <link rel="prefetch" href="/mtto-01-falla.jpg" as="image" />
+    <link rel="prefetch" href="/mtto-02-taller.jpg" as="image" />
+    <link rel="prefetch" href="/mtto-03-diagnostico.jpg" as="image" />
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://cdn.pagesense.io" />
+    <link rel="preconnect" href="https://salesiq.zohopublic.com" />
+
+    <!-- Prefetch: PDF de patrocinios (carga en background para abrir rapido) -->
+    <link rel="prefetch" href="/temacon-portafolio-vinculacion.pdf" as="fetch" type="application/pdf" />
+
     <!-- Title optimizado -->
     <title>TEMACON 2026 | Evento de Tecnología, Mantenimiento y Confiabilidad para Transporte de Carga</title>
 
@@ -57,6 +80,12 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+    <!-- Critical CSS inline: evita FOUC -->
+    <style>
+      html{background:#000}
+      body{margin:0;opacity:1!important;visibility:visible!important}
+    </style>
 
     <!-- ═══════════════════════════════════════════
          Schema.org — Event Structured Data

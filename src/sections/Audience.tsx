@@ -23,14 +23,14 @@ const PROFILES: Profile[] = [
   { role: 'Jefes de Compras', icon: ShoppingCart },
   { role: 'Jefes de Taller', icon: Factory },
   { role: 'Coordinadores de Activos', icon: ClipboardList },
-  { role: 'Tecnicos Especializados', icon: Settings2 },
+  { role: 'Técnicos Especializados', icon: Settings2 },
   { role: 'Jefes de Flota', icon: Truck },
   { role: 'Directores de Productividad', icon: TrendingUp },
-  { role: 'Jefes de Tecnologia', icon: Laptop },
+  { role: 'Jefes de Tecnología', icon: Laptop },
   { role: 'Gerentes de Operaciones', icon: Briefcase },
   { role: 'Jefes de Mejora Continua', icon: RotateCcw },
   { role: 'Coordinadores de Abastecimiento', icon: Package },
-  { role: 'Lideres de Transformacion Digital', icon: Sparkles },
+  { role: 'Líderes de Transformación Digital', icon: Sparkles },
 ];
 
 export default function Audience() {
@@ -73,7 +73,7 @@ export default function Audience() {
             Perfil del <span className="text-[#E31E24]">Asistente</span>
           </h2>
           <p className="mt-3 text-sm text-black/40 max-w-lg mx-auto">
-            12 perfiles profesionales que tomaran decisiones en TEMACON 2026.
+            12 perfiles profesionales que tomarán decisiones en TEMACON 2026.
           </p>
         </div>
 

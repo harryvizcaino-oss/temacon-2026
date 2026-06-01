@@ -403,7 +403,7 @@ export default function Speakers() {
 
       {/* Teaser: Speakers aun no confirmados */}
       <TeaserOverlay
-        message="Conoce mas pronto"
+        message="Conoce más pronto"
         submessage="Estamos confirmando los conferencistas especializados en transporte de carga"
       />
     </section>

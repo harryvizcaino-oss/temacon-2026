@@ -28,33 +28,33 @@ interface DayData {
 
 const DAYS: DayData[] = [
   {
-    day: 'Dia 1',
+    day: 'Día 1',
     date: '1 de Septiembre',
     items: [
       { time: '07:30', title: 'Registro y Bienvenida', icon: Users, highlight: true },
       { time: '08:30', title: 'Keynote: El Futuro del Transporte de Carga', icon: Mic, highlight: true },
       { time: '10:00', title: 'Coffee Break', icon: Coffee },
-      { time: '10:30', title: 'Track Tecnologia: IoT y Telematica Avanzada', icon: Presentation, track: 'TECNOLOGIA' },
+      { time: '10:30', title: 'Track Tecnología: IoT y Telemática Avanzada', icon: Presentation, track: 'TECNOLOGIA' },
       { time: '10:30', title: 'Track Mantenimiento: Predictivo con IA', icon: Presentation, track: 'MANTENIMIENTO' },
       { time: '12:30', title: 'Almuerzo de Networking', icon: Utensils },
       { time: '14:00', title: 'Panel: Confiabilidad Vehicular en Flotas Latinas', icon: Mic, highlight: true },
-      { time: '15:30', title: 'Demo: Exploracion 3D del Tractocamion', icon: Presentation, track: 'TECNOLOGIA' },
+      { time: '15:30', title: 'Demo: Exploración 3D del Tractocamión', icon: Presentation, track: 'TECNOLOGIA' },
       { time: '16:30', title: 'Coffee Break', icon: Coffee },
       { time: '17:00', title: 'Networking: Encuentro de Aliados', icon: Network, highlight: true },
     ],
   },
   {
-    day: 'Dia 2',
+    day: 'Día 2',
     date: '2 de Septiembre',
     items: [
       { time: '08:00', title: 'Recorrido por el Centro de Control', icon: Presentation, track: 'TECNOLOGIA' },
-      { time: '09:00', title: 'Keynote: Transformacion Digital en el Transporte', icon: Mic, highlight: true },
+      { time: '09:00', title: 'Keynote: Transformación Digital en el Transporte', icon: Mic, highlight: true },
       { time: '10:30', title: 'Coffee Break', icon: Coffee },
       { time: '11:00', title: 'Track Confiabilidad: RCM para Camiones', icon: Presentation, track: 'CONFIABILIDAD' },
       { time: '11:00', title: 'Track Tecnologia: Plataformas de Gestion de Flota', icon: Presentation, track: 'TECNOLOGIA' },
       { time: '12:30', title: 'Almuerzo de Clausura', icon: Utensils },
       { time: '14:00', title: 'Workshop: Implementando IoT en tu Flota', icon: Presentation, track: 'TECNOLOGIA' },
-      { time: '15:30', title: 'Panel: Casos de Exito 2025-2026', icon: Mic, highlight: true },
+      { time: '15:30', title: 'Panel: Casos de Éxito 2025-2026', icon: Mic, highlight: true },
       { time: '16:30', title: 'Ceremonia de Clausura y Certificados', icon: Award, highlight: true },
       { time: '17:30', title: 'Cocktail de Networking', icon: Network },
     ],
@@ -109,7 +109,7 @@ export default function Agenda() {
             Agenda <span className="text-[#E31E24]">TEMACON 2026</span>
           </h2>
           <p className="mt-3 text-sm text-white/40 max-w-lg mx-auto">
-            Dos dias de contenido intensivo. Tracks paralelos, keynotes internacionales y networking de alto nivel.
+            Dos días de contenido intensivo. Tracks paralelos, keynotes internacionales y networking de alto nivel.
           </p>
         </div>
 
@@ -206,7 +206,7 @@ export default function Agenda() {
 
       {/* Teaser: Agenda aun no confirmada */}
       <TeaserOverlay
-        message="Conoce mas pronto"
+        message="Conoce más pronto"
         submessage="Estamos confirmando los speakers y armando la agenda para ti"
       />
     </section>

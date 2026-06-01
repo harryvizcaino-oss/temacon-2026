@@ -6,6 +6,10 @@
   "installCommand": "npm install",
   "rewrites": [
     {
+      "source": "/temacon-portafolio-vinculacion.pdf",
+      "destination": "/temacon-portafolio-vinculacion.pdf"
+    },
+    {
       "source": "/(.*)",
       "destination": "/index.html"
     }

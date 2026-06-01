@@ -14,17 +14,17 @@ interface NavSection {
 /*─── Las 12 secciones en orden de aparicion en la pagina ───*/
 const ALL_SECTIONS: NavSection[] = [
   { label: 'Inicio', href: '#hero', description: 'Hero principal' },
-  { label: 'El evento lider de mantenimiento', href: '#about', description: 'Sobre TEMACON 2026' },
+  { label: 'El evento líder de mantenimiento', href: '#about', description: 'Sobre TEMACON 2026' },
   { label: 'Flujo de Mantenimiento Inteligente', href: '#flujo', description: 'Sistema en vivo de 6 pasos' },
   { label: 'Marcas Confirmadas', href: '#brands', description: 'Patrocinadores del evento' },
   { label: 'Perfil del asistente', href: '#audience', description: '12 perfiles profesionales' },
-  { label: 'Kenworth Experience', href: '#tractocamion', description: 'Exploracion 3D T800' },
+  { label: 'Kenworth Experience', href: '#tractocamion', description: 'Exploración 3D T800' },
   { label: 'TRACKS', href: '#tracks', description: '7 pistas especializadas' },
   { label: 'Speakers', href: '#speakers', description: 'Conferencistas confirmados' },
   { label: 'Lo que dicen', href: '#testimonials', description: 'Testimonios de lideres' },
-  { label: 'Agenda', href: '#agenda', description: 'Programa de 2 dias' },
+  { label: 'Agenda', href: '#agenda', description: 'Programa de 2 días' },
   { label: 'Sede', href: '#venue', description: 'Bogota, Colombia' },
-  { label: 'Registrate', href: '#pricing', description: 'Adquiere tu ingreso' },
+  { label: 'Regístrate', href: '#pricing', description: 'Adquiere tu ingreso' },
 ];
 
 export default function Navigation() {
@@ -214,7 +214,7 @@ export default function Navigation() {
               Adquirir Ingreso Ahora
             </a>
             <p className="font-mono text-[8px] text-white/30 text-center mt-2">
-              $400,000 COP · 1-2 Sept 2026 · Bogota
+              $400,000 COP · 1-2 Sept 2026 · Bogotá
             </p>
           </div>
         </div>

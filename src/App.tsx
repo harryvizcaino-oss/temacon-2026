@@ -5,6 +5,9 @@ import Preloader from '@/components/Preloader';
 import ZohoIntegration from '@/components/ZohoIntegration';
 import SectionIndicator from '@/components/SectionIndicator';
 import CookieConsentReveal from '@/components/CookieConsentReveal';
+import ScrollToTop from '@/components/ScrollToTop';
+import AddToCalendar from '@/components/AddToCalendar';
+import ParticleField from '@/components/ParticleField';
 
 import Hero3D from '@/sections/Hero3D';
 import Intro from '@/sections/Intro';
@@ -59,6 +62,9 @@ function App() {
       {/* Section Indicator HUD — arriba del chatbot */}
       {preloaderDone && <SectionIndicator />}
 
+      {/* Botón Volver Arriba con progress ring */}
+      {preloaderDone && <ScrollToTop />}
+
       {/* 1. Preloader */}
       {!preloaderDone && <Preloader onComplete={handlePreloaderComplete} />}
 
@@ -84,13 +90,19 @@ function App() {
           <TractoCamion3D />
         </Suspense>
 
-        {/* 6. Tracks */}
-        <Tracks />
+        {/* 6. Tracks — con partículas de fondo */}
+        <div className="relative">
+          <ParticleField />
+          <Tracks />
+        </div>
 
-        {/* 7. Speakers — Lazy loaded */}
-        <Suspense fallback={<SectionLoader />}>
-          <Speakers />
-        </Suspense>
+        {/* 7. Speakers — Lazy loaded + partículas */}
+        <div className="relative">
+          <ParticleField />
+          <Suspense fallback={<SectionLoader />}>
+            <Speakers />
+          </Suspense>
+        </div>
 
         {/* 9. Testimoniales Máquina de Escribir */}
         <Testimonials />

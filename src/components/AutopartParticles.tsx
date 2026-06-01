@@ -12,7 +12,8 @@ const AUTOPARTES = [
   '\u2692', '\u26D3',
 ];
 
-const PARTICLE_COUNT = 200;
+// Mobile: fewer particles for better performance
+const PARTICLE_COUNT = window.innerWidth < 768 ? 80 : 180;
 const MOUSE_RADIUS = 200;
 
 interface P {
@@ -28,10 +29,6 @@ interface S {
   ch: string; a: number; s: number; rot: number; rotS: number;
 }
 
-interface F {
-  x: number; y: number; r: number; a: number;
-}
-
 export default function AutopartParticles() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -44,6 +41,8 @@ export default function AutopartParticles() {
     if (!p) return;
 
     let W = 0, H = 0, mx = -1000, my = -1000, raf = 0, fr = 0;
+    let isVisible = true;
+    let isMobile = window.innerWidth < 768;
 
     function resize() {
       const r = p!.getBoundingClientRect();
@@ -56,6 +55,13 @@ export default function AutopartParticles() {
 
     const ro = new ResizeObserver(() => resize());
     ro.observe(p); resize();
+
+    // Visibility observer — pause when not visible
+    const visObs = new IntersectionObserver(
+      ([e]) => { isVisible = e.isIntersecting; },
+      { threshold: 0 }
+    );
+    visObs.observe(c);
 
     // Particles
     const ps: P[] = [];
@@ -74,10 +80,9 @@ export default function AutopartParticles() {
       });
     }
 
-    // Sparks
     const ss: S[] = [];
     function spark(sx: number, sy: number) {
-      for (let i = 0; i < 18; i++) {
+      for (let i = 0; i < (isMobile ? 8 : 15); i++) {
         const a = Math.random() * 6.28;
         const v = 3 + Math.random() * 9;
         ss.push({ x: sx, y: sy, vx: Math.cos(a) * v, vy: Math.sin(a) * v,
@@ -87,22 +92,15 @@ export default function AutopartParticles() {
       }
     }
 
-    // Flash rings
-    const fs: F[] = [];
-    function flash(sx: number, sy: number) {
-      fs.push({ x: sx, y: sy, r: 5, a: 1 });
-      fs.push({ x: sx, y: sy, r: 3, a: 0.7 });
-    }
-
     // Events
     const rect = () => c!.getBoundingClientRect();
     const onMove = (e: MouseEvent) => { const r = rect(); mx = e.clientX - r.left; my = e.clientY - r.top; };
     const onLeave = () => { mx = -1000; my = -1000; };
-    const onClick = (e: MouseEvent) => { const r = rect(); const px = e.clientX - r.left, py = e.clientY - r.top; spark(px, py); flash(px, py); };
+    const onClick = (e: MouseEvent) => { const r = rect(); spark(e.clientX - r.left, e.clientY - r.top); };
 
     let ta = false;
     const tPos = (e: TouchEvent) => { const r = rect(), t = e.touches[0] || e.changedTouches[0]; return { x: t.clientX - r.left, y: t.clientY - r.top }; };
-    const onTS = (e: TouchEvent) => { ta = true; const o = tPos(e); mx = o.x; my = o.y; spark(o.x, o.y); flash(o.x, o.y); };
+    const onTS = (e: TouchEvent) => { ta = true; const o = tPos(e); mx = o.x; my = o.y; spark(o.x, o.y); };
     const onTM = (e: TouchEvent) => { if (!ta) return; const o = tPos(e); mx = o.x; my = o.y; };
     const onTE = () => { ta = false; mx = -1000; my = -1000; };
 
@@ -113,16 +111,20 @@ export default function AutopartParticles() {
     c.addEventListener('touchmove', onTM, { passive: true });
     c.addEventListener('touchend', onTE);
 
-    function sortZ() { ps.sort((a, b) => b.z - a.z); }
-
     function draw() {
-      // Trail effect - don't fully clear
+      // Skip frames when not visible
+      if (!isVisible) {
+        raf = requestAnimationFrame(draw);
+        return;
+      }
+
+      // Trail effect
       x!.fillStyle = 'rgba(0,0,0,0.25)';
       x!.fillRect(0, 0, W, H);
 
       const cx = W / 2, cy = H / 2;
+      const mr2 = MOUSE_RADIUS * MOUSE_RADIUS; // squared for faster compare
 
-      // Particles
       for (const p of ps) {
         p.x += p.vx; p.y += p.vy; p.z += p.vz; p.rot += p.rotS;
         if (p.x < -2500 || p.x > 2500) p.vx *= -1;
@@ -131,12 +133,15 @@ export default function AutopartParticles() {
 
         const sc = 400 / (400 + p.z);
         const sx = cx + p.x * sc, sy = cy + p.y * sc, sz = p.s * sc;
-        const dx = sx - mx, dy = sy - my, d = Math.sqrt(dx * dx + dy * dy);
+        const dx = sx - mx, dy = sy - my;
+        const d2 = dx * dx + dy * dy;
         let gl = 0;
-        if (d < MOUSE_RADIUS && mx > 0) {
+
+        if (d2 < mr2 && mx > 0) {
+          const d = Math.sqrt(d2) || 1;
           gl = 1 - d / MOUSE_RADIUS;
-          p.x += (dx / (d || 1)) * gl * 2.5;
-          p.y += (dy / (d || 1)) * gl * 2.5;
+          p.x += (dx / d) * gl * 2.5;
+          p.y += (dy / d) * gl * 2.5;
         }
         const al = (0.55 + sc * 0.4) + gl * 0.5;
 
@@ -150,30 +155,31 @@ export default function AutopartParticles() {
             x!.fillStyle = `rgba(255,80,80,${Math.min(1, al)})`;
           } else {
             x!.shadowBlur = 0;
-            x!.fillStyle = `rgba(200,50,50,${Math.min(1, al * 0.85)})`;
+            x!.fillStyle = `rgba(220,50,50,${Math.min(1, al * 0.85)})`;
           }
           x!.font = `bold ${sz}px "Courier New",monospace`;
           x!.textAlign = 'center'; x!.textBaseline = 'middle';
-          x!.fillText(p.ch, 0, 0);
-          x!.restore();
+          x!.fillText(p.ch, 0, 0); x!.restore();
         }
       }
 
-      // Connections
-      x!.shadowBlur = 0; x!.lineWidth = 1;
-      for (let i = 0; i < ps.length; i++) {
-        const a = ps[i], sA = 400 / (400 + a.z), ax = cx + a.x * sA, ay = cy + a.y * sA;
-        const aD = Math.sqrt((ax - mx) ** 2 + (ay - my) ** 2);
-        if (aD >= MOUSE_RADIUS || mx <= 0) continue;
-        const aG = 1 - aD / MOUSE_RADIUS;
-        for (let j = i + 1; j < ps.length; j++) {
-          const b = ps[j], sB = 400 / (400 + b.z), bx = cx + b.x * sB, by = cy + b.y * sB;
-          const bD = Math.sqrt((bx - mx) ** 2 + (by - my) ** 2);
-          if (bD >= MOUSE_RADIUS) continue;
-          const bG = 1 - bD / MOUSE_RADIUS, pd = Math.sqrt((ax - bx) ** 2 + (ay - by) ** 2);
-          if (pd < 100) {
-            x!.strokeStyle = `rgba(255,60,60,${Math.min(aG, bG) * 0.3 * (1 - pd / 100)})`;
-            x!.beginPath(); x!.moveTo(ax, ay); x!.lineTo(bx, by); x!.stroke();
+      // Skip connections on mobile for performance
+      if (!isMobile) {
+        x!.shadowBlur = 0; x!.lineWidth = 1;
+        for (let i = 0; i < ps.length; i++) {
+          const a = ps[i], sA = 400 / (400 + a.z), ax = cx + a.x * sA, ay = cy + a.y * sA;
+          const aDist = Math.sqrt((ax - mx) ** 2 + (ay - my) ** 2);
+          if (aDist >= MOUSE_RADIUS || mx <= 0) continue;
+          const aGlow = 1 - aDist / MOUSE_RADIUS;
+          for (let j = i + 1; j < ps.length; j++) {
+            const b = ps[j], sB = 400 / (400 + b.z), bx = cx + b.x * sB, by = cy + b.y * sB;
+            const bDist = Math.sqrt((bx - mx) ** 2 + (by - my) ** 2);
+            if (bDist >= MOUSE_RADIUS) continue;
+            const bGlow = 1 - bDist / MOUSE_RADIUS, pd = Math.sqrt((ax - bx) ** 2 + (ay - by) ** 2);
+            if (pd < 100) {
+              x!.strokeStyle = `rgba(255,60,60,${Math.min(aGlow, bGlow) * 0.3 * (1 - pd / 100)})`;
+              x!.beginPath(); x!.moveTo(ax, ay); x!.lineTo(bx, by); x!.stroke();
+            }
           }
         }
       }
@@ -192,28 +198,16 @@ export default function AutopartParticles() {
         x!.fillText(s.ch, 0, 0); x!.restore();
       }
 
-      // Flash rings
-      for (let i = fs.length - 1; i >= 0; i--) {
-        const f = fs[i];
-        f.r += 8; f.a -= 0.04;
-        if (f.a <= 0) { fs.splice(i, 1); continue; }
-        x!.shadowBlur = 0;
-        x!.strokeStyle = `rgba(255,80,60,${f.a * 0.4})`;
-        x!.lineWidth = 3;
-        x!.beginPath(); x!.arc(f.x, f.y, f.r, 0, 6.28); x!.stroke();
-        x!.strokeStyle = `rgba(255,150,100,${f.a * 0.2})`;
-        x!.lineWidth = 1;
-        x!.beginPath(); x!.arc(f.x, f.y, f.r * 0.7, 0, 6.28); x!.stroke();
-      }
+      fr++;
+      if (fr % 30 === 0) ps.sort((a, b) => b.z - a.z); // Sort less frequently
 
-      fr++; if (fr % 12 === 0) sortZ();
       raf = requestAnimationFrame(draw);
     }
 
-    setTimeout(() => { resize(); sortZ(); draw(); }, 100);
+    setTimeout(() => { resize(); ps.sort((a, b) => b.z - a.z); draw(); }, 100);
 
     return () => {
-      cancelAnimationFrame(raf); ro.disconnect();
+      cancelAnimationFrame(raf); ro.disconnect(); visObs.disconnect();
       c.removeEventListener('mousemove', onMove);
       c.removeEventListener('mouseleave', onLeave);
       c.removeEventListener('click', onClick);
@@ -223,5 +217,5 @@ export default function AutopartParticles() {
     };
   }, []);
 
-  return <canvas ref={canvasRef} className="pointer-events-none sm:pointer-events-auto" style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', display: 'block', touchAction: 'pan-y' }} />;
+  return <canvas ref={canvasRef} style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', display: 'block', touchAction: 'pan-y' }} />;
 }

@@ -38,7 +38,7 @@ const MAIN_LINKS = [
 ];
 
 const EXP_LINKS = [
-  { label: 'Exploracion 3D', href: '#tractocamion' },
+  { label: 'Exploración 3D', href: '#tractocamion' },
   { label: 'Flujo de Mantenimiento', href: '#flujo' },
 ];
 

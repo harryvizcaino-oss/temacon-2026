@@ -79,7 +79,7 @@ function LogoMarquee({ brands, reverse = false }: { brands: BrandItem[]; reverse
 
       <div
         className="flex items-center gap-5 w-max"
-        style={{ animation: `marquee${reverse ? 'R' : 'L'} 50s linear infinite` }}
+        style={{ animation: `marquee${reverse ? 'R' : 'L'} 20s linear infinite` }}
       >
         {items.map((brand, i) => (
           <BrandLogo key={`${brand.name}-${i}`} brand={brand} />
@@ -126,14 +126,14 @@ export default function Brands() {
           <div className="flex items-center justify-center gap-2 mb-3">
             <Anchor size={14} className="text-[#E31E24]" />
             <p className="font-mono text-[10px] tracking-[0.4em] text-[#E31E24] uppercase">
-              Aliados Estrategicos
+              Aliados Estratégicos
             </p>
           </div>
           <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl text-black tracking-tight">
             Marcas <span className="text-[#E31E24]">Confirmadas</span>
           </h2>
           <p className="mt-3 text-sm text-black/40 max-w-md mx-auto">
-            24 marcas lideres respaldan TEMACON 2026.
+            24 marcas líderes respaldan TEMACON 2026.
           </p>
         </div>
 
@@ -150,7 +150,7 @@ export default function Brands() {
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 border-2 border-[#E31E24]/20 text-[#E31E24] px-8 py-3.5 rounded-full font-mono text-xs tracking-wider hover:bg-[#E31E24] hover:text-white hover:border-[#E31E24] transition-all duration-300"
           >
-            Conviertete en Patrocinador
+            Conviértete en Patrocinador
           </a>
           <a
             href="/temacon-portafolio-vinculacion.pdf"
@@ -158,7 +158,7 @@ export default function Brands() {
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 bg-[#E31E24] text-white px-8 py-3.5 rounded-full font-mono text-xs tracking-wider hover:bg-white hover:text-[#E31E24] transition-all duration-300 shadow-lg shadow-[#E31E24]/20"
           >
-            Conoce todas las opciones de vinculacion Aqui
+            Conoce todas las opciones de vinculación Aquí
           </a>
         </div>
       </div>
