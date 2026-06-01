@@ -31,6 +31,52 @@
     <!-- Prefetch: PDF de patrocinios (carga en background para abrir rapido) -->
     <link rel="prefetch" href="/temacon-portafolio-vinculacion.pdf" as="fetch" type="application/pdf" />
 
+    <!-- ═══════════════════════════════════════════
+         SCHEMA.ORG — Event structured data
+         Permite que Google muestre TEMACON como
+         resultado de evento con fecha, lugar y precio.
+         ═══════════════════════════════════════════ -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Event",
+      "name": "TEMACON 2026 — Tecnología, Mantenimiento y Confiabilidad para Transporte de Carga",
+      "description": "El evento líder de Latinoamérica para profesionales del transporte de carga. 7 tracks especializados, 8+ conferencistas internacionales, 24 marcas líderes y 400+ profesionales.",
+      "image": "https://temacon.tiendacamion.com/logo-v2.png",
+      "url": "https://temacon.tiendacamion.com/",
+      "startDate": "2026-09-01T08:00:00-05:00",
+      "endDate": "2026-09-02T18:00:00-05:00",
+      "eventStatus": "https://schema.org/EventScheduled",
+      "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+      "location": {
+        "@type": "Place",
+        "name": "Bogotá, Colombia",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Bogotá",
+          "addressCountry": "CO"
+        }
+      },
+      "organizer": {
+        "@type": "Organization",
+        "name": "TIENDACAMION",
+        "url": "https://tiendacamion.com"
+      },
+      "offers": {
+        "@type": "Offer",
+        "url": "https://temacon.tiendacamion.com/#pricing",
+        "price": "400000",
+        "priceCurrency": "COP",
+        "availability": "https://schema.org/InStock",
+        "validFrom": "2025-06-01T00:00:00-05:00"
+      },
+      "performer": {
+        "@type": "Organization",
+        "name": "TEMACON"
+      }
+    }
+    </script>
+
     <!-- Title optimizado -->
     <title>TEMACON 2026 | Evento de Tecnología, Mantenimiento y Confiabilidad para Transporte de Carga</title>
 
@@ -43,8 +89,18 @@
     <!-- Canonical URL -->
     <link rel="canonical" href="https://temacon.tiendacamion.com/" />
 
-    <!-- Robots -->
+    <!-- Robots — permitir indexación completa -->
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+
+    <!-- Googlebot específico -->
+    <meta name="googlebot" content="index, follow" />
+
+    <!-- Verificación Google Search Console -->
+    <meta name="google-site-verification" content="jDb8-u8LwrjV-p6b9t0t83eX4xn8CCT9yYd0wCUN0Y" />
+    <meta name="google-site-verification" content="k7y705oHmio6uJM8TrradVJZOM5MYXCrpULLRvB4yaM" />
+
+    <!-- Language y region -->
+    <meta http-equiv="content-language" content="es-CO" />
 
     <!-- Author -->
     <meta name="author" content="TIENDACAMION" />

@@ -113,6 +113,11 @@ export default function Hero3D() {
             </div>
           ))}
         </div>
+
+        {/* Agregar al calendario — debajo del timer */}
+        <div className="mt-2">
+          <AddToCalendar variant="pill" />
+        </div>
       </div>
 
       {/* CENTER: Logo */}
@@ -141,11 +146,6 @@ export default function Hero3D() {
         >
           Adquirir Ingreso Ahora
         </a>
-
-        {/* Agregar al calendario */}
-        <div className="mt-3">
-          <AddToCalendar variant="pill" />
-        </div>
       </div>
     </section>
   );
