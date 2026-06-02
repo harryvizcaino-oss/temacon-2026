@@ -118,7 +118,7 @@ export default function Brands() {
       ref={sectionRef}
       className="relative bg-white overflow-hidden"
       data-nav-light
-      style={{ paddingTop: 80, paddingBottom: 80 }}
+      style={{ paddingTop: 80, paddingBottom: 80, scrollMarginTop: 80 }}
     >
       <div className="relative z-10">
         {/* Header */}
@@ -135,6 +135,26 @@ export default function Brands() {
           <p className="mt-3 text-sm text-black/40 max-w-md mx-auto">
             24 marcas líderes respaldan TEMACON 2026.
           </p>
+
+          {/* CTAs — debajo del texto, antes del carrusel */}
+          <div className="mt-6 flex flex-col sm:flex-row items-center justify-center gap-3">
+            <a
+              href="https://wa.me/573113782522?text=Hola%20quisiera%20ser%20patrocinador%20en%20TEMACON%202026"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 border-2 border-[#E31E24]/20 text-[#E31E24] px-6 py-2.5 rounded-full font-mono text-xs tracking-wider hover:bg-[#E31E24] hover:text-white hover:border-[#E31E24] transition-all duration-300"
+            >
+              Conviértete en Patrocinador
+            </a>
+            <a
+              href="/temacon-portafolio-vinculacion.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 bg-[#E31E24] text-white px-6 py-2.5 rounded-full font-mono text-xs tracking-wider hover:bg-white hover:text-[#E31E24] transition-all duration-300 shadow-lg shadow-[#E31E24]/20"
+            >
+              Conoce todas las opciones de vinculación Aquí
+            </a>
+          </div>
         </div>
 
         {/* Row 1 — left */}
@@ -142,25 +162,7 @@ export default function Brands() {
         {/* Row 2 — right */}
         <LogoMarquee brands={row2} reverse />
 
-        {/* CTAs */}
-        <div className="mt-10 flex flex-col items-center gap-4">
-          <a
-            href="https://wa.me/573113782522?text=Hola%20quisiera%20ser%20patrocinador%20en%20TEMACON%202026"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 border-2 border-[#E31E24]/20 text-[#E31E24] px-8 py-3.5 rounded-full font-mono text-xs tracking-wider hover:bg-[#E31E24] hover:text-white hover:border-[#E31E24] transition-all duration-300"
-          >
-            Conviértete en Patrocinador
-          </a>
-          <a
-            href="/temacon-portafolio-vinculacion.pdf"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 bg-[#E31E24] text-white px-8 py-3.5 rounded-full font-mono text-xs tracking-wider hover:bg-white hover:text-[#E31E24] transition-all duration-300 shadow-lg shadow-[#E31E24]/20"
-          >
-            Conoce todas las opciones de vinculación Aquí
-          </a>
-        </div>
+
       </div>
     </section>
   );

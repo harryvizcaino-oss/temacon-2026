@@ -116,6 +116,7 @@ function App() {
         {/* Pricing */}
         <Pricing />
       </main>
+
       <Footer />
     </div>
   );

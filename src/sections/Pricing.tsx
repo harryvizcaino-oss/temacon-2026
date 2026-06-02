@@ -5,6 +5,7 @@ import {
   Plane, Calendar, MapPin, Clock, QrCode, CheckCircle2, Stamp,
   Luggage, Utensils, Award, Users,
 } from 'lucide-react';
+import PurchaseModal from '@/components/PurchaseModal';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -22,6 +23,7 @@ export default function Pricing() {
   const stampRef = useRef<HTMLDivElement>(null);
   const [hovered, setHovered] = useState(false);
   const [nameInput, setNameInput] = useState('');
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -218,11 +220,11 @@ export default function Pricing() {
               {/* Price */}
               <div className="mb-8">
                 <p className="font-mono text-[9px] text-white/30 tracking-wider mb-2">PRECIO GENERAL</p>
-                <div className="flex items-baseline gap-2">
-                  <span className="font-display text-5xl lg:text-6xl text-white tracking-tight">$400,000</span>
+                <div className="flex items-baseline gap-2 flex-wrap">
+                  <span className="font-display text-5xl lg:text-6xl text-white tracking-tight">$399,000</span>
+                  <span className="font-mono text-lg text-white/40">+ IVA</span>
                   <span className="font-mono text-sm text-white/30">COP</span>
                 </div>
-                <p className="font-mono text-[10px] text-white/20 mt-1">+ IVA</p>
               </div>
 
               {/* Features as in-flight services */}
@@ -241,14 +243,14 @@ export default function Pricing() {
                 </div>
               </div>
 
-              {/* CTA */}
-              <a
-                href="#register"
-                className="w-full py-4 bg-[#E31E24] text-white rounded-xl font-display font-semibold text-base hover:bg-white hover:text-[#E31E24] transition-all duration-300 shadow-lg shadow-[#E31E24]/20 flex items-center justify-center gap-2"
+              {/* CTA — abre modal de compra 2 pasos */}
+              <button
+                onClick={() => setIsModalOpen(true)}
+                className="w-full py-4 bg-[#E31E24] text-white rounded-xl font-display font-semibold text-base hover:bg-white hover:text-[#E31E24] transition-all duration-300 shadow-lg shadow-[#E31E24]/20 flex items-center justify-center gap-2 cursor-pointer"
               >
                 <QrCode size={18} />
                 Adquirir Ingreso Ahora
-              </a>
+              </button>
 
               {/* Barcode */}
               <div className="mt-6 flex flex-col items-center">
@@ -285,6 +287,9 @@ export default function Pricing() {
           100% { transform: translateY(100vh); }
         }
       `}</style>
+
+      {/* Modal de compra — 2 pasos: Registro + Pago */}
+      <PurchaseModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </section>
   );
 }

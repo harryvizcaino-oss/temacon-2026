@@ -132,6 +132,16 @@ export default function Hero3D() {
         </div>
       </div>
 
+      {/* Aliados Estratégicos y Organiza — entre logo y ES HORA DE TRANSFORMAR */}
+      <div className="relative z-30 flex items-center justify-center px-4 py-2">
+        <img
+          src="/aliados-organiza.png"
+          alt="Aliados Estratégicos: LOGYCA, FEDETRANSCARGA, 10 años de historia · Organiza: TIENDACAMION"
+          className="w-[85vw] sm:w-[70vw] lg:w-[45vw] max-w-[600px] object-contain"
+          loading="lazy"
+        />
+      </div>
+
       {/* BOTTOM: title + CTA */}
       <div className="relative z-30 flex flex-col items-center text-center pb-8 lg:pb-10 px-4">
         <h1 className="font-display text-2xl sm:text-4xl lg:text-5xl text-white leading-none mb-1">

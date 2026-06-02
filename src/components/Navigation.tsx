@@ -113,6 +113,12 @@ export default function Navigation() {
               <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-[#E31E24] rounded-full transition-all duration-300 group-hover:w-full" />
             </a>
             <a
+              href="#brands"
+              className="border border-[#E31E24]/60 text-[#E31E24] px-4 py-2 rounded-full text-sm font-semibold hover:bg-[#E31E24] hover:text-white transition-all duration-300"
+            >
+              Quiero Patrocinar
+            </a>
+            <a
               href="#pricing"
               className="bg-[#E31E24] text-white px-5 py-2 rounded-full text-sm font-semibold hover:bg-black hover:text-white transition-all duration-300"
             >
@@ -183,7 +189,7 @@ export default function Navigation() {
                 <a
                   key={link.label}
                   href={link.href}
-                  className="flex items-center gap-3 px-2 py-[6px] rounded-lg hover:bg-white/5 transition-colors group"
+                  className="flex items-center gap-3 px-2 py-[4px] rounded-lg hover:bg-white/5 transition-colors group"
                   onClick={() => setMobileOpen(false)}
                 >
                   {/* Section number */}
@@ -204,17 +210,24 @@ export default function Navigation() {
             </div>
           </div>
 
-          {/* CTA — siempre visible abajo */}
-          <div className="px-3 py-3 border-t border-white/10 bg-[#0a0a0a]">
+          {/* CTA — siempre visible abajo, compacto */}
+          <div className="px-3 py-2 border-t border-white/10 bg-[#0a0a0a] flex flex-col gap-[6px]">
+            <a
+              href="#brands"
+              className="flex items-center justify-center gap-1 border border-[#E31E24]/60 text-[#E31E24] py-[7px] rounded-lg font-display font-semibold text-[12px] leading-tight hover:bg-[#E31E24] hover:text-white transition-all"
+              onClick={() => setMobileOpen(false)}
+            >
+              Quiero Patrocinar
+            </a>
             <a
               href="#pricing"
-              className="flex items-center justify-center gap-2 bg-[#E31E24] text-white py-3 rounded-xl font-display font-semibold text-sm hover:bg-white hover:text-[#E31E24] transition-all"
+              className="flex items-center justify-center gap-1 bg-[#E31E24] text-white py-[8px] rounded-lg font-display font-semibold text-[12px] leading-tight hover:bg-white hover:text-[#E31E24] transition-all"
               onClick={() => setMobileOpen(false)}
             >
               Adquirir Ingreso Ahora
             </a>
-            <p className="font-mono text-[8px] text-white/30 text-center mt-2">
-              $400,000 COP · 1-2 Sept 2026 · Bogotá
+            <p className="font-mono text-[7px] text-white/30 text-center leading-tight">
+              $399,000 + IVA · 1-2 Sept 2026 · Bogotá
             </p>
           </div>
         </div>
