@@ -68,35 +68,35 @@ export default function SectionIndicator() {
   return (
     <div
       className="fixed z-[9998]"
-      style={{ bottom: '78px', right: '16px' }}
+      style={{ bottom: '78px', right: '12px' }}
     >
       <div
-        className="relative px-3 py-2"
+        className="relative px-2 py-1.5 sm:px-3 sm:py-2"
         style={{
           background: 'rgba(10,0,0,0.92)',
           border: '1.5px solid rgba(227,30,36,0.6)',
           boxShadow: '0 0 12px rgba(227,30,36,0.15), inset 0 0 20px rgba(227,30,36,0.03)',
-          minWidth: '68px',
+          minWidth: '58px',
         }}
       >
         {/* Corner brackets */}
-        <span className="absolute -top-[2px] -left-[2px] w-2 h-2 border-l-2 border-t-2 border-[#E31E24]" />
-        <span className="absolute -top-[2px] -right-[2px] w-2 h-2 border-r-2 border-t-2 border-[#E31E24]" />
-        <span className="absolute -bottom-[2px] -left-[2px] w-2 h-2 border-l-2 border-b-2 border-[#E31E24]" />
-        <span className="absolute -bottom-[2px] -right-[2px] w-2 h-2 border-r-2 border-b-2 border-[#E31E24]" />
+        <span className="absolute -top-[2px] -left-[2px] w-1.5 h-1.5 sm:w-2 sm:h-2 border-l-2 border-t-2 border-[#E31E24]" />
+        <span className="absolute -top-[2px] -right-[2px] w-1.5 h-1.5 sm:w-2 sm:h-2 border-r-2 border-t-2 border-[#E31E24]" />
+        <span className="absolute -bottom-[2px] -left-[2px] w-1.5 h-1.5 sm:w-2 sm:h-2 border-l-2 border-b-2 border-[#E31E24]" />
+        <span className="absolute -bottom-[2px] -right-[2px] w-1.5 h-1.5 sm:w-2 sm:h-2 border-r-2 border-b-2 border-[#E31E24]" />
 
         {/* Section name */}
-        <p className="font-mono text-[7px] tracking-[0.3em] text-[#E31E24]/70 uppercase text-right mb-1">
+        <p className="font-mono text-[6px] sm:text-[7px] tracking-[0.3em] text-[#E31E24]/70 uppercase text-right mb-0.5 sm:mb-1">
           {current.label}
         </p>
 
         {/* Counter */}
         <div className="flex items-baseline justify-end gap-1">
-          <span className="font-mono text-xl font-bold text-[#E31E24] leading-none" style={{ textShadow: '0 0 10px rgba(227,30,36,0.7)' }}>
+          <span className="font-mono text-lg sm:text-xl font-bold text-[#E31E24] leading-none" style={{ textShadow: '0 0 10px rgba(227,30,36,0.7)' }}>
             {String(activeIndex + 1).padStart(2, '0')}
           </span>
-          <span className="font-mono text-[9px] text-white/20">/</span>
-          <span className="font-mono text-[10px] text-white/30">
+          <span className="font-mono text-[8px] sm:text-[9px] text-white/20">/</span>
+          <span className="font-mono text-[9px] sm:text-[10px] text-white/30">
             {String(SECTIONS.length).padStart(2, '0')}
           </span>
         </div>
@@ -114,7 +114,7 @@ export default function SectionIndicator() {
         </div>
 
         {/* Dots - 12 compact */}
-        <div className="flex gap-[3px] mt-1.5 justify-end flex-wrap max-w-[72px]">
+        <div className="flex gap-[2px] sm:gap-[3px] mt-1 sm:mt-1.5 justify-end flex-wrap max-w-[60px] sm:max-w-[72px]">
           {SECTIONS.map((_, i) => (
             <div
               key={i}
@@ -125,7 +125,7 @@ export default function SectionIndicator() {
                     ? 'bg-[#E31E24]/40 border-[#E31E24]/30'
                     : 'bg-transparent border border-white/10'
               }`}
-              style={{ width: '5px', height: '5px' }}
+              style={{ width: '4px', height: '4px' }}
             />
           ))}
         </div>

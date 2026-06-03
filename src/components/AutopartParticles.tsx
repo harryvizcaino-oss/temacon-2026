@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, memo } from 'react';
 
 const AUTOPARTES = [
   '\u2B21', '\u2B22', '\u25C6', '\u25A3',
@@ -12,9 +12,11 @@ const AUTOPARTES = [
   '\u2692', '\u26D3',
 ];
 
-// Mobile: fewer particles for better performance
-const PARTICLE_COUNT = window.innerWidth < 768 ? 80 : 180;
 const MOUSE_RADIUS = 200;
+const MAX_PARTICLES = 180;
+const MAX_PARTICLES_MOBILE = 80;
+const SORT_EVERY_N_FRAMES = 45;
+const TRAIL_ALPHA = 0.28;
 
 interface P {
   ch: string;
@@ -29,37 +31,42 @@ interface S {
   ch: string; a: number; s: number; rot: number; rotS: number;
 }
 
-export default function AutopartParticles() {
+const AutopartParticles = memo(function AutopartParticles() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
     const c = canvasRef.current;
     if (!c) return;
-    const x = c.getContext('2d');
+    const x = c.getContext('2d', { alpha: false, willReadFrequently: false });
     if (!x) return;
-    const p = c.parentElement;
-    if (!p) return;
+    const parent = c.parentElement;
+    if (!parent) return;
 
     let W = 0, H = 0, mx = -1000, my = -1000, raf = 0, fr = 0;
-    let isVisible = true;
-    let isMobile = window.innerWidth < 768;
+    let isVisible = false;
+    let killed = false;
+    const isMobile = window.innerWidth < 768;
+    const PARTICLE_COUNT = isMobile ? MAX_PARTICLES_MOBILE : MAX_PARTICLES;
 
     function resize() {
-      const r = p!.getBoundingClientRect();
-      W = r.width; H = r.height;
+      const r = parent!.getBoundingClientRect();
+      W = Math.round(r.width); H = Math.round(r.height);
+      if (W < 1 || H < 1) return;
       const d = Math.min(window.devicePixelRatio || 1, 2);
-      c!.width = W * d; c!.height = H * d;
-      c!.style.width = W + 'px'; c!.style.height = H + 'px';
-      x!.setTransform(d, 0, 0, d, 0, 0);
+      const w = W * d, h = H * d;
+      if (c!.width !== w || c!.height !== h) {
+        c!.width = w; c!.height = h;
+        c!.style.width = W + 'px'; c!.style.height = H + 'px';
+        x!.setTransform(d, 0, 0, d, 0, 0);
+      }
     }
 
-    const ro = new ResizeObserver(() => resize());
-    ro.observe(p); resize();
+    const ro = new ResizeObserver(resize);
+    ro.observe(parent); resize();
 
-    // Visibility observer — pause when not visible
     const visObs = new IntersectionObserver(
       ([e]) => { isVisible = e.isIntersecting; },
-      { threshold: 0 }
+      { threshold: 0, rootMargin: '100px' }
     );
     visObs.observe(c);
 
@@ -82,24 +89,31 @@ export default function AutopartParticles() {
 
     const ss: S[] = [];
     function spark(sx: number, sy: number) {
-      for (let i = 0; i < (isMobile ? 8 : 15); i++) {
+      const count = isMobile ? 6 : 12;
+      for (let i = 0; i < count; i++) {
         const a = Math.random() * 6.28;
         const v = 3 + Math.random() * 9;
-        ss.push({ x: sx, y: sy, vx: Math.cos(a) * v, vy: Math.sin(a) * v,
+        ss.push({
+          x: sx, y: sy,
+          vx: Math.cos(a) * v, vy: Math.sin(a) * v,
           ch: AUTOPARTES[(Math.random() * AUTOPARTES.length) | 0],
           a: 1, s: 16 + Math.random() * 14,
-          rot: Math.random() * 6.28, rotS: (Math.random() - 0.5) * 0.4 });
+          rot: Math.random() * 6.28,
+          rotS: (Math.random() - 0.5) * 0.4,
+        });
       }
     }
 
-    // Events
     const rect = () => c!.getBoundingClientRect();
     const onMove = (e: MouseEvent) => { const r = rect(); mx = e.clientX - r.left; my = e.clientY - r.top; };
     const onLeave = () => { mx = -1000; my = -1000; };
     const onClick = (e: MouseEvent) => { const r = rect(); spark(e.clientX - r.left, e.clientY - r.top); };
 
     let ta = false;
-    const tPos = (e: TouchEvent) => { const r = rect(), t = e.touches[0] || e.changedTouches[0]; return { x: t.clientX - r.left, y: t.clientY - r.top }; };
+    const tPos = (e: TouchEvent) => {
+      const r = rect(), t = e.touches[0] || e.changedTouches[0];
+      return { x: t.clientX - r.left, y: t.clientY - r.top };
+    };
     const onTS = (e: TouchEvent) => { ta = true; const o = tPos(e); mx = o.x; my = o.y; spark(o.x, o.y); };
     const onTM = (e: TouchEvent) => { if (!ta) return; const o = tPos(e); mx = o.x; my = o.y; };
     const onTE = () => { ta = false; mx = -1000; my = -1000; };
@@ -111,19 +125,20 @@ export default function AutopartParticles() {
     c.addEventListener('touchmove', onTM, { passive: true });
     c.addEventListener('touchend', onTE);
 
+    const cx_ = () => W / 2, cy_ = () => H / 2;
+    const mr2 = MOUSE_RADIUS * MOUSE_RADIUS;
+
     function draw() {
-      // Skip frames when not visible
-      if (!isVisible) {
+      if (killed) return;
+      if (!isVisible || W < 1 || H < 1) {
         raf = requestAnimationFrame(draw);
         return;
       }
 
-      // Trail effect
-      x!.fillStyle = 'rgba(0,0,0,0.25)';
+      x!.fillStyle = `rgba(0,0,0,${TRAIL_ALPHA})`;
       x!.fillRect(0, 0, W, H);
 
-      const cx = W / 2, cy = H / 2;
-      const mr2 = MOUSE_RADIUS * MOUSE_RADIUS; // squared for faster compare
+      const cx = cx_(), cy = cy_();
 
       for (const p of ps) {
         p.x += p.vx; p.y += p.vy; p.z += p.vz; p.rot += p.rotS;
@@ -163,19 +178,21 @@ export default function AutopartParticles() {
         }
       }
 
-      // Skip connections on mobile for performance
+      // Connections (desktop only)
       if (!isMobile) {
         x!.shadowBlur = 0; x!.lineWidth = 1;
         for (let i = 0; i < ps.length; i++) {
           const a = ps[i], sA = 400 / (400 + a.z), ax = cx + a.x * sA, ay = cy + a.y * sA;
-          const aDist = Math.sqrt((ax - mx) ** 2 + (ay - my) ** 2);
-          if (aDist >= MOUSE_RADIUS || mx <= 0) continue;
-          const aGlow = 1 - aDist / MOUSE_RADIUS;
+          const aDist = (ax - mx) * (ax - mx) + (ay - my) * (ay - my);
+          if (aDist >= mr2 || mx <= 0) continue;
+          const aGlow = 1 - Math.sqrt(aDist) / MOUSE_RADIUS;
           for (let j = i + 1; j < ps.length; j++) {
             const b = ps[j], sB = 400 / (400 + b.z), bx = cx + b.x * sB, by = cy + b.y * sB;
-            const bDist = Math.sqrt((bx - mx) ** 2 + (by - my) ** 2);
-            if (bDist >= MOUSE_RADIUS) continue;
-            const bGlow = 1 - bDist / MOUSE_RADIUS, pd = Math.sqrt((ax - bx) ** 2 + (ay - by) ** 2);
+            const bDist = (bx - mx) * (bx - mx) + (by - my) * (by - my);
+            if (bDist >= mr2) continue;
+            const bGlow = 1 - Math.sqrt(bDist) / MOUSE_RADIUS;
+            const pdx = ax - bx, pdy = ay - by;
+            const pd = Math.sqrt(pdx * pdx + pdy * pdy);
             if (pd < 100) {
               x!.strokeStyle = `rgba(255,60,60,${Math.min(aGlow, bGlow) * 0.3 * (1 - pd / 100)})`;
               x!.beginPath(); x!.moveTo(ax, ay); x!.lineTo(bx, by); x!.stroke();
@@ -199,15 +216,24 @@ export default function AutopartParticles() {
       }
 
       fr++;
-      if (fr % 30 === 0) ps.sort((a, b) => b.z - a.z); // Sort less frequently
+      if (fr % SORT_EVERY_N_FRAMES === 0) ps.sort((a, b) => b.z - a.z);
 
       raf = requestAnimationFrame(draw);
     }
 
-    setTimeout(() => { resize(); ps.sort((a, b) => b.z - a.z); draw(); }, 100);
+    const startTimer = setTimeout(() => {
+      resize();
+      isVisible = true;
+      ps.sort((a, b) => b.z - a.z);
+      draw();
+    }, 150);
 
     return () => {
-      cancelAnimationFrame(raf); ro.disconnect(); visObs.disconnect();
+      killed = true;
+      clearTimeout(startTimer);
+      cancelAnimationFrame(raf);
+      ro.disconnect();
+      visObs.disconnect();
       c.removeEventListener('mousemove', onMove);
       c.removeEventListener('mouseleave', onLeave);
       c.removeEventListener('click', onClick);
@@ -218,4 +244,6 @@ export default function AutopartParticles() {
   }, []);
 
   return <canvas ref={canvasRef} style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', display: 'block', touchAction: 'pan-y' }} />;
-}
+});
+
+export default AutopartParticles;

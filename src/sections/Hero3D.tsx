@@ -1,5 +1,5 @@
 import { useCountdown } from '@/hooks/useCountdown';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, memo } from 'react';
 import gsap from 'gsap';
 import {
   Truck, Cpu, Wrench, ShieldCheck, Route, Radio, Zap, Activity,
@@ -11,7 +11,7 @@ const TARGET_DATE = new Date('2026-09-01T08:00:00');
 function pad(n: number) { return n.toString().padStart(2, '0'); }
 
 /* ═══════════════════════════════════════════
-   BOUNCING TECH ICONS — DVD screensaver style
+   BOUNCING TECH ICONS
    ═══════════════════════════════════════════ */
 
 interface BouncingIcon {
@@ -64,7 +64,7 @@ function BouncingSquare({ icon, duration, delay = 0 }: { icon: BouncingIcon; dur
   );
 }
 
-export default function Hero3D() {
+const Hero3D = memo(function Hero3D() {
   const timeLeft = useCountdown(TARGET_DATE);
   const logoRef = useRef<HTMLDivElement>(null);
 
@@ -79,84 +79,96 @@ export default function Hero3D() {
   }, []);
 
   return (
-    <section id="hero" className="relative h-[78dvh] flex flex-col items-center overflow-hidden bg-black">
-      {/* Autopartículas 3D */}
-      <div className="absolute inset-0 z-[1] w-full h-full">
+    <section id="hero" className="relative flex flex-col items-center bg-black" style={{ height: '92dvh', minHeight: '620px' }}>
+      {/* Autopartículas 3D — z-index 1, recibe mouse/touch */}
+      <div className="absolute inset-0 z-[1]" style={{ pointerEvents: 'auto' }}>
         <AutopartParticles />
       </div>
 
-      {/* Bouncing squares */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      {/* Bouncing squares — z-index 2 */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none z-[2]">
         {BOUNCING_ICONS.map((icon, i) => (
           <BouncingSquare key={icon.label} icon={icon} duration={icon.duration} delay={i * 0.5} />
         ))}
       </div>
 
-      {/* TOP: date + countdown */}
-      <div className="relative z-30 flex flex-col items-center text-center pt-16 sm:pt-14 lg:pt-24">
-        <p className="font-mono text-[10px] lg:text-xs tracking-[0.3em] text-white/40 uppercase mb-1">
-          1-2 Septiembre 2026 · Bogotá, Colombia
-        </p>
-        <div className="flex items-center gap-2 sm:gap-3">
-          {[
-            { v: pad(timeLeft.days), l: 'DÍAS' },
-            { v: pad(timeLeft.hours), l: 'HRS' },
-            { v: pad(timeLeft.minutes), l: 'MIN' },
-            { v: pad(timeLeft.seconds), l: 'SEG' },
-          ].map((item, i) => (
-            <div key={i} className="flex items-center gap-1">
-              <div className="bg-white/5 border border-white/10 rounded-lg px-2 py-1 text-center min-w-[36px] sm:min-w-[44px]">
-                <span className="font-display text-base sm:text-lg lg:text-xl text-white tabular-nums leading-none">{item.v}</span>
-                <p className="font-mono text-[5px] sm:text-[6px] text-white/30 uppercase tracking-wider">{item.l}</p>
+      {/* ─── CONTENT — flexbox, pointer-events-none para que el canvas reciba mouse/click ─── */}
+      <div className="relative z-10 flex flex-col items-center h-full w-full px-4" style={{ pointerEvents: 'none' }}>
+
+        {/* Spacer para menú fijo */}
+        <div className="shrink-0" style={{ height: '70px' }} />
+
+        {/* TOP: Countdown */}
+        <div className="shrink-0 flex flex-col items-center text-center mb-2">
+          <p className="font-mono text-[10px] lg:text-xs tracking-[0.3em] text-white/40 uppercase mb-1">
+            1-2 Septiembre 2026 · Bogotá, Colombia
+          </p>
+          <div className="flex items-center gap-2 sm:gap-3">
+            {[
+              { v: pad(timeLeft.days), l: 'DÍAS' },
+              { v: pad(timeLeft.hours), l: 'HRS' },
+              { v: pad(timeLeft.minutes), l: 'MIN' },
+              { v: pad(timeLeft.seconds), l: 'SEG' },
+            ].map((item, i) => (
+              <div key={i} className="flex items-center gap-1">
+                <div className="bg-white/5 border border-white/10 rounded-lg px-2 py-1 text-center min-w-[36px] sm:min-w-[44px]">
+                  <span className="font-display text-base sm:text-lg lg:text-xl text-white tabular-nums leading-none">{item.v}</span>
+                  <p className="font-mono text-[5px] sm:text-[6px] text-white/30 uppercase tracking-wider">{item.l}</p>
+                </div>
+                {i < 3 && <span className="text-white/20 text-sm">:</span>}
               </div>
-              {i < 3 && <span className="text-white/20 text-sm">:</span>}
-            </div>
-          ))}
+            ))}
+          </div>
+          <div className="mt-1" style={{ pointerEvents: 'auto' }}>
+            <AddToCalendar variant="pill" />
+          </div>
         </div>
 
-        {/* Agregar al calendario — debajo del timer */}
-        <div className="mt-2">
-          <AddToCalendar variant="pill" />
+        {/* CENTER: Logo — grande pero que deje espacio al CTA */}
+        <div className="flex-1 flex items-center justify-center w-full min-h-0 my-2">
+          <div ref={logoRef}>
+            <img
+              src="/logo-v2.png"
+              alt="TEMACON 2026"
+              className="w-[70vw] sm:w-[50vw] lg:w-[36vw] max-w-[480px] object-contain"
+              style={{ filter: 'drop-shadow(0 4px 40px rgba(227,30,36,0.5))' }}
+            />
+          </div>
         </div>
-      </div>
 
-      {/* CENTER: Logo */}
-      <div className="relative z-20 flex-1 flex items-center justify-center w-full" style={{ minHeight: 0 }}>
-        <div ref={logoRef} className="relative z-30 flex flex-col items-center">
-          <img
-            src="/logo-v2.png"
-            alt="TEMACON 2026"
-            className="w-[75vw] lg:w-[48vw] max-w-[600px] object-contain"
-            style={{ filter: 'drop-shadow(0 4px 40px rgba(227,30,36,0.5))' }}
-          />
+        {/* Aliados barra */}
+        <div className="shrink-0 mb-2">
+          <div className="bg-white/95 rounded-lg px-4 py-2 shadow-lg">
+            <img
+              src="/aliados-organiza.png"
+              alt="Aliados Estratégicos: LOGYCA, FEDETRANSCARGA, 10 años de historia · Organiza: TIENDACAMION"
+              className="w-[70vw] sm:w-[50vw] lg:w-[30vw] max-w-[420px] object-contain"
+              style={{ maxHeight: '55px' }}
+              loading="lazy"
+            />
+          </div>
         </div>
-      </div>
 
-      {/* Aliados Estratégicos y Organiza — entre logo y ES HORA DE TRANSFORMAR */}
-      <div className="relative z-30 flex items-center justify-center px-4 py-2">
-        <img
-          src="/aliados-organiza.png"
-          alt="Aliados Estratégicos: LOGYCA, FEDETRANSCARGA, 10 años de historia · Organiza: TIENDACAMION"
-          className="w-[85vw] sm:w-[70vw] lg:w-[45vw] max-w-[600px] object-contain"
-          loading="lazy"
-        />
-      </div>
+        {/* BOTTOM: ES HORA DE + CTA */}
+        <div className="shrink-0 flex flex-col items-center text-center pb-5">
+          <h1 className="font-display text-xl sm:text-3xl lg:text-4xl text-white leading-tight mb-1">
+            ES HORA DE <span className="text-[#E31E24]">TRANSFORMAR</span>
+          </h1>
+          <p className="font-mono text-[8px] sm:text-[9px] lg:text-[10px] text-white/30 tracking-wider mb-2">
+            TECNOLOGÍA · MANTENIMIENTO · CONFIABILIDAD · TRANSPORTE DE CARGA
+          </p>
+          <a
+            href="#pricing"
+            className="bg-[#E31E24] text-white px-5 sm:px-8 py-2.5 rounded-full font-display text-sm sm:text-base font-semibold hover:bg-white hover:text-[#E31E24] transition-all duration-300 shadow-lg shadow-[#E31E24]/30"
+            style={{ pointerEvents: 'auto' }}
+          >
+            Adquirir Ingreso Ahora
+          </a>
+        </div>
 
-      {/* BOTTOM: title + CTA */}
-      <div className="relative z-30 flex flex-col items-center text-center pb-8 lg:pb-10 px-4">
-        <h1 className="font-display text-2xl sm:text-4xl lg:text-5xl text-white leading-none mb-1">
-          ES HORA DE <span className="text-[#E31E24]">TRANSFORMAR</span>
-        </h1>
-        <p className="font-mono text-[8px] sm:text-[10px] lg:text-xs text-white/30 tracking-wider mb-3">
-          TECNOLOGÍA · MANTENIMIENTO · CONFIABILIDAD · TRANSPORTE DE CARGA
-        </p>
-        <a
-          href="#pricing"
-          className="bg-[#E31E24] text-white px-6 sm:px-10 py-3 rounded-full font-display text-sm sm:text-lg font-semibold hover:bg-white hover:text-[#E31E24] transition-all duration-300 shadow-lg shadow-[#E31E24]/30"
-        >
-          Adquirir Ingreso Ahora
-        </a>
       </div>
     </section>
   );
-}
+});
+
+export default Hero3D;

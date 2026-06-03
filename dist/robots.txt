@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://temacon.tiendacamion.com/sitemap.xml
+
+# Crawl-delay para bots educados
+Crawl-delay: 1
+
+# Disallow: nada, todo es público

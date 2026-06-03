@@ -12,5 +12,13 @@ export default defineConfig({
   base: '/',
   build: {
     chunkSizeWarningLimit: 2000,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          three: ['three', '@react-three/fiber', '@react-three/drei'],
+          gsap: ['gsap'],
+        },
+      },
+    },
   },
 })
