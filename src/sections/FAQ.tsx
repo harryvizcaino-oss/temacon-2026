@@ -1,14 +1,13 @@
-import { useEffect, useRef, useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { ChevronDown, HelpCircle } from 'lucide-react';
+import { ChevronDown } from 'lucide-react';
+import AutopartParticles from '@/components/AutopartParticles';
 
 gsap.registerPlugin(ScrollTrigger);
 
 /* ═══════════════════════════════════════════
-   FAQ — Preguntas Frecuentes con SEO
-   Keywords: camiones, transporte, mantenimiento,
-   tecnología, logística, flotas, Colombia
+   FAQ — Banner único que despliega todo
    ═══════════════════════════════════════════ */
 
 const FAQS = [
@@ -34,7 +33,7 @@ const FAQS = [
   },
   {
     q: '¿Cómo puedo patrocinar el evento de tecnología para camiones más importante de Latinoamérica?',
-    a: 'Para patrocinar TEMACON 2026, puedes contactarnos directamente por WhatsApp al +57 318 216 0678 o escribir a contacto@tiendacamion.com. Ofrecemos diferentes niveles de patrocinio con acceso a la muestra comercial, branding en materiales del evento y oportunidades de networking con directores de flota de las principales empresas de transporte de Colombia.',
+    a: 'Para patrocinar TEMACON 2026, puedes contactarnos directamente por WhatsApp al +57 311 378 2522 o escribir a contacto@tiendacamion.com. Ofrecemos diferentes niveles de patrocinio con acceso a la muestra comercial, branding en materiales del evento y oportunidades de networking con directores de flota de las principales empresas de transporte de Colombia.',
   },
   {
     q: '¿Qué es el mantenimiento predictivo y cómo ayuda a reducir costos en flotas de camiones?',
@@ -55,14 +54,15 @@ const FAQS = [
 ];
 
 export default function FAQ() {
-  const [openIdx, setOpenIdx] = useState<number | null>(0);
+  const [isOpen, setIsOpen] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
+  const titleRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.from('.faq-item', {
+      gsap.from(titleRef.current, {
         scrollTrigger: { trigger: sectionRef.current, start: 'top 80%' },
-        y: 30, opacity: 0, stagger: 0.08, duration: 0.6, ease: 'power2.out',
+        y: 40, opacity: 0, duration: 0.8, ease: 'power2.out',
       });
     }, sectionRef);
     return () => ctx.revert();
@@ -70,78 +70,83 @@ export default function FAQ() {
 
   return (
     <section id="faq" ref={sectionRef} className="relative bg-[#0a0a0a] overflow-hidden" data-nav-light>
-      {/* Subtle grid */}
-      <div className="absolute inset-0 opacity-[0.02]"
-        style={{
-          backgroundImage: 'linear-gradient(rgba(227,30,36,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(227,30,36,0.5) 1px, transparent 1px)',
-          backgroundSize: '60px 60px',
-        }}
-      />
+      {/* Autopartículas 3D */}
+      <div className="absolute inset-0 z-[1]" style={{ pointerEvents: 'auto' }}>
+        <AutopartParticles />
+      </div>
 
-      <div className="relative z-10 wrapper py-16 lg:py-24">
-        {/* Header */}
-        <div className="text-center mb-10 lg:mb-14">
-          <div className="inline-flex items-center gap-2 mb-3">
-            <HelpCircle size={14} className="text-[#E31E24]" />
-            <p className="font-mono text-[10px] tracking-[0.4em] text-[#E31E24] uppercase">
-              Preguntas Frecuentes
-            </p>
-          </div>
-          <h2 className="font-display text-t3 text-white">
-            Todo sobre el <span className="text-[#E31E24]">evento</span>
-          </h2>
-          <p className="mt-3 text-sm text-white/40 max-w-xl mx-auto">
-            Respuestas a las preguntas más comunes sobre TEMACON 2026, el evento de tecnología, 
-            mantenimiento y confiabilidad para transporte de carga en Colombia.
-          </p>
-        </div>
+      <div className="relative z-10 wrapper py-16 lg:py-24" style={{ pointerEvents: 'none' }}>
 
-        {/* FAQ Items */}
-        <div className="max-w-[800px] mx-auto space-y-3">
-          {FAQS.map((faq, i) => (
-            <div
-              key={i}
-              className="faq-item border border-white/[0.06] rounded-lg overflow-hidden hover:border-[#E31E24]/20 transition-colors"
-            >
-              <button
-                onClick={() => setOpenIdx(openIdx === i ? null : i)}
-                className="w-full flex items-center justify-between gap-4 px-4 sm:px-5 py-3.5 sm:py-4 text-left group"
-                aria-expanded={openIdx === i}
-              >
-                <span className="font-display text-sm sm:text-base text-white/90 group-hover:text-white transition-colors leading-snug">
-                  {faq.q}
-                </span>
-                <ChevronDown
-                  size={16}
-                  className={`text-[#E31E24] flex-shrink-0 transition-transform duration-300 ${openIdx === i ? 'rotate-180' : ''}`}
-                />
-              </button>
-              <div
-                className={`overflow-hidden transition-all duration-300 ${openIdx === i ? 'max-h-[400px] opacity-100' : 'max-h-0 opacity-0'}`}
-              >
-                <div className="px-4 sm:px-5 pb-4 pt-0">
-                  <p className="text-sm text-white/60 leading-relaxed border-t border-white/[0.06] pt-3">
-                    {faq.a}
-                  </p>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* CTA */}
-        <div className="text-center mt-10">
-          <p className="font-mono text-[10px] text-white/30 tracking-wider mb-3">
-            ¿MÁS PREGUNTAS? CONTÁCTANOS
-          </p>
-          <a
-            href="https://wa.me/573182160678"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 bg-[#E31E24] text-white px-6 py-2.5 rounded-full font-display text-sm font-semibold hover:bg-white hover:text-[#E31E24] transition-all"
+        {/* Banner principal — 1 solo botón que despliega TODO */}
+        <div ref={titleRef} className="max-w-[900px] mx-auto">
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            className={`w-full flex items-center justify-between py-5 lg:py-6 px-5 lg:px-8 rounded-2xl border transition-all duration-300 ${
+              isOpen
+                ? 'bg-[#E31E24] border-[#E31E24]'
+                : 'bg-white/[0.04] border-white/[0.08] hover:bg-white/[0.08] hover:border-white/[0.15]'
+            }`}
+            style={{ pointerEvents: 'auto' }}
           >
-            Escríbenos por WhatsApp
-          </a>
+            <div className="text-left">
+              <p className="font-mono text-[9px] lg:text-[10px] tracking-[0.4em] text-[#E31E24] uppercase mb-1">
+                {isOpen ? 'Cerrar' : 'Haz clic para ver'}
+              </p>
+              <h2 className="font-display text-xl sm:text-2xl lg:text-t3 text-white">
+                Preguntas <span className={isOpen ? 'text-white' : 'text-[#E31E24]'}>Frecuentes</span>
+              </h2>
+            </div>
+            <ChevronDown
+              size={28}
+              className={`flex-shrink-0 transition-transform duration-500 ${
+                isOpen ? 'rotate-180 text-white' : 'text-white/40'
+              }`}
+            />
+          </button>
+
+          {/* Contenido desplegable — TODAS las preguntas */}
+          <div
+            className={`overflow-hidden transition-all duration-700 ease-in-out ${
+              isOpen ? 'max-h-[3000px] opacity-100 mt-3' : 'max-h-0 opacity-0 mt-0'
+            }`}
+          >
+            <div className="rounded-2xl overflow-hidden border border-white/[0.06]">
+              {FAQS.map((faq, i) => (
+                <div key={i} className="border-b border-white/[0.06] last:border-b-0">
+                  {/* Pregunta */}
+                  <div className="bg-white/[0.03] px-4 lg:px-6 py-3.5 lg:py-4 flex items-start gap-3">
+                    <span className="font-mono text-xs text-[#E31E24]/60 flex-shrink-0 mt-0.5">
+                      {String(i + 1).padStart(2, '0')}
+                    </span>
+                    <p className="font-display text-sm lg:text-base text-white/90 leading-snug">
+                      {faq.q}
+                    </p>
+                  </div>
+                  {/* Respuesta */}
+                  <div className="bg-[#E31E24]/10 px-4 lg:px-6 pb-4 pt-1">
+                    <p className="text-sm text-white/70 leading-relaxed max-w-4xl ml-7 lg:ml-9">
+                      {faq.a}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* CTA WhatsApp */}
+            <div className="text-center mt-6" style={{ pointerEvents: 'auto' }}>
+              <p className="font-mono text-[10px] text-white/30 tracking-wider mb-3">
+                ¿MÁS PREGUNTAS? CONTÁCTANOS
+              </p>
+              <a
+                href="https://wa.me/573113782522"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 bg-[#E31E24] text-white px-6 py-2.5 rounded-full font-display text-sm font-semibold hover:bg-white hover:text-[#E31E24] transition-all"
+              >
+                Escríbenos por WhatsApp
+              </a>
+            </div>
+          </div>
         </div>
       </div>
     </section>

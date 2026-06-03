@@ -25,6 +25,7 @@ const ALL_SECTIONS: NavSection[] = [
   { label: 'Agenda', href: '#agenda', description: 'Programa de 2 días' },
   { label: 'Sede', href: '#venue', description: 'Bogota, Colombia' },
   { label: 'Regístrate', href: '#pricing', description: 'Adquiere tu ingreso' },
+  { label: 'Preguntas Frecuentes', href: '#faq', description: 'FAQ del evento' },
 ];
 
 export default function Navigation() {
@@ -110,6 +111,10 @@ export default function Navigation() {
             </a>
             <a href="#agenda" className={`relative group text-sm font-medium transition-colors ${logoDark ? 'text-black hover:text-[#E31E24]' : 'text-white hover:text-[#E31E24]'}`}>
               Agenda
+              <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-[#E31E24] rounded-full transition-all duration-300 group-hover:w-full" />
+            </a>
+            <a href="#faq" className={`relative group text-sm font-medium transition-colors ${logoDark ? 'text-black hover:text-[#E31E24]' : 'text-white hover:text-[#E31E24]'}`}>
+              FAQ
               <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-[#E31E24] rounded-full transition-all duration-300 group-hover:w-full" />
             </a>
             <a
