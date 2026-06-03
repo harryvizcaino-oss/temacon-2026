@@ -11,7 +11,7 @@ interface NavSection {
   description?: string;
 }
 
-/*─── Las 12 secciones en orden de aparicion en la pagina ───*/
+/*─── Las 13 secciones en orden de aparicion en la pagina ───*/
 const ALL_SECTIONS: NavSection[] = [
   { label: 'Inicio', href: '#hero', description: 'Hero principal' },
   { label: 'El evento líder de mantenimiento', href: '#about', description: 'Sobre TEMACON 2026' },
@@ -91,7 +91,7 @@ export default function Navigation() {
             />
           </a>
 
-          {/* Desktop Nav — 5 links clave */}
+          {/* Desktop Nav — 6 links + 2 CTAs */}
           <div className="hidden lg:flex items-center gap-6 xl:gap-8">
             <a href="#hero" className={`relative group text-sm font-medium transition-colors ${logoDark ? 'text-black hover:text-[#E31E24]' : 'text-white hover:text-[#E31E24]'}`}>
               Inicio
@@ -166,7 +166,7 @@ export default function Navigation() {
             mobileOpen ? 'translate-x-0' : 'translate-x-full'
           }`}
         >
-          {/* Header — compacto */}
+          {/* Header */}
           <div className="flex items-center justify-between px-4 py-3 border-b border-white/10">
             <img src="/logo-v2.png" alt="TEMACON" className="h-8 object-contain" />
             <button
@@ -178,9 +178,8 @@ export default function Navigation() {
             </button>
           </div>
 
-          {/* Content — 12 secciones en orden */}
+          {/* Content — 13 secciones en orden */}
           <div className="overflow-y-auto flex-1">
-            {/* Counter header */}
             <div className="px-4 pt-3 pb-1 flex items-center justify-between">
               <p className="font-mono text-[8px] text-[#E31E24] tracking-[0.3em] uppercase">
                 Secciones
@@ -197,7 +196,6 @@ export default function Navigation() {
                   className="flex items-center gap-3 px-2 py-[4px] rounded-lg hover:bg-white/5 transition-colors group"
                   onClick={() => setMobileOpen(false)}
                 >
-                  {/* Section number */}
                   <span className="font-mono text-[9px] text-white/20 w-4 text-right flex-shrink-0">
                     {String(i + 1).padStart(2, '0')}
                   </span>
@@ -215,7 +213,7 @@ export default function Navigation() {
             </div>
           </div>
 
-          {/* CTA — siempre visible abajo, compacto */}
+          {/* CTA */}
           <div className="px-3 py-2 border-t border-white/10 bg-[#0a0a0a] flex flex-col gap-[6px]">
             <a
               href="#brands"

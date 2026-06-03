@@ -3,7 +3,7 @@ import { X, Loader2 } from 'lucide-react';
 
 /**
  * PurchaseModal — Widget INLINE de Zoho Backstage
- * Ahora en pantalla completa para mejor experiencia de compra
+ * Full-screen modal para compra de tickets
  */
 
 interface PurchaseModalProps {
@@ -54,7 +54,7 @@ export default function PurchaseModal({ isOpen, onClose }: PurchaseModalProps) {
             clickableElements: [],
             ticketClassIdVsSelectorMap: {},
             ticketGroupIdVsSelectorMap: {},
-            skipValidation: false,
+            skipValidation: true,
             widgetOptions: {
               theme: {
                 primaryButton: {
@@ -122,8 +122,8 @@ export default function PurchaseModal({ isOpen, onClose }: PurchaseModalProps) {
       {/* Backdrop */}
       <div className="absolute inset-0 bg-black/90 backdrop-blur-sm" onClick={onClose} />
 
-      {/* Modal — casi pantalla completa */}
-      <div className="relative w-[100vw] h-[100dvh] sm:w-[95vw] sm:h-[95vh] sm:max-w-[1200px] bg-white rounded-none sm:rounded-xl shadow-2xl overflow-hidden flex flex-col">
+      {/* Modal */}
+      <div className="relative w-[100vw] h-[100dvh] sm:w-[95vw] sm:h-[95vh] sm:max-w-[1100px] bg-white rounded-none sm:rounded-xl shadow-2xl overflow-hidden flex flex-col">
 
         {/* Header */}
         <div className="flex items-center justify-between px-4 sm:px-6 py-3 bg-[#0a0a0a] border-b border-[#E31E24]/20 shrink-0">
@@ -147,7 +147,7 @@ export default function PurchaseModal({ isOpen, onClose }: PurchaseModalProps) {
             </div>
           )}
 
-          {/* Widget container — ocupa todo el ancho disponible */}
+          {/* Widget container */}
           <div id="zbs-register-widget-section" className="w-full min-h-full" />
 
         </div>
