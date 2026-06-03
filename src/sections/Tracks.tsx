@@ -96,7 +96,7 @@ export default function Tracks() {
     <section id="tracks" ref={sectionRef} className="bg-temacon-offwhite page-padding" data-nav-light>
       <div className="wrapper">
         <h2 ref={titleRef} className="font-display text-t2 text-temacon-black text-center mb-12 lg:mb-16">
-          Tracks especializados para el Transporte de Carga
+          7 Tracks especializados en Tecnología, Mantenimiento Predictivo y Confiabilidad Vehicular
         </h2>
         <div ref={listRef} className="rounded-2xl overflow-hidden">
           {TRACKS.map((track) => (

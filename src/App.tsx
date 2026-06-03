@@ -16,6 +16,7 @@ import Audience from '@/sections/Audience';
 import Tracks from '@/sections/Tracks';
 import Venue from '@/sections/Venue';
 import Pricing from '@/sections/Pricing';
+import FAQ from '@/sections/FAQ';
 import Agenda from '@/sections/Agenda';
 import Testimonials from '@/sections/Testimonials';
 import Brands from '@/sections/Brands';
@@ -115,6 +116,9 @@ function App() {
 
         {/* Pricing */}
         <Pricing />
+
+        {/* FAQ — SEO content */}
+        <FAQ />
       </main>
 
       <Footer />

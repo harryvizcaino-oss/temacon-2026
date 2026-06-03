@@ -107,7 +107,7 @@ export default function Testimonials() {
   const t = TESTIMONIALS[activeIndex];
 
   return (
-    <section id="testimonials" ref={sectionRef} className="bg-temacon-offwhite page-padding" data-nav-light>
+    <section id="testimonials" ref={sectionRef} className="bg-temacon-offwhite py-10 lg:py-16" data-nav-light>
       <div className="wrapper">
         <h2
           ref={titleRef}
@@ -124,9 +124,9 @@ export default function Testimonials() {
             </div>
           </div>
 
-          {/* Testimonial text */}
-          <div className="min-h-[120px] flex items-center justify-center">
-            <p className="font-display text-t4 lg:text-t3 text-temacon-black text-center leading-snug">
+          {/* Testimonial text — altura fija, no crece */}
+          <div className="h-[140px] sm:h-[160px] lg:h-[180px] flex items-center justify-center overflow-hidden">
+            <p className="font-display text-t4 lg:text-t3 text-temacon-black text-center leading-snug line-clamp-4">
               "<TypeWriter key={activeIndex} text={t.text} isActive={isVisible} speed={30} />"
             </p>
           </div>

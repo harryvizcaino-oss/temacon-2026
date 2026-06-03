@@ -104,15 +104,15 @@ export default function Intro() {
       <div className="wrapper">
         {/* Row 1: Title — full width */}
         <h2 ref={titleRef} className="font-display text-t2 text-temacon-black leading-tight">
-          El evento líder de Mantenimiento, Tecnología y Confiabilidad para el Transporte de Carga
+          El evento líder de Tecnología, Mantenimiento y Confiabilidad para Camiones y Flotas de Transporte de Carga en Colombia
         </h2>
 
         {/* Row 2: Description — full width */}
         <p ref={descRef} className="text-base lg:text-lg text-temacon-charcoal leading-relaxed mt-6 lg:mt-8 max-w-3xl">
-          TEMACON es el punto de encuentro para profesionales del transporte de carga
-          que buscan maximizar la confiabilidad de sus flotas, reducir el downtime y
-          optimizar la cadena de suministro. Conecta con la comunidad técnica
-          más influyente de Latinoamérica.
+          TEMACON 2026 es el punto de encuentro para profesionales del sector camionero
+          que buscan maximizar la confiabilidad de sus flotas, implementar mantenimiento predictivo,
+          reducir el downtime y optimizar la cadena de suministro. Conecta con la comunidad técnica
+          más influyente de Latinoamérica en tecnología para transporte de carga.
         </p>
 
         {/* Row 3: Stats — single horizontal row that expands */}

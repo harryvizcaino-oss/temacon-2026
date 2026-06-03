@@ -240,10 +240,11 @@ export default function Speakers() {
             8 Líderes Internacionales
           </p>
           <h2 className="font-display text-t3 text-white">
-            Expertos en <span className="text-[#E31E24]">Transporte de Carga</span>
+            Expertos en <span className="text-[#E31E24]">Tecnología para Camiones y Flotas</span>
           </h2>
           <p className="mt-3 text-sm text-white/40 max-w-md mx-auto">
-            Líderes que están transformando la industria del transporte y la logística en Latinoamérica.
+            Conferencistas internacionales que están transformando la industria del mantenimiento,
+            la logística y el transporte de carga en Colombia y Latinoamérica.
           </p>
         </div>
 

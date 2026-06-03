@@ -64,10 +64,10 @@ export default function Venue() {
           Centro de Operaciones
         </p>
         <h2 className="font-display text-4xl lg:text-5xl text-black tracking-tight">
-          Sede <span className="text-[#E31E24]">TEMACON 2026</span>
+          Sede del evento de tecnología para camiones en <span className="text-[#E31E24]">Bogotá 2026</span>
         </h2>
         <p className="mt-3 text-sm text-black/50 max-w-md mx-auto">
-          1-2 Septiembre 2026 · Bogotá, Colombia
+          1-2 Septiembre 2026 · Bogotá, Colombia · Cámara de Comercio
         </p>
       </div>
 

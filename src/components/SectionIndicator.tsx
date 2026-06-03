@@ -18,6 +18,7 @@ const SECTIONS = [
   { id: 'agenda',        label: 'Agenda' },
   { id: 'venue',         label: 'Sede' },
   { id: 'pricing',       label: 'Registro' },
+  { id: 'faq',           label: 'FAQ' },
 ];
 
 function getActiveSection(): number {
