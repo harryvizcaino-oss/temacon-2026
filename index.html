@@ -12,21 +12,24 @@
          PERFORMANCE — DNS prefetch + preconnect + preload
          ═══════════════════════════════════════════ -->
 
-    <!-- Precarga de imagenes críticas del hero -->
-    <link rel="preload" href="/hero-bg.jpg" as="image" />
-    <link rel="preload" href="/logo-temacon.png" as="image" />
+    <!-- Precarga de recursos críticos (LCP) -->
+    <link rel="preload" href="/hero-bg.jpg" as="image" fetchpriority="high" />
+    <link rel="preload" href="/logo-v2-tight.png" as="image" fetchpriority="high" />
     <link rel="preload" href="/favicon.png" as="image" />
 
-    <!-- Prefetch de imagenes de secciones visibles pronto -->
+    <!-- Prefetch de secciones below-the-fold -->
     <link rel="prefetch" href="/mtto-01-falla.jpg" as="image" />
     <link rel="prefetch" href="/mtto-02-taller.jpg" as="image" />
     <link rel="prefetch" href="/mtto-03-diagnostico.jpg" as="image" />
+
+    <!-- Preconnect: fuentes y servicios externos -->
     <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
     <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
     <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="preconnect" href="https://cdn.pagesense.io" />
     <link rel="preconnect" href="https://salesiq.zohopublic.com" />
+    <link rel="preconnect" href="https://tiendacamion.zohobackstage.com" />
 
     <!-- Prefetch: PDF de patrocinios (carga en background para abrir rapido) -->
     <link rel="prefetch" href="/temacon-portafolio-vinculacion.pdf" as="fetch" type="application/pdf" />
@@ -132,9 +135,7 @@
     <link rel="apple-touch-icon" href="/favicon.png" />
     <link rel="shortcut icon" href="/favicon.png" />
 
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Google Fonts — display=swap evita FOIT -->
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
     <!-- Critical CSS inline: evita FOUC -->

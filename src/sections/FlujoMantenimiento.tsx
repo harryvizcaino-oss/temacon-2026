@@ -337,8 +337,8 @@ export default function FlujoMantenimiento() {
 
         {/* CTA */}
         <div className="mt-8 sm:mt-12 text-center">
-          <a href="#register" className="inline-flex items-center gap-2 bg-[#E31E24] text-white px-6 sm:px-8 py-3 sm:py-4 rounded-full font-display text-sm sm:text-lg font-semibold hover:bg-white hover:text-[#E31E24] transition-all duration-300 shadow-lg shadow-[#E31E24]/20">
-            <Cpu size={18} className="sm:w-5 sm:h-5" />Implementa este flujo en tu flota
+          <a href="#pricing" className="inline-flex items-center gap-2 bg-[#E31E24] text-white px-6 sm:px-8 py-3 sm:py-4 rounded-full font-display text-sm sm:text-base font-semibold hover:bg-white hover:text-[#E31E24] transition-all duration-300 shadow-lg shadow-[#E31E24]/20">
+            <Cpu size={18} className="sm:w-5 sm:h-5" />¿Te gustaría implementar algo así en tu empresa?
           </a>
         </div>
       </div>

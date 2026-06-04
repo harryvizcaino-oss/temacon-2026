@@ -29,7 +29,7 @@ const INFO_CARDS = [
   { icon: Calendar, label: 'Fechas', value: VENUE.dates, sub: '2026' },
   { icon: Clock, label: 'Horario', value: VENUE.hours, sub: 'Ambos días' },
   { icon: Plane, label: 'Aeropuerto', value: VENUE.airport, sub: VENUE.airportTime },
-  { icon: Hotel, label: 'Hotel', value: VENUE.hotel, sub: VENUE.hotelTime },
+  { icon: Navigation, label: 'Ruta', value: '15 min desde aeropuerto', sub: '9.2 km · ~$15-20 USD en taxi/Uber' },
   { icon: Navigation, label: 'Transmilenio', value: 'Estación G12', sub: '3 min caminando' },
 ];
 
@@ -184,98 +184,9 @@ export default function Venue() {
       </div>
 
       {/* ═══════════════════════════════════════════
-         BOTTOM: Google Maps Route
+         BOTTOM: Alojamiento Cerca
          ═══════════════════════════════════════════ */}
       <div ref={mapRef} className="wrapper pb-16 lg:pb-24">
-        <div className="flex items-center justify-between mb-4">
-          <div>
-            <p className="font-mono text-[10px] tracking-[0.3em] text-[#E31E24] uppercase mb-1">Ruta Recomendada</p>
-            <p className="font-display text-lg text-black">{VENUE.airport} → {VENUE.building}</p>
-          </div>
-          <a
-            href="https://www.google.com/maps/search/hoteles+cerca+C%C3%A1mara+de+Comercio+de+Bogot%C3%A1+Av+El+Dorado/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hidden sm:flex items-center gap-2 bg-[#E31E24] hover:bg-white text-white hover:text-[#E31E24] px-4 py-2.5 rounded-lg font-mono text-xs transition-all"
-          >
-            <Hotel size={14} />
-            Alojamiento Cerca
-          </a>
-        </div>
-
-        {/* Route Map Visual + CTA */}
-        <div className="relative w-full rounded-xl overflow-hidden border border-black/[0.08] bg-white" style={{ height: 'clamp(300px, 40vh, 450px)' }}>
-          {/* Background grid */}
-          <div className="absolute inset-0 opacity-[0.04]"
-            style={{
-              backgroundImage: 'linear-gradient(rgba(227,30,36,0.4) 1px, transparent 1px), linear-gradient(90deg, rgba(227,30,36,0.4) 1px, transparent 1px)',
-              backgroundSize: '30px 30px',
-            }}
-          />
-
-          {/* Route visualization */}
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div className="relative w-full max-w-lg px-8">
-              {/* Route line */}
-              <div className="relative flex items-center justify-between">
-                {/* Line */}
-                <div className="absolute left-0 right-0 top-1/2 -translate-y-1/2 h-1 bg-black/10 rounded-full" />
-                <div className="absolute left-0 top-1/2 -translate-y-1/2 h-1 bg-gradient-to-r from-[#E31E24] to-[#ff6b6b] rounded-full transition-all duration-1000" style={{ width: '100%' }} />
-
-                {/* Point 1: Airport */}
-                <div className="relative z-10 flex flex-col items-center">
-                  <div className="w-10 h-10 bg-[#E31E24] rounded-full flex items-center justify-center border-4 border-white shadow-lg shadow-[#E31E24]/30">
-                    <Plane size={16} className="text-white" />
-                  </div>
-                  <p className="font-mono text-[8px] text-black/50 mt-2 uppercase tracking-wider whitespace-nowrap">El Dorado</p>
-                  <p className="font-mono text-[8px] text-black/30">BOG</p>
-                </div>
-
-                {/* Point 2: Av. El Dorado */}
-                <div className="relative z-10 flex flex-col items-center">
-                  <div className="w-8 h-8 bg-black/5 rounded-full flex items-center justify-center border-2 border-black/10">
-                    <Navigation size={12} className="text-white/60" />
-                  </div>
-                  <p className="font-mono text-[7px] text-black/40 mt-2 uppercase tracking-wider whitespace-nowrap">Av. El Dorado</p>
-                </div>
-
-                {/* Point 3: CCB */}
-                <div className="relative z-10 flex flex-col items-center">
-                  <div className="w-10 h-10 bg-[#E31E24] rounded-full flex items-center justify-center border-4 border-white shadow-lg shadow-[#E31E24]/40 animate-pulse">
-                    <MapPin size={16} className="text-white" />
-                  </div>
-                  <p className="font-mono text-[8px] text-[#E31E24] mt-2 uppercase tracking-wider whitespace-nowrap">CCB Salitre</p>
-                  <p className="font-mono text-[8px] text-black/30">Venue</p>
-                </div>
-              </div>
-
-              {/* Distance + Time */}
-              <div className="mt-10 flex items-center justify-center gap-6">
-                <div className="text-center">
-                  <p className="font-display text-2xl text-black">15 min</p>
-                  <p className="font-mono text-[8px] text-black/40 uppercase tracking-wider">En taxi / Uber</p>
-                </div>
-                <div className="w-px h-8 bg-black/10" />
-                <div className="text-center">
-                  <p className="font-display text-2xl text-black">9.2 km</p>
-                  <p className="font-mono text-[8px] text-black/40 uppercase tracking-wider">Distancia</p>
-                </div>
-                <div className="w-px h-8 bg-black/10" />
-                <div className="text-center">
-                  <p className="font-display text-2xl text-black">$15-20</p>
-                  <p className="font-mono text-[8px] text-black/40 uppercase tracking-wider">USD aprox.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Corner brackets */}
-          <div className="absolute top-4 left-4 w-6 h-6 border-l-2 border-t-2 border-[#E31E24]/40" />
-          <div className="absolute top-4 right-4 w-6 h-6 border-r-2 border-t-2 border-[#E31E24]/40" />
-          <div className="absolute bottom-4 left-4 w-6 h-6 border-l-2 border-b-2 border-[#E31E24]/40" />
-          <div className="absolute bottom-4 right-4 w-6 h-6 border-r-2 border-b-2 border-[#E31E24]/30" />
-        </div>
-
         {/* ═══════════════════════════════════════════
            ALOJAMIENTO CERCA — 3 hoteles más cercanos
            ═══════════════════════════════════════════ */}

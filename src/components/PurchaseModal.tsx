@@ -95,11 +95,11 @@ export default function PurchaseModal({ isOpen, onClose }: PurchaseModalProps) {
               }
             },
             onOrderComplete: function () {
-              console.log('Compra completada');
+              // Compra completada — analytics se maneja via Zoho
               setOrderCompleted(true);
             },
             onClose: function () {
-              console.log('Widget cerrado');
+              // Widget cerrado por el usuario
             }
           },
           '#zbs-register-widget-section'

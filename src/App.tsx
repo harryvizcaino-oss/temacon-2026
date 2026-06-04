@@ -6,33 +6,38 @@ import ZohoIntegration from '@/components/ZohoIntegration';
 import SectionIndicator from '@/components/SectionIndicator';
 import CookieConsentReveal from '@/components/CookieConsentReveal';
 import ScrollToTop from '@/components/ScrollToTop';
-import AddToCalendar from '@/components/AddToCalendar';
-import ParticleField from '@/components/ParticleField';
 
+/* ═══════════════════════════════════════════
+   EAGER — Critical path (First Contentful Paint)
+   Hero3D, Intro, FlujoMantenimiento = above the fold
+   ═══════════════════════════════════════════ */
 import Hero3D from '@/sections/Hero3D';
 import Intro from '@/sections/Intro';
 import FlujoMantenimiento from '@/sections/FlujoMantenimiento';
-import Audience from '@/sections/Audience';
-import Tracks from '@/sections/Tracks';
-import Venue from '@/sections/Venue';
-import Pricing from '@/sections/Pricing';
-import FAQ from '@/sections/FAQ';
-import Agenda from '@/sections/Agenda';
-import Testimonials from '@/sections/Testimonials';
-import Brands from '@/sections/Brands';
 import Footer from '@/sections/Footer';
 
-/* Lazy load heavy 3D and interactive sections */
-const TractoCamion3D = lazy(() => import('@/sections/TractoCamion3D'));
-const Speakers = lazy(() => import('@/sections/Speakers'));
+/* ═══════════════════════════════════════════
+   LAZY — Below the fold (loaded on demand)
+   Reduces initial bundle by ~60KB+ gzipped
+   ═══════════════════════════════════════════ */
+const Brands        = lazy(() => import('@/sections/Brands'));
+const Audience      = lazy(() => import('@/sections/Audience'));
+const TractoCamion3D= lazy(() => import('@/sections/TractoCamion3D'));
+const Tracks        = lazy(() => import('@/sections/Tracks'));
+const Speakers      = lazy(() => import('@/sections/Speakers'));
+const Testimonials  = lazy(() => import('@/sections/Testimonials'));
+const Agenda        = lazy(() => import('@/sections/Agenda'));
+const Venue         = lazy(() => import('@/sections/Venue'));
+const Pricing       = lazy(() => import('@/sections/Pricing'));
+const FAQ           = lazy(() => import('@/sections/FAQ'));
+
+/* Componentes que se usan dentro de secciones lazy */
+const ParticleField = lazy(() => import('@/components/ParticleField'));
 
 function SectionLoader() {
   return (
-    <div className="min-h-[400px] bg-black flex items-center justify-center">
-      <div className="flex flex-col items-center gap-3">
-        <div className="w-8 h-8 border-2 border-[#E31E24] border-t-transparent rounded-full animate-spin" />
-        <p className="font-mono text-[10px] text-white/40 tracking-wider uppercase">Cargando...</p>
-      </div>
+    <div className="min-h-[400px] bg-temacon-offwhite flex items-center justify-center">
+      <div className="w-8 h-8 border-2 border-[#E31E24] border-t-transparent rounded-full animate-spin" />
     </div>
   );
 }
@@ -51,74 +56,68 @@ function App() {
 
   return (
     <div className="min-h-screen bg-temacon-offwhite">
-      {/* 6. Custom Cursor */}
       <CustomCursor />
 
-      {/* Cookie consent banner — se revela despues del preloader */}
       {preloaderDone && <CookieConsentReveal />}
-
-      {/* Zoho Integration: SalesIQ Chatbot — carga despues del preloader */}
       {preloaderDone && <ZohoIntegration />}
-
-      {/* Section Indicator HUD — arriba del chatbot */}
       {preloaderDone && <SectionIndicator />}
-
-      {/* Botón Volver Arriba con progress ring */}
       {preloaderDone && <ScrollToTop />}
 
-      {/* 1. Preloader */}
       {!preloaderDone && <Preloader onComplete={handlePreloaderComplete} />}
 
       <Navigation />
       <main>
-        {/* 2. Hero 3D — Flota Interactiva */}
+        {/* CRITICAL PATH — eager loaded */}
         <Hero3D />
-
-        {/* Intro */}
         <Intro />
-
-        {/* 3. Flujo de Mantenimiento Dinámico */}
         <FlujoMantenimiento />
 
-        {/* 10. Marcas Confirmadas */}
-        <Brands />
+        {/* LAZY — below the fold */}
+        <Suspense fallback={<SectionLoader />}>
+          <Brands />
+        </Suspense>
 
-        {/* 4. ¿A Quién Vas a Conocer? */}
-        <Audience />
+        <Suspense fallback={<SectionLoader />}>
+          <Audience />
+        </Suspense>
 
-        {/* 5. Tractocamión 3D Interactivo — Lazy loaded */}
         <Suspense fallback={<SectionLoader />}>
           <TractoCamion3D />
         </Suspense>
 
-        {/* 6. Tracks — con partículas de fondo */}
-        <div className="relative">
-          <ParticleField />
-          <Tracks />
-        </div>
+        <Suspense fallback={<SectionLoader />}>
+          <div className="relative">
+            <ParticleField />
+            <Tracks />
+          </div>
+        </Suspense>
 
-        {/* 7. Speakers — Lazy loaded + partículas */}
-        <div className="relative">
-          <ParticleField />
-          <Suspense fallback={<SectionLoader />}>
+        <Suspense fallback={<SectionLoader />}>
+          <div className="relative">
+            <ParticleField />
             <Speakers />
-          </Suspense>
-        </div>
+          </div>
+        </Suspense>
 
-        {/* 9. Testimoniales Máquina de Escribir */}
-        <Testimonials />
+        <Suspense fallback={<SectionLoader />}>
+          <Testimonials />
+        </Suspense>
 
-        {/* 8. Agenda TEMACON 2026 */}
-        <Agenda />
+        <Suspense fallback={<SectionLoader />}>
+          <Agenda />
+        </Suspense>
 
-        {/* Venue */}
-        <Venue />
+        <Suspense fallback={<SectionLoader />}>
+          <Venue />
+        </Suspense>
 
-        {/* Pricing */}
-        <Pricing />
+        <Suspense fallback={<SectionLoader />}>
+          <Pricing />
+        </Suspense>
 
-        {/* FAQ — SEO content */}
-        <FAQ />
+        <Suspense fallback={<SectionLoader />}>
+          <FAQ />
+        </Suspense>
       </main>
 
       <Footer />
