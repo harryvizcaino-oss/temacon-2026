@@ -1,9 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
-import { X, Loader2 } from 'lucide-react';
+import { createPortal } from 'react-dom';
+import { X, Loader2, CheckCircle, Mail, Calendar } from 'lucide-react';
 
 /**
  * PurchaseModal — Widget INLINE de Zoho Backstage
- * Full-screen modal para compra de tickets
+ * Con pantalla de compra exitosa
  */
 
 interface PurchaseModalProps {
@@ -13,8 +14,16 @@ interface PurchaseModalProps {
 
 export default function PurchaseModal({ isOpen, onClose }: PurchaseModalProps) {
   const [scriptsReady, setScriptsReady] = useState(false);
+  const [orderCompleted, setOrderCompleted] = useState(false);
   const scriptsAdded = useRef(false);
   const initAttempts = useRef(0);
+
+  // Reset orderCompleted cuando se abre el modal
+  useEffect(() => {
+    if (isOpen) {
+      setOrderCompleted(false);
+    }
+  }, [isOpen]);
 
   // Cargar scripts de Zoho Backstage
   useEffect(() => {
@@ -87,6 +96,7 @@ export default function PurchaseModal({ isOpen, onClose }: PurchaseModalProps) {
             },
             onOrderComplete: function () {
               console.log('Compra completada');
+              setOrderCompleted(true);
             },
             onClose: function () {
               console.log('Widget cerrado');
@@ -117,41 +127,104 @@ export default function PurchaseModal({ isOpen, onClose }: PurchaseModalProps) {
 
   if (!isOpen) return null;
 
-  return (
-    <div className="fixed inset-0 z-[200] flex items-center justify-center">
+  return createPortal(
+    <div className="fixed inset-0 z-[200]">
       {/* Backdrop */}
       <div className="absolute inset-0 bg-black/90 backdrop-blur-sm" onClick={onClose} />
 
       {/* Modal */}
-      <div className="relative w-[100vw] h-[100dvh] sm:w-[95vw] sm:h-[95vh] sm:max-w-[1100px] bg-white rounded-none sm:rounded-xl shadow-2xl overflow-hidden flex flex-col">
+      <div className="absolute inset-0 overflow-hidden flex flex-col bg-white">
 
         {/* Header */}
-        <div className="flex items-center justify-between px-4 sm:px-6 py-3 bg-[#0a0a0a] border-b border-[#E31E24]/20 shrink-0">
+        <div className="flex items-center justify-between px-4 sm:px-6 py-3 bg-[#0a0a0a] border-b border-[#E31E24]/20 shrink-0 z-10">
           <div className="flex items-center gap-2">
-            <span className="font-display text-sm sm:text-base text-white">TEMACON <span className="text-[#E31E24]">2026</span></span>
-            <span className="font-mono text-[8px] sm:text-[10px] text-white/40 tracking-wider">· ADQUIRIR INGRESO</span>
+            <span className="font-display text-sm sm:text-base text-white">
+              TEMACON <span className="text-[#E31E24]">2026</span>
+            </span>
+            <span className="font-mono text-[8px] sm:text-[10px] text-white/40 tracking-wider">
+              · {orderCompleted ? 'COMPRA EXITOSA' : 'ADQUIRIR INGRESO'}
+            </span>
           </div>
           <button onClick={onClose} className="p-2 text-white/40 hover:text-white transition-colors">
             <X size={20} />
           </button>
         </div>
 
-        {/* Zoho Backstage Widget */}
+        {/* Content */}
         <div className="flex-1 overflow-y-auto relative bg-white">
 
           {/* Loading */}
-          {!scriptsReady && (
+          {!scriptsReady && !orderCompleted && (
             <div className="absolute inset-0 flex flex-col items-center justify-center bg-white z-10">
               <Loader2 size={28} className="text-[#E31E24] animate-spin mb-3" />
               <p className="font-mono text-xs text-black/50 tracking-wider">CARGANDO FORMULARIO...</p>
             </div>
           )}
 
-          {/* Widget container */}
-          <div id="zbs-register-widget-section" className="w-full min-h-full" />
+          {/* ═══════════════════════════════════════════
+              PANTALLA DE COMPRA EXITOSA
+              ═══════════════════════════════════════════ */}
+          {orderCompleted && (
+            <div className="absolute inset-0 flex flex-col items-center justify-center bg-white z-20 p-6 sm:p-10">
+              {/* Success icon */}
+              <div className="w-20 h-20 sm:w-24 sm:h-24 bg-[#E31E24]/10 rounded-full flex items-center justify-center mb-6">
+                <CheckCircle size={48} className="text-[#E31E24]" />
+              </div>
+
+              {/* Title */}
+              <h2 className="font-display text-2xl sm:text-3xl text-black text-center mb-3">
+                ¡Compra Exitosa!
+              </h2>
+
+              {/* Thank you message */}
+              <p className="text-sm sm:text-base text-black/60 text-center max-w-md mb-8 leading-relaxed">
+                Gracias por ser parte de <strong className="text-[#E31E24]">TEMACON 2026</strong>. Tu registro ha sido procesado correctamente.
+              </p>
+
+              {/* Info cards */}
+              <div className="w-full max-w-sm space-y-3 mb-8">
+                <div className="flex items-start gap-3 bg-black/[0.03] rounded-xl p-4 border border-black/[0.06]">
+                  <Mail size={18} className="text-[#E31E24] flex-shrink-0 mt-0.5" />
+                  <div>
+                    <p className="font-display text-sm text-black font-medium">Revisa tu correo electrónico</p>
+                    <p className="text-xs text-black/50 mt-1">
+                      Enviaremos tu ticket de activación y toda la información del evento al correo registrado.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-3 bg-black/[0.03] rounded-xl p-4 border border-black/[0.06]">
+                  <Calendar size={18} className="text-[#E31E24] flex-shrink-0 mt-0.5" />
+                  <div>
+                    <p className="font-display text-sm text-black font-medium">1-2 de Septiembre, 2026</p>
+                    <p className="text-xs text-black/50 mt-1">
+                      Cámara de Comercio de Bogotá, Sede Salitre. Te esperamos.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* CTA Close */}
+              <button
+                onClick={onClose}
+                className="w-full max-w-sm py-3 bg-[#E31E24] text-white rounded-full font-display font-semibold text-sm hover:bg-black hover:text-white transition-all duration-300 shadow-lg shadow-[#E31E24]/20"
+              >
+                Cerrar
+              </button>
+
+              {/* Footer note */}
+              <p className="mt-4 font-mono text-[9px] text-black/30 tracking-wider text-center">
+                ¿Preguntas? Escríbenos a contacto@tiendacamion.com
+              </p>
+            </div>
+          )}
+
+          {/* Widget container — oculto cuando la orden está completa */}
+          <div id="zbs-register-widget-section" className={`w-full min-h-full ${orderCompleted ? 'hidden' : ''}`} />
 
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }

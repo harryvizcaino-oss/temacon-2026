@@ -20,8 +20,8 @@ const VENUE = {
   hours: '8:00 AM - 6:00 PM',
   airport: 'Aeropuerto El Dorado (BOG)',
   airportTime: '15 min en taxi',
-  hotel: 'Hilton Bogotá Corferias',
-  hotelTime: '5 min caminando',
+  hotel: 'GHL Hotel Capital · 5 min',
+  hotelTime: 'El más cercano caminando',
 };
 
 const INFO_CARDS = [
@@ -193,13 +193,13 @@ export default function Venue() {
             <p className="font-display text-lg text-black">{VENUE.airport} → {VENUE.building}</p>
           </div>
           <a
-            href="https://www.google.com/maps/dir/Aeropuerto+Internacional+El+Dorado,+Bogot%C3%A1/C%C3%A1mara+de+Comercio+de+Bogot%C3%A1,+Av.+El+Dorado+%2368D-35,+Bogot%C3%A1/"
+            href="https://www.google.com/maps/search/hoteles+cerca+C%C3%A1mara+de+Comercio+de+Bogot%C3%A1+Av+El+Dorado/"
             target="_blank"
             rel="noopener noreferrer"
             className="hidden sm:flex items-center gap-2 bg-[#E31E24] hover:bg-white text-white hover:text-[#E31E24] px-4 py-2.5 rounded-lg font-mono text-xs transition-all"
           >
-            <ExternalLink size={14} />
-            Abrir en Google Maps
+            <Hotel size={14} />
+            Alojamiento Cerca
           </a>
         </div>
 
@@ -276,25 +276,89 @@ export default function Venue() {
           <div className="absolute bottom-4 right-4 w-6 h-6 border-r-2 border-b-2 border-[#E31E24]/30" />
         </div>
 
+        {/* ═══════════════════════════════════════════
+           ALOJAMIENTO CERCA — 3 hoteles más cercanos
+           ═══════════════════════════════════════════ */}
+        <div className="mt-10 mb-6">
+          <div className="flex items-center gap-2 mb-4">
+            <Hotel size={16} className="text-[#E31E24]" />
+            <p className="font-mono text-[10px] tracking-[0.3em] text-[#E31E24] uppercase">Alojamiento Cerca</p>
+          </div>
+          <p className="font-display text-lg text-black mb-4">Hoteles recomendados a pocos minutos caminando</p>
+
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            {/* Hotel 1 */}
+            <a
+              href="https://www.google.com/maps/place/GHL+Hotel+Capital+Bogot%C3%A1/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group bg-white border border-black/[0.08] rounded-xl p-4 hover:border-[#E31E24]/40 hover:shadow-lg hover:shadow-[#E31E24]/5 transition-all"
+            >
+              <div className="flex items-center justify-between mb-2">
+                <p className="font-display text-sm text-black group-hover:text-[#E31E24] transition-colors">GHL Hotel Capital</p>
+                <span className="font-mono text-[9px] bg-[#E31E24]/10 text-[#E31E24] px-2 py-0.5 rounded-full">★★★★</span>
+              </div>
+              <div className="flex items-center gap-1.5 text-black/40">
+                <Navigation size={12} className="text-[#E31E24]" />
+                <span className="font-mono text-[10px]">5 min caminando · 400 m</span>
+              </div>
+            </a>
+
+            {/* Hotel 2 */}
+            <a
+              href="https://www.google.com/maps/place/Bogota+Marriott+Hotel/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group bg-white border border-black/[0.08] rounded-xl p-4 hover:border-[#E31E24]/40 hover:shadow-lg hover:shadow-[#E31E24]/5 transition-all"
+            >
+              <div className="flex items-center justify-between mb-2">
+                <p className="font-display text-sm text-black group-hover:text-[#E31E24] transition-colors">Bogota Marriott Hotel</p>
+                <span className="font-mono text-[9px] bg-[#E31E24]/10 text-[#E31E24] px-2 py-0.5 rounded-full">★★★★★</span>
+              </div>
+              <div className="flex items-center gap-1.5 text-black/40">
+                <Navigation size={12} className="text-[#E31E24]" />
+                <span className="font-mono text-[10px]">6 min caminando · 450 m</span>
+              </div>
+            </a>
+
+            {/* Hotel 3 */}
+            <a
+              href="https://www.google.com/maps/place/Sheraton+Bogota+Hotel/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group bg-white border border-black/[0.08] rounded-xl p-4 hover:border-[#E31E24]/40 hover:shadow-lg hover:shadow-[#E31E24]/5 transition-all"
+            >
+              <div className="flex items-center justify-between mb-2">
+                <p className="font-display text-sm text-black group-hover:text-[#E31E24] transition-colors">Sheraton Bogotá Hotel</p>
+                <span className="font-mono text-[9px] bg-[#E31E24]/10 text-[#E31E24] px-2 py-0.5 rounded-full">★★★★</span>
+              </div>
+              <div className="flex items-center gap-1.5 text-black/40">
+                <Navigation size={12} className="text-[#E31E24]" />
+                <span className="font-mono text-[10px]">7 min caminando · 550 m</span>
+              </div>
+            </a>
+          </div>
+        </div>
+
         {/* CTA Buttons */}
-        <div className="mt-6 flex flex-col sm:flex-row items-center gap-3">
+        <div className="flex flex-col sm:flex-row items-center gap-3">
           <a
-            href="https://www.google.com/maps/dir/Aeropuerto+Internacional+El+Dorado,+Bogot%C3%A1/C%C3%A1mara+de+Comercio+de+Bogot%C3%A1,+Av.+El+Dorado+%2368D-35,+Bogot%C3%A1/"
+            href="https://www.google.com/maps/search/hoteles+cerca+C%C3%A1mara+de+Comercio+de+Bogot%C3%A1+Av+El+Dorado/"
             target="_blank"
             rel="noopener noreferrer"
             className="w-full sm:w-auto flex items-center justify-center gap-2 bg-[#E31E24] hover:bg-white text-white hover:text-[#E31E24] px-6 py-3.5 rounded-lg font-mono text-sm transition-all"
           >
-            <ExternalLink size={16} />
-            Ver ruta en Google Maps
+            <Hotel size={16} />
+            Ver más opciones de alojamiento
           </a>
           <a
-            href="https://www.google.com/maps/place/C%C3%A1mara+de+Comercio+de+Bogot%C3%A1/@4.6483,-74.1093,17z"
+            href="https://www.google.com/maps/dir/Aeropuerto+Internacional+El+Dorado,+Bogot%C3%A1/C%C3%A1mara+de+Comercio+de+Bogot%C3%A1,+Av.+El+Dorado+%2368D-35,+Bogot%C3%A1/"
             target="_blank"
             rel="noopener noreferrer"
-            className="w-full sm:w-auto flex items-center justify-center gap-2 bg-white/5 hover:bg-black/10 text-white/70 hover:text-white px-6 py-3.5 rounded-lg font-mono text-sm border border-white/10 transition-all"
+            className="w-full sm:w-auto flex items-center justify-center gap-2 bg-white hover:bg-black/5 text-black/70 hover:text-black px-6 py-3.5 rounded-lg font-mono text-sm border border-black/10 transition-all"
           >
-            <MapPin size={16} />
-            Ver en Street View
+            <ExternalLink size={16} />
+            Ver ruta desde el aeropuerto
           </a>
         </div>
       </div>
