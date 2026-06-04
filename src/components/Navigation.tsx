@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { Menu, X, ChevronRight } from 'lucide-react';
+import { Menu, X, ChevronRight, Sparkles } from 'lucide-react';
 
 /* ═══════════════════════════════════════════════════════════════
    NAVIGATION — Desktop + Mobile menu with all sections
@@ -117,6 +117,24 @@ export default function Navigation() {
               FAQ
               <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-[#E31E24] rounded-full transition-all duration-300 group-hover:w-full" />
             </a>
+
+            {/* Boton llamativo: Por que Asistir */}
+            <a
+              href="#testimonials"
+              className={`relative flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-bold transition-all duration-300 overflow-hidden ${
+                logoDark
+                  ? 'bg-[#E31E24] text-white hover:bg-black hover:shadow-lg hover:shadow-[#E31E24]/20'
+                  : 'bg-white text-[#E31E24] hover:bg-[#E31E24] hover:text-white hover:shadow-lg hover:shadow-white/20'
+              }`}
+            >
+              <Sparkles size={14} className="animate-pulse" />
+              <span className="whitespace-nowrap">¿Por qué Asistir?</span>
+              <span className="absolute -top-0.5 -right-0.5 flex h-2.5 w-2.5">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-yellow-400 opacity-75" />
+                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-yellow-400" />
+              </span>
+            </a>
+
             <a
               href="#brands"
               className="border border-[#E31E24]/60 text-[#E31E24] px-4 py-2 rounded-full text-sm font-semibold hover:bg-[#E31E24] hover:text-white transition-all duration-300"
@@ -180,7 +198,20 @@ export default function Navigation() {
 
           {/* Content — 13 secciones en orden */}
           <div className="overflow-y-auto flex-1">
-            <div className="px-4 pt-3 pb-1 flex items-center justify-between">
+            {/* Boton destacado: Por que Asistir */}
+            <div className="px-3 pt-3 pb-2">
+              <a
+                href="#testimonials"
+                onClick={() => setMobileOpen(false)}
+                className="flex items-center gap-2 bg-[#E31E24] text-white px-4 py-3 rounded-xl font-display font-bold text-[14px] hover:bg-[#c41a20] transition-all shadow-lg shadow-[#E31E24]/30"
+              >
+                <Sparkles size={16} className="flex-shrink-0" />
+                <span>¿Por qué Asistir?</span>
+                <span className="ml-auto font-mono text-[8px] bg-white/20 px-2 py-0.5 rounded-full">12 razones</span>
+              </a>
+            </div>
+
+            <div className="px-4 pt-2 pb-1 flex items-center justify-between">
               <p className="font-mono text-[8px] text-[#E31E24] tracking-[0.3em] uppercase">
                 Secciones
               </p>
@@ -215,6 +246,14 @@ export default function Navigation() {
 
           {/* CTA */}
           <div className="px-3 py-2 border-t border-white/10 bg-[#0a0a0a] flex flex-col gap-[6px]">
+            <a
+              href="#testimonials"
+              className="flex items-center justify-center gap-1.5 bg-[#E31E24] text-white py-[7px] rounded-lg font-display font-bold text-[12px] leading-tight hover:bg-white hover:text-[#E31E24] transition-all"
+              onClick={() => setMobileOpen(false)}
+            >
+              <Sparkles size={13} />
+              ¿Por qué Asistir?
+            </a>
             <a
               href="#brands"
               className="flex items-center justify-center gap-1 border border-[#E31E24]/60 text-[#E31E24] py-[7px] rounded-lg font-display font-semibold text-[12px] leading-tight hover:bg-[#E31E24] hover:text-white transition-all"

@@ -156,10 +156,10 @@ export default function Testimonials() {
             </div>
           </div>
 
-          {/* Testimonial text — fixed height */}
-          <div className="h-[140px] sm:h-[160px] lg:h-[180px] flex items-center justify-center overflow-hidden">
-            <p className="font-display text-t4 lg:text-t3 text-temacon-black text-center leading-snug line-clamp-4 px-4">
-              "<TypeWriter key={activeIndex} text={t.text} isActive={isVisible} speed={30} />"
+          {/* Testimonial text — altura flexible para que la frase siempre quepa */}
+          <div className="min-h-[200px] sm:min-h-[220px] lg:min-h-[240px] flex items-center justify-center">
+            <p className="font-display text-t4 lg:text-t3 text-temacon-black text-center leading-snug line-clamp-5 px-4">
+              "<TypeWriter key={activeIndex} text={t.text} isActive={isVisible} speed={55} />"
             </p>
           </div>
 
