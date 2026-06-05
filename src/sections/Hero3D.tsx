@@ -100,7 +100,11 @@ const Hero3D = memo(function Hero3D() {
 
         {/* TOP: Countdown */}
         <div className="shrink-0 flex flex-col items-center text-center mb-2">
-          <p className="font-mono text-[10px] lg:text-xs tracking-[0.3em] text-white/40 uppercase mb-1">
+          {/* Mobile: fecha en 2 lineas / Desktop: 1 linea */}
+          <p className="font-mono text-[10px] lg:text-xs tracking-[0.3em] text-white/40 uppercase mb-1 sm:hidden">
+            1-2 Septiembre 2026<br/>Bogotá, Colombia
+          </p>
+          <p className="hidden sm:block font-mono text-[10px] lg:text-xs tracking-[0.3em] text-white/40 uppercase mb-1">
             1-2 Septiembre 2026 · Bogotá, Colombia
           </p>
           <div className="flex items-center gap-2 sm:gap-3">
@@ -136,27 +140,38 @@ const Hero3D = memo(function Hero3D() {
           </div>
         </div>
 
-        {/* Aliados barra */}
+        {/* Aliados barra — imagen sola, sin contenedor con borde */}
         <div className="shrink-0 mb-2">
-          <div className="bg-white/95 rounded-lg px-4 py-2 shadow-lg">
-            <img
-              src="/aliados-organiza.png"
-              alt="Aliados Estratégicos: LOGYCA, FEDETRANSCARGA, 10 años de historia · Organiza: TIENDACAMION"
-              className="w-[70vw] sm:w-[50vw] lg:w-[30vw] max-w-[420px] object-contain"
-              style={{ maxHeight: '55px' }}
-              loading="lazy"
-            />
-          </div>
+          <img
+            src="/aliados-organiza.png"
+            alt="Aliados Estratégicos: LOGYCA, FEDETRANSCARGA, 10 años de historia · Organiza: TIENDACAMION"
+            className="w-[95vw] sm:w-[68vw] lg:w-[50vw] max-w-[700px] h-auto object-contain"
+            loading="lazy"
+          />
         </div>
 
         {/* BOTTOM: ES HORA DE + CTA */}
         <div className="shrink-0 flex flex-col items-center text-center pb-5">
-          <h1 className="font-display text-xl sm:text-3xl lg:text-4xl text-white leading-tight mb-1">
-            ES HORA DE <span className="text-[#E31E24]">TRANSFORMAR</span>
-          </h1>
-          <p className="font-mono text-[8px] sm:text-[9px] lg:text-[10px] text-white/30 tracking-wider mb-2">
-            TECNOLOGÍA · MANTENIMIENTO · CONFIABILIDAD · TRANSPORTE DE CARGA
-          </p>
+          {/* Desktop title */}
+          <div className="hidden sm:block">
+            <h1 className="font-display text-3xl lg:text-4xl text-white leading-tight mb-1">
+              ES HORA DE <span className="text-[#E31E24]">TRANSFORMAR</span>
+            </h1>
+            <p className="font-mono text-[9px] lg:text-[10px] text-white/30 tracking-wider mb-3">
+              TECNOLOGÍA · MANTENIMIENTO · CONFIABILIDAD · TRANSPORTE DE CARGA
+            </p>
+          </div>
+          {/* Mobile title — multi-line */}
+          <div className="sm:hidden">
+            <h1 className="font-display text-xl text-white leading-tight mb-1">
+              ES HORA DE <span className="text-[#E31E24]">TRANSFORMAR</span>
+            </h1>
+            <p className="font-mono text-[8px] text-white/30 tracking-wider leading-relaxed">
+              TECNOLOGÍA · MANTENIMIENTO · CONFIABILIDAD<br/>
+              TRANSPORTE DE CARGA
+            </p>
+          </div>
+          <div className="h-3" />
           <a
             href="#pricing"
             className="bg-[#E31E24] text-white px-5 sm:px-8 py-2.5 rounded-full font-display text-sm sm:text-base font-semibold hover:bg-white hover:text-[#E31E24] transition-all duration-300 shadow-lg shadow-[#E31E24]/30"

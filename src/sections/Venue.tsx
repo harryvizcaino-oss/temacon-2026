@@ -58,107 +58,83 @@ export default function Venue() {
 
   return (
     <section id="venue" ref={sectionRef} className="relative bg-[#f2f2f2] overflow-hidden" data-nav-light>
-      {/* Header — above the image */}
-      <div className="text-center pt-12 pb-6">
+      {/* ═══════════════════════════════════════════
+         HEADER
+         ═══════════════════════════════════════════ */}
+      <div className="text-center pt-16 pb-8">
         <p className="font-mono text-[10px] tracking-[0.4em] text-[#E31E24] uppercase mb-3">
           Centro de Operaciones
         </p>
         <h2 className="font-display text-4xl lg:text-5xl text-black tracking-tight">
-          Sede del evento de tecnología para camiones en <span className="text-[#E31E24]">Bogotá 2026</span>
+          Sede del evento
         </h2>
-        <p className="mt-3 text-sm text-black/50 max-w-md mx-auto">
-          1-2 Septiembre 2026 · Bogotá, Colombia · Cámara de Comercio
+        <p className="font-mono text-xs tracking-[0.2em] text-[#E31E24] mt-2">
+          #TEMACON2026
         </p>
       </div>
 
       {/* ═══════════════════════════════════════════
-         Venue Photo
+         VENUE HERO — Imagen real del auditorio
          ═══════════════════════════════════════════ */}
-      <div ref={photoRef} className="relative w-full h-[40vh] sm:h-[55vh] lg:h-[60vh]">
+      <div ref={photoRef} className="relative w-full h-[50vh] sm:h-[60vh] lg:h-[65vh] mx-auto max-w-[1400px] rounded-2xl overflow-hidden shadow-2xl">
         {/* Photo */}
         <img
           src="/venue.jpg"
-          alt="Cámara de Comercio de Bogotá Sede Salitre"
+          alt="Auditorio Principal Cámara de Comercio de Bogotá — TEMACON 2026"
           className="w-full h-full object-cover"
         />
 
-        {/* Gradient: mobile sutil, desktop fuerte */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent sm:from-black sm:via-black/30 sm:to-transparent" />
-        <div className="hidden sm:block absolute inset-0 bg-gradient-to-r from-black/50 via-transparent to-transparent" />
+        {/* Gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+        <div className="hidden sm:block absolute inset-0 bg-gradient-to-r from-black/40 via-transparent to-transparent" />
 
-        {/* Desktop only: Route info pill */}
-        <div className="hidden sm:block absolute top-6 left-5 lg:top-8 lg:left-8">
-          <div className="bg-black/70 backdrop-blur-md border border-white/10 rounded-xl px-4 py-3">
-            <div className="flex items-center gap-2 mb-1">
-              <Navigation size={14} className="text-[#E31E24]" />
-              <p className="font-mono text-[10px] text-white/50 tracking-wider uppercase">Desde Aeropuerto El Dorado</p>
-            </div>
-            <p className="font-mono text-[10px] text-white/70">hacia {VENUE.building}</p>
-            <div className="mt-2 flex items-center gap-2">
-              <div className="w-5 h-5 bg-white rounded-full flex items-center justify-center">
-                <span className="text-[8px] font-bold text-black">G</span>
-              </div>
-              <span className="font-mono text-[9px] text-white/40">Google Street View · Paso 8 de 8</span>
-            </div>
-          </div>
-        </div>
-
-        {/* Desktop only: Venue name overlay */}
-        <div className="hidden sm:block absolute bottom-6 left-5 lg:bottom-8 lg:left-8 max-w-md">
-          <div className="flex items-center gap-2 mb-2">
-            <div className="w-2 h-2 bg-[#E31E24] rounded-full animate-pulse" />
-            <span className="font-mono text-[10px] text-[#E31E24] tracking-wider uppercase">Sede Oficial TEMACON 2026</span>
-          </div>
-          <h2 className="font-display text-2xl sm:text-3xl lg:text-4xl text-white leading-tight">
-            {VENUE.building}
-          </h2>
-          <p className="font-display text-lg sm:text-xl text-white/60 mt-1">
-            {VENUE.name}
-          </p>
-          <div className="mt-3 flex items-center gap-2 text-white/40">
-            <MapPin size={14} className="text-[#E31E24] flex-shrink-0" />
-            <p className="font-mono text-[11px] sm:text-xs">{VENUE.address}, {VENUE.city}</p>
-          </div>
-        </div>
-
-        {/* Desktop only: Step navigation */}
-        <div className="hidden sm:block absolute bottom-6 right-5 lg:bottom-8 lg:right-8">
-          <div className="bg-black/70 backdrop-blur-md border border-white/10 rounded-lg px-4 py-3">
-            <p className="font-mono text-[10px] text-white/30 mb-2">Paso 8 de 8</p>
-            <p className="font-display text-sm text-white">{VENUE.building}</p>
-            <p className="font-mono text-[10px] text-white/50 mt-1">{VENUE.address}</p>
-            <p className="font-mono text-[10px] text-white/50">{VENUE.city}</p>
-            <div className="mt-3 flex items-center gap-2">
-              <button className="px-3 py-1.5 bg-white/10 hover:bg-white/20 rounded-md font-mono text-[10px] text-white/60 transition-colors flex items-center gap-1">
-                ← Paso anterior
-              </button>
-              <button className="px-3 py-1.5 bg-white/10 hover:bg-white/20 rounded-md font-mono text-[10px] text-white/60 transition-colors flex items-center gap-1">
-                ↻ Reiniciar
-              </button>
-            </div>
-          </div>
-        </div>
-
-        {/* Mobile only: badge sutil arriba */}
-        <div className="sm:hidden absolute top-4 left-4 right-4">
+        {/* Top left — badge */}
+        <div className="absolute top-5 left-5 lg:top-8 lg:left-8">
           <div className="flex items-center gap-2">
             <div className="w-2 h-2 bg-[#E31E24] rounded-full animate-pulse" />
-            <span className="font-mono text-[9px] text-[#E31E24] tracking-wider uppercase">Sede Oficial</span>
+            <span className="font-mono text-[10px] tracking-[0.3em] text-[#E31E24] uppercase">
+              Sede Oficial
+            </span>
           </div>
         </div>
-      </div>
 
-      {/* Mobile only: Venue info debajo de la foto */}
-      <div className="sm:hidden bg-black px-5 py-6">
-        <h2 className="font-display text-xl text-white leading-tight">
-          {VENUE.building}
-        </h2>
-        <p className="font-display text-base text-white/60 mt-0.5">
-          {VENUE.name}
-        </p>
-        <div className="mt-2 flex items-center gap-2 text-white/40">
-          <MapPin size={12} className="text-[#E31E24] flex-shrink-0" />
-          <p className="font-mono text-[10px]">{VENUE.address}, {VENUE.city}</p>
+        {/* Top right — dates pill */}
+        <div className="absolute top-5 right-5 lg:top-8 lg:right-8">
+          <div className="bg-white/10 backdrop-blur-md border border-white/10 rounded-full px-4 py-2">
+            <span className="font-mono text-[10px] text-white/70 tracking-wider">
+              1-2 SEPT 2026 · BOGOTÁ
+            </span>
+          </div>
+        </div>
+
+        {/* Bottom — venue info */}
+        <div className="absolute bottom-6 left-5 right-5 lg:bottom-10 lg:left-8 lg:right-8 flex items-end justify-between">
+          <div className="max-w-lg">
+            <h3 className="font-display text-2xl sm:text-3xl lg:text-4xl text-white leading-tight">
+              {VENUE.building}
+            </h3>
+            <p className="font-display text-base sm:text-lg text-white/50 mt-1">
+              {VENUE.name}
+            </p>
+            <div className="mt-2 flex items-center gap-2">
+              <MapPin size={13} className="text-[#E31E24] flex-shrink-0" />
+              <p className="font-mono text-[10px] sm:text-xs text-white/50">{VENUE.address}, {VENUE.city}</p>
+            </div>
+          </div>
+
+          {/* Desktop: venue card */}
+          <div className="hidden sm:block bg-white/10 backdrop-blur-md border border-white/10 rounded-xl px-5 py-4 flex-shrink-0">
+            <p className="font-mono text-[8px] text-white/40 tracking-wider uppercase mb-1">Auditorio</p>
+            <p className="font-display text-sm text-white mb-2">{VENUE.building}</p>
+            <div className="flex items-center gap-1.5 text-white/40">
+              <MapPin size={11} className="text-[#E31E24]" />
+              <p className="font-mono text-[9px]">{VENUE.address}</p>
+            </div>
+            <div className="flex items-center gap-1.5 text-white/40 mt-1">
+              <Calendar size={11} className="text-[#E31E24]" />
+              <p className="font-mono text-[9px]">{VENUE.dates}</p>
+            </div>
+          </div>
         </div>
       </div>
 

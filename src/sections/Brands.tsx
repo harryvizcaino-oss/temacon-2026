@@ -43,12 +43,16 @@ const BRANDS: BrandItem[] = [
   { name: 'Fleet Complete', logo: '' },
 ];
 
-/* Single brand logo — large and visible */
+/* Single brand logo — blurred si aun no tiene logo */
 function BrandLogo({ brand }: { brand: BrandItem }) {
   const hasLogo = brand.logo && brand.logo.length > 0;
   return (
     <div
-      className="flex-shrink-0 flex items-center justify-center bg-white rounded-xl border border-black/[0.06] hover:border-[#E31E24]/40 hover:shadow-[0_4px_24px_rgba(227,30,36,0.08)] transition-all duration-300"
+      className={`flex-shrink-0 flex items-center justify-center rounded-xl border transition-all duration-300 relative overflow-hidden ${
+        hasLogo
+          ? 'bg-white border-black/[0.06] hover:border-[#E31E24]/40 hover:shadow-[0_4px_24px_rgba(227,30,36,0.08)]'
+          : 'bg-gray-100 border-black/[0.03]'
+      }`}
       style={{ width: 220, height: 140 }}
     >
       {hasLogo ? (
@@ -59,9 +63,12 @@ function BrandLogo({ brand }: { brand: BrandItem }) {
           loading="lazy"
         />
       ) : (
-        <span className="font-display text-lg tracking-wider text-black/70 text-center px-4">
-          {brand.name}
-        </span>
+        <>
+          <span className="font-display text-lg tracking-wider text-black/50 text-center px-4 select-none" style={{ filter: 'blur(5px)' }}>
+            {brand.name}
+          </span>
+          <span className="absolute font-mono text-[8px] tracking-[0.2em] text-black/30 uppercase">Pronto</span>
+        </>
       )}
     </div>
   );
@@ -79,7 +86,7 @@ function LogoMarquee({ brands, reverse = false }: { brands: BrandItem[]; reverse
 
       <div
         className="flex items-center gap-5 w-max"
-        style={{ animation: `marquee${reverse ? 'R' : 'L'} 20s linear infinite` }}
+        style={{ animation: `marquee${reverse ? 'R' : 'L'} 50s linear infinite` }}
       >
         {items.map((brand, i) => (
           <BrandLogo key={`${brand.name}-${i}`} brand={brand} />
@@ -133,7 +140,7 @@ export default function Brands() {
             Marcas <span className="text-[#E31E24]">Confirmadas</span>
           </h2>
           <p className="mt-3 text-sm text-black/40 max-w-md mx-auto">
-            24 marcas líderes respaldan TEMACON 2026.
+            Marcas líderes respaldan TEMACON 2026.
           </p>
 
           {/* CTAs — debajo del texto, antes del carrusel */}

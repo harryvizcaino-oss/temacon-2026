@@ -30,6 +30,8 @@ const Agenda        = lazy(() => import('@/sections/Agenda'));
 const Venue         = lazy(() => import('@/sections/Venue'));
 const Pricing       = lazy(() => import('@/sections/Pricing'));
 const FAQ           = lazy(() => import('@/sections/FAQ'));
+const LinkedInEvent = lazy(() => import('@/sections/LinkedInEvent'));
+const HashtagMarquee = lazy(() => import('@/sections/HashtagMarquee'));
 
 /* Componentes que se usan dentro de secciones lazy */
 const ParticleField = lazy(() => import('@/components/ParticleField'));
@@ -77,6 +79,11 @@ function App() {
           <Brands />
         </Suspense>
 
+        {/* Hashtag Marquee — SEO + visual break */}
+        <Suspense fallback={<SectionLoader />}>
+          <HashtagMarquee />
+        </Suspense>
+
         <Suspense fallback={<SectionLoader />}>
           <Audience />
         </Suspense>
@@ -113,6 +120,11 @@ function App() {
 
         <Suspense fallback={<SectionLoader />}>
           <Pricing />
+        </Suspense>
+
+        {/* LinkedIn Event — antes de FAQ */}
+        <Suspense fallback={<SectionLoader />}>
+          <LinkedInEvent />
         </Suspense>
 
         <Suspense fallback={<SectionLoader />}>

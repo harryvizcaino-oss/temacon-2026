@@ -124,11 +124,6 @@ export default function Audience() {
             <p className="font-display text-3xl text-black">85%</p>
             <p className="font-mono text-[9px] text-black/30 uppercase tracking-wider mt-1">Deciden compras</p>
           </div>
-          <div className="w-px h-8 bg-black/10" />
-          <div className="text-center">
-            <p className="font-display text-3xl text-black">6</p>
-            <p className="font-mono text-[9px] text-black/30 uppercase tracking-wider mt-1">Paises</p>
-          </div>
         </div>
       </div>
     </section>

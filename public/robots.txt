@@ -1,10 +1,17 @@
 User-agent: *
 Allow: /
 
-# Sitemap
+# ═══════════════════════════════════════════
+# SITEMAP — TEMACON 2026
+# ═══════════════════════════════════════════
 Sitemap: https://temacon.tiendacamion.com/sitemap.xml
 
 # Crawl-delay para bots educados
 Crawl-delay: 1
 
+# ═══════════════════════════════════════════
 # Disallow: nada, todo es público
+# ═══════════════════════════════════════════
+
+# Host — canonical domain
+Host: https://temacon.tiendacamion.com

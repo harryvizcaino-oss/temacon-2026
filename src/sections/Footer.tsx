@@ -42,6 +42,10 @@ const EXP_LINKS = [
   { label: 'Flujo de Mantenimiento', href: '#flujo' },
 ];
 
+const EXTERNAL_LINKS = [
+  { label: 'LinkedIn Event', href: 'https://www.linkedin.com/events/temacon20267468427912283721730' },
+];
+
 export default function Footer() {
   return (
     <footer id="footer" className="bg-temacon-mediumgray">
@@ -82,6 +86,21 @@ export default function Footer() {
               className="text-[10px] text-temacon-charcoal/60 hover:text-[#E31E24] transition-colors font-mono"
             >
               {link.label}
+            </a>
+          ))}
+        </div>
+
+        {/* External Links */}
+        <div className="flex items-center justify-center gap-3 mb-3">
+          {EXTERNAL_LINKS.map((link) => (
+            <a
+              key={link.label}
+              href={link.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[10px] font-mono text-[#0a66c2] hover:text-[#E31E24] transition-colors tracking-wider"
+            >
+              {link.label} ↗
             </a>
           ))}
         </div>

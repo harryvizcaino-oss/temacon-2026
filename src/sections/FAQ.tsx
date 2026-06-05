@@ -12,44 +12,48 @@ gsap.registerPlugin(ScrollTrigger);
 
 const FAQS = [
   {
-    q: '¿Qué es TEMACON 2026 y por qué es el evento más importante de tecnología para camiones en Colombia?',
-    a: 'TEMACON 2026 es el evento líder de Latinoamérica dedicado a la tecnología, mantenimiento y confiabilidad para el transporte de carga. Reúne a más de 400 profesionales del sector camionero, 12 conferencistas internacionales y 24 marcas líderes en tecnología para flotas. Se realiza los días 1 y 2 de septiembre de 2026 en Bogotá, Colombia.',
+    q: '¿Qué es TEMACON 2026 y por qué es el evento más importante de Tecnología, Mantenimiento y Confiabilidad para el transporte de carga en Colombia?',
+    a: 'TEMACON 2026 es el Evento de Tecnología, Mantenimiento y Confiabilidad líder de Latinoamérica para el transporte de carga. Reúne a más de 400 profesionales del sector transporte de carga y sus líderes de tecnología, mantenimiento y confiabilidad, 12 conferencistas nacionales y marcas líderes en tecnología para flotas. Se realiza los días 1 y 2 de septiembre de 2026 en Bogotá, Colombia.',
   },
   {
-    q: '¿Quién puede asistir al evento de mantenimiento predictivo para flotas de transporte?',
-    a: 'TEMACON está dirigido a directores de flota, jefes de mantenimiento, ingenieros de confiabilidad, gerentes de logística, técnicos especializados en vehículos pesados, contratistas de transporte y cualquier profesional del sector camionero interesado en tecnología, mantenimiento predictivo y optimización de flotas.',
+    q: '¿Por qué debería participar como empresa en TEMACON 2026?',
+    a: 'Participar en TEMACON te da 4 ventajas clave: 1) Proyección nacional — Tu marca gana exposición directa ante flotas y empresas de transporte de carga de toda Colombia. 2) Generación de negocios — Abres un canal comercial directo interactuando con usuarios que evalúan y solicitan cotizaciones de repuestos y servicios. 3) Posicionamiento de confianza — Te consolidas como referente prioritario en confiabilidad, colocando tu propuesta como primera opción. 4) Cierre por recomendación — La venta en carga pesada se define en el taller, y cuando el área operativa valida tu solución, la negociación con la alta dirección se acelera y la objeción técnica desaparece.',
   },
   {
-    q: '¿Cuánto cuesta la entrada al evento de tecnología para transporte de carga en Bogotá?',
-    a: 'El precio general del evento es de $400,000 COP + IVA. Incluye acceso a los 2 días del evento, todas las conferencias, la muestra comercial, coffee breaks, almuerzo tipo BOX y certificado de participación digital.',
+    q: '¿Quién puede asistir al Evento de Tecnología, Mantenimiento y Confiabilidad TEMACON 2026?',
+    a: 'TEMACON está dirigido a directores de flota, jefes de mantenimiento, ingenieros de confiabilidad, gerentes de logística, técnicos especializados en vehículos pesados, contratistas de transporte y cualquier profesional del sector transporte de carga interesado en tecnología, mantenimiento predictivo y optimización de flotas.',
   },
   {
-    q: '¿Qué temas se tratan en los tracks de mantenimiento y confiabilidad vehicular?',
-    a: 'Los 7 tracks de TEMACON 2026 cubren: Telemática y Flotas Conectadas, Mantenimiento Predictivo con IA, Confiabilidad Vehicular y RCM, Gestión de Flotas y KPIs, Tecnología en Frenos y Suspensión, Diagnóstico Electrónico y SCR, y Gestión de Llantas y Eficiencia Energética. Cada track cuenta con conferencistas especializados de Colombia, México, Chile y Brasil.',
+    q: '¿Cuánto cuesta la entrada al Evento de Tecnología, Mantenimiento y Confiabilidad para transporte de carga TEMACON 2026?',
+    a: 'El precio general del evento es de $399,000 COP + IVA. Incluye acceso a los 2 días del evento, todas las conferencias, la muestra comercial, coffee breaks, almuerzo tipo BOX y certificado de participación digital.',
   },
   {
-    q: '¿Dónde y cuándo se realiza el evento de logística y transporte de carga TEMACON 2026?',
-    a: 'TEMACON 2026 se realiza los días 1 y 2 de septiembre de 2026 en Bogotá, Colombia. La sede es la Cámara de Comercio de Bogotá en la Avenida El Dorado. El horario de apertura es 8:00 AM y cierra a las 6:00 PM.',
+    q: '¿Qué temas se tratan en los tracks del Evento de Tecnología, Mantenimiento y Confiabilidad TEMACON 2026?',
+    a: 'Los 7 tracks de TEMACON 2026 cubren: Telemática y Flotas Conectadas, Mantenimiento Predictivo con IA, Confiabilidad Vehicular y RCM, Gestión de Flotas y KPIs, Tecnología en Frenos y Suspensión, Diagnóstico Electrónico y SCR, y Gestión de Llantas y Eficiencia Energética.',
   },
   {
-    q: '¿Cómo puedo patrocinar el evento de tecnología para camiones más importante de Latinoamérica?',
-    a: 'Para patrocinar TEMACON 2026, puedes contactarnos directamente por WhatsApp al +57 311 378 2522 o escribir a contacto@tiendacamion.com. Ofrecemos diferentes niveles de patrocinio con acceso a la muestra comercial, branding en materiales del evento y oportunidades de networking con directores de flota de las principales empresas de transporte de Colombia.',
+    q: '¿Dónde y cuándo se realiza el Evento de Tecnología, Mantenimiento y Confiabilidad TEMACON 2026?',
+    a: 'TEMACON 2026, el Evento de Tecnología, Mantenimiento y Confiabilidad para el transporte de carga, se realiza los días 1 y 2 de septiembre de 2026 en Bogotá, Colombia. La sede es la Cámara de Comercio de Bogotá en la Avenida El Dorado. El horario de apertura es 8:00 AM y cierra a las 6:00 PM.',
+  },
+  {
+    q: '¿Cómo puedo patrocinar el Evento de Tecnología, Mantenimiento y Confiabilidad más importante de Latinoamérica?',
+    a: 'Para patrocinar TEMACON 2026, el Evento de Tecnología, Mantenimiento y Confiabilidad para el transporte de carga, puedes contactarnos directamente por WhatsApp al +57 311 378 2522 o escribir a contacto@tiendacamion.com. Ofrecemos diferentes niveles de patrocinio con acceso a la muestra comercial, branding en materiales del evento y oportunidades de networking con directores de flota de las principales empresas de transporte de Colombia.',
   },
   {
     q: '¿Qué es el mantenimiento predictivo y cómo ayuda a reducir costos en flotas de camiones?',
-    a: 'El mantenimiento predictivo es una estrategia que utiliza sensores IoT, telemática y análisis de datos para anticipar fallas antes de que ocurran. En TEMACON 2026 aprenderás cómo las flotas que implementan mantenimiento predictivo reducen en promedio un 30% sus costos operativos, disminuyen el downtime y extienden la vida útil de sus vehículos pesados.',
+    a: 'El mantenimiento predictivo es una estrategia que utiliza sensores IoT, telemática y análisis de datos para anticipar fallas antes de que ocurran. En TEMACON 2026, el Evento de Tecnología, Mantenimiento y Confiabilidad, aprenderás cómo las flotas que implementan mantenimiento predictivo reducen en promedio un 30% sus costos operativos, disminuyen el downtime y extienden la vida útil de sus vehículos pesados.',
   },
   {
-    q: '¿Cuáles son las tendencias de tecnología para el transporte de carga en 2026?',
-    a: 'Las principales tendencias que se discuten en TEMACON incluyen: inteligencia artificial para mantenimiento predictivo, vehículos conectados con telemática avanzada, gestión de flotas en tiempo real, sistemas ADAS para camiones, economía circular en repuestos, combustibles alternativos, electrificación de flotas y normativas de emisiones para vehículos pesados en Colombia.',
+    q: '¿Cuáles son las tendencias de Tecnología, Mantenimiento y Confiabilidad para el transporte de carga en 2026?',
+    a: 'Las principales tendencias que se discuten en TEMACON 2026, el Evento de Tecnología, Mantenimiento y Confiabilidad, incluyen: inteligencia artificial para mantenimiento predictivo, vehículos conectados con telemática avanzada, gestión de flotas en tiempo real, sistemas ADAS para camiones, economía circular en repuestos, combustibles alternativos, electrificación de flotas y normativas de emisiones para vehículos pesados en Colombia.',
   },
   {
-    q: '¿Cómo me registro para el evento de transporte de carga TEMACON 2026?',
+    q: '¿Cómo me registro para el Evento de Tecnología, Mantenimiento y Confiabilidad TEMACON 2026?',
     a: 'Puedes registrarte directamente en esta página haciendo clic en el botón "Adquirir Ingreso Ahora". El proceso es simple: seleccionas tus tickets, completas tus datos y realizas el pago seguro. Una vez confirmada la compra, recibirás tu pase digital por correo electrónico.',
   },
   {
-    q: '¿Qué marcas y empresas participan en la muestra comercial de tecnología para camiones?',
-    a: 'La muestra comercial de TEMACON 2026 reúne a las marcas líderes del sector: proveedores de telemática y GPS, fabricantes de repuestos para camiones, empresas de software de gestión de flotas, proveedores de lubricantes, especialistas en frenos y suspensión, empresas de diagnóstico electrónico, y fabricantes de llantas para transporte pesado.',
+    q: '¿Qué marcas y empresas participan en la muestra comercial del Evento de Tecnología, Mantenimiento y Confiabilidad TEMACON 2026?',
+    a: 'La muestra comercial de TEMACON 2026, el Evento de Tecnología, Mantenimiento y Confiabilidad para el transporte de carga, reúne a las marcas líderes del sector: proveedores de telemática y GPS, fabricantes de repuestos para camiones, empresas de software de gestión de flotas, proveedores de lubricantes, especialistas en frenos y suspensión, empresas de diagnóstico electrónico, y fabricantes de llantas para transporte pesado.',
   },
 ];
 

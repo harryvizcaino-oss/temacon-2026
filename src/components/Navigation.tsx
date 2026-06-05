@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, memo } from 'react';
 import { Menu, X, ChevronRight, Sparkles } from 'lucide-react';
 
 /* ═══════════════════════════════════════════════════════════════
@@ -11,24 +11,25 @@ interface NavSection {
   description?: string;
 }
 
-/*─── Las 13 secciones en orden de aparicion en la pagina ───*/
+/*─── Las 14 secciones en orden exacto de la pagina ───*/
 const ALL_SECTIONS: NavSection[] = [
   { label: 'Inicio', href: '#hero', description: 'Hero principal' },
-  { label: 'El evento líder de mantenimiento', href: '#about', description: 'Sobre TEMACON 2026' },
-  { label: 'Flujo de Mantenimiento Inteligente', href: '#flujo', description: 'Sistema en vivo de 6 pasos' },
-  { label: 'Marcas Confirmadas', href: '#brands', description: 'Patrocinadores del evento' },
-  { label: 'Perfil del asistente', href: '#audience', description: '12 perfiles profesionales' },
-  { label: 'Kenworth Experience', href: '#tractocamion', description: 'Exploración 3D T800' },
-  { label: 'TRACKS', href: '#tracks', description: '7 pistas especializadas' },
-  { label: 'Speakers', href: '#speakers', description: 'Conferencistas confirmados' },
-  { label: 'Lo que dicen', href: '#testimonials', description: 'Testimonios de lideres' },
-  { label: 'Agenda', href: '#agenda', description: 'Programa de 2 días' },
-  { label: 'Sede', href: '#venue', description: 'Bogota, Colombia' },
-  { label: 'Regístrate', href: '#pricing', description: 'Adquiere tu ingreso' },
-  { label: 'Preguntas Frecuentes', href: '#faq', description: 'FAQ del evento' },
+  { label: 'Evento', href: '#about', description: 'Sobre TEMACON 2026' },
+  { label: 'Flujo', href: '#flujo', description: 'Mantenimiento inteligente' },
+  { label: 'Marcas', href: '#brands', description: 'Patrocinadores' },
+  { label: 'Asistente', href: '#audience', description: '12 perfiles profesionales' },
+  { label: '3D Experience', href: '#tractocamion', description: 'Kenworth T800' },
+  { label: 'Tracks', href: '#tracks', description: '7 pistas especializadas' },
+  { label: 'Speakers', href: '#speakers', description: 'Conferencistas' },
+  { label: 'Por que Asistir', href: '#testimonials', description: '12 razones' },
+  { label: 'Agenda', href: '#agenda', description: 'Programa 2 días' },
+  { label: 'Sede', href: '#venue', description: 'Bogotá, Colombia' },
+  { label: 'Registro', href: '#pricing', description: 'Adquiere ingreso' },
+  { label: 'FAQ', href: '#faq', description: 'Preguntas frecuentes' },
+  { label: 'LinkedIn', href: '#linkedin-event', description: 'Confirma asistencia' },
 ];
 
-export default function Navigation() {
+const Navigation = memo(function Navigation() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [onLightSection, setOnLightSection] = useState(false);
@@ -73,9 +74,9 @@ export default function Navigation() {
     <>
       <nav
         ref={navRef}
-        className={`fixed top-0 left-0 right-0 z-50 h-16 sm:h-20 flex items-center transition-all duration-300 ${
+        className={`fixed top-0 left-0 right-0 z-50 h-16 sm:h-20 flex items-center transition-all duration-500 ${
           scrolled
-            ? 'bg-white/95 backdrop-blur-md shadow-sm'
+            ? 'bg-white/60 backdrop-blur-2xl shadow-[0_8px_32px_rgba(0,0,0,0.08)]'
             : 'bg-transparent'
         }`}
       >
@@ -91,8 +92,8 @@ export default function Navigation() {
             />
           </a>
 
-          {/* Desktop Nav — 6 links + 2 CTAs */}
-          <div className="hidden lg:flex items-center gap-6 xl:gap-8">
+          {/* Desktop Nav — 6 links + 3 CTAs agrupados */}
+          <div className="hidden lg:flex items-center gap-5 xl:gap-6">
             <a href="#hero" className={`relative group text-sm font-medium transition-colors ${logoDark ? 'text-black hover:text-[#E31E24]' : 'text-white hover:text-[#E31E24]'}`}>
               Inicio
               <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-[#E31E24] rounded-full transition-all duration-300 group-hover:w-full" />
@@ -106,7 +107,7 @@ export default function Navigation() {
               <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-[#E31E24] rounded-full transition-all duration-300 group-hover:w-full" />
             </a>
             <a href="#tractocamion" className={`relative group text-sm font-medium transition-colors ${logoDark ? 'text-black hover:text-[#E31E24]' : 'text-white hover:text-[#E31E24]'}`}>
-              3D Experience
+              3D
               <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-[#E31E24] rounded-full transition-all duration-300 group-hover:w-full" />
             </a>
             <a href="#agenda" className={`relative group text-sm font-medium transition-colors ${logoDark ? 'text-black hover:text-[#E31E24]' : 'text-white hover:text-[#E31E24]'}`}>
@@ -118,35 +119,34 @@ export default function Navigation() {
               <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-[#E31E24] rounded-full transition-all duration-300 group-hover:w-full" />
             </a>
 
-            {/* Boton llamativo: Por que Asistir */}
-            <a
-              href="#testimonials"
-              className={`relative flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-bold transition-all duration-300 overflow-hidden ${
-                logoDark
-                  ? 'bg-[#E31E24] text-white hover:bg-black hover:shadow-lg hover:shadow-[#E31E24]/20'
-                  : 'bg-white text-[#E31E24] hover:bg-[#E31E24] hover:text-white hover:shadow-lg hover:shadow-white/20'
-              }`}
-            >
-              <Sparkles size={14} className="animate-pulse" />
-              <span className="whitespace-nowrap">¿Por qué Asistir?</span>
-              <span className="absolute -top-0.5 -right-0.5 flex h-2.5 w-2.5">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-yellow-400 opacity-75" />
-                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-yellow-400" />
-              </span>
-            </a>
+            {/* CTA buttons — compact group */}
+            <div className="flex items-center gap-2 ml-2 pl-2 border-l border-black/10">
+              {/* Boton llamativo: Por que Asistir */}
+              <a
+                href="#testimonials"
+                className={`relative flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold transition-all duration-300 overflow-hidden ${
+                  logoDark
+                    ? 'bg-[#E31E24] text-white hover:bg-black hover:shadow-lg hover:shadow-[#E31E24]/20'
+                    : 'bg-white text-[#E31E24] hover:bg-[#E31E24] hover:text-white hover:shadow-lg hover:shadow-white/20'
+                }`}
+              >
+                <Sparkles size={12} className="animate-pulse" />
+                <span className="whitespace-nowrap">Por que Asistir</span>
+              </a>
 
-            <a
-              href="#brands"
-              className="border border-[#E31E24]/60 text-[#E31E24] px-4 py-2 rounded-full text-sm font-semibold hover:bg-[#E31E24] hover:text-white transition-all duration-300"
-            >
-              Quiero Patrocinar
-            </a>
-            <a
-              href="#pricing"
-              className="bg-[#E31E24] text-white px-5 py-2 rounded-full text-sm font-semibold hover:bg-black hover:text-white transition-all duration-300"
-            >
-              Adquirir Ingreso Ahora
-            </a>
+              <a
+                href="#brands"
+                className="border border-[#E31E24]/60 text-[#E31E24] px-3 py-1.5 rounded-full text-xs font-semibold hover:bg-[#E31E24] hover:text-white transition-all duration-300 whitespace-nowrap"
+              >
+                Patrocinar
+              </a>
+              <a
+                href="#pricing"
+                className="bg-[#E31E24] text-white px-4 py-1.5 rounded-full text-xs font-semibold hover:bg-black hover:text-white transition-all duration-300 whitespace-nowrap"
+              >
+                Ingreso
+              </a>
+            </div>
           </div>
 
           {/* Mobile Menu Button */}
@@ -174,7 +174,7 @@ export default function Navigation() {
       >
         {/* Backdrop */}
         <div
-          className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+          className="absolute inset-0 bg-black/50 backdrop-blur-xl transition-all duration-500"
           onClick={() => setMobileOpen(false)}
         />
 
@@ -203,11 +203,11 @@ export default function Navigation() {
               <a
                 href="#testimonials"
                 onClick={() => setMobileOpen(false)}
-                className="flex items-center gap-2 bg-[#E31E24] text-white px-4 py-3 rounded-xl font-display font-bold text-[14px] hover:bg-[#c41a20] transition-all shadow-lg shadow-[#E31E24]/30"
+                className="flex items-center gap-2 bg-[#E31E24] text-white px-4 py-[8px] rounded-lg font-display font-bold text-[12px] hover:bg-[#c41a20] transition-all shadow-lg shadow-[#E31E24]/30"
               >
-                <Sparkles size={16} className="flex-shrink-0" />
+                <Sparkles size={13} className="flex-shrink-0" />
                 <span>¿Por qué Asistir?</span>
-                <span className="ml-auto font-mono text-[8px] bg-white/20 px-2 py-0.5 rounded-full">12 razones</span>
+                <span className="ml-auto font-mono text-[8px] bg-white/20 px-2 py-0.5 rounded-full">+12 razones</span>
               </a>
             </div>
 
@@ -247,14 +247,6 @@ export default function Navigation() {
           {/* CTA */}
           <div className="px-3 py-2 border-t border-white/10 bg-[#0a0a0a] flex flex-col gap-[6px]">
             <a
-              href="#testimonials"
-              className="flex items-center justify-center gap-1.5 bg-[#E31E24] text-white py-[7px] rounded-lg font-display font-bold text-[12px] leading-tight hover:bg-white hover:text-[#E31E24] transition-all"
-              onClick={() => setMobileOpen(false)}
-            >
-              <Sparkles size={13} />
-              ¿Por qué Asistir?
-            </a>
-            <a
               href="#brands"
               className="flex items-center justify-center gap-1 border border-[#E31E24]/60 text-[#E31E24] py-[7px] rounded-lg font-display font-semibold text-[12px] leading-tight hover:bg-[#E31E24] hover:text-white transition-all"
               onClick={() => setMobileOpen(false)}
@@ -276,4 +268,6 @@ export default function Navigation() {
       </div>
     </>
   );
-}
+});
+
+export default Navigation;

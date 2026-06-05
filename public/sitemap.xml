@@ -1,63 +1,108 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml"
+        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+                            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+
+  <!-- PAGINA PRINCIPAL — TEMACON 2026 -->
   <url>
     <loc>https://temacon.tiendacamion.com/</loc>
-    <lastmod>2026-06-03</lastmod>
-    <changefreq>weekly</changefreq>
+    <lastmod>2026-06-05</lastmod>
+    <changefreq>daily</changefreq>
     <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://temacon.tiendacamion.com/logo-v2.png</image:loc>
+      <image:title>TEMACON 2026 Logo — Tecnología, Mantenimiento y Confiabilidad para Transporte de Carga</image:title>
+      <image:caption>Logo oficial de TEMACON 2026, el evento líder de tecnología para transporte de carga en Latinoamérica</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://temacon.tiendacamion.com/hero-bg.jpg</image:loc>
+      <image:title>TEMACON 2026 — Hero Background</image:title>
+      <image:caption>Banner principal del evento TEMACON 2026 en Bogotá, Colombia</image:caption>
+    </image:image>
+    <xhtml:link rel="alternate" hreflang="es-CO" href="https://temacon.tiendacamion.com/" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://temacon.tiendacamion.com/" />
   </url>
+
+  <!-- LINKEDIN EVENT — TEMACON 2026 -->
+  <url>
+    <loc>https://www.linkedin.com/events/temacon20267468427912283721730</loc>
+    <lastmod>2026-06-05</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- SECCIONES DE LA LANDING -->
   <url>
     <loc>https://temacon.tiendacamion.com/#about</loc>
-    <lastmod>2026-06-03</lastmod>
-    <changefreq>monthly</changefreq>
+    <lastmod>2026-06-05</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
+
+  <url>
+    <loc>https://temacon.tiendacamion.com/#testimonials</loc>
+    <lastmod>2026-06-05</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
   <url>
     <loc>https://temacon.tiendacamion.com/#flujo</loc>
-    <lastmod>2026-06-03</lastmod>
-    <changefreq>monthly</changefreq>
+    <lastmod>2026-06-05</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
+
   <url>
     <loc>https://temacon.tiendacamion.com/#tracks</loc>
-    <lastmod>2026-06-03</lastmod>
+    <lastmod>2026-06-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
+
   <url>
     <loc>https://temacon.tiendacamion.com/#speakers</loc>
-    <lastmod>2026-06-03</lastmod>
+    <lastmod>2026-06-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
+
   <url>
     <loc>https://temacon.tiendacamion.com/#agenda</loc>
-    <lastmod>2026-06-03</lastmod>
+    <lastmod>2026-06-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
+
   <url>
     <loc>https://temacon.tiendacamion.com/#pricing</loc>
-    <lastmod>2026-06-03</lastmod>
+    <lastmod>2026-06-05</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
+
   <url>
     <loc>https://temacon.tiendacamion.com/#venue</loc>
-    <lastmod>2026-06-03</lastmod>
+    <lastmod>2026-06-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
+
   <url>
     <loc>https://temacon.tiendacamion.com/#brands</loc>
-    <lastmod>2026-06-03</lastmod>
+    <lastmod>2026-06-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
+
   <url>
     <loc>https://temacon.tiendacamion.com/#faq</loc>
-    <lastmod>2026-06-03</lastmod>
+    <lastmod>2026-06-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
+
 </urlset>

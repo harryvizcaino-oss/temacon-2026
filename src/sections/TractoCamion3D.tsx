@@ -730,7 +730,7 @@ export default function TractoCamion3DSection() {
           <ContactShadows position={[0, 0, 0]} opacity={0.4} scale={15} blur={2.5} far={6} />
           <Environment preset="city" />
 
-          <OrbitControls enablePan={false} maxPolarAngle={Math.PI / 2.1} minPolarAngle={Math.PI / 8}
+          <OrbitControls enablePan={false} enableZoom={false} maxPolarAngle={Math.PI / 2.1} minPolarAngle={Math.PI / 8}
             minDistance={4} maxDistance={14} autoRotate={!selectedId && !isExploded} autoRotateSpeed={0.8} />
         </Canvas>
       </div>
