@@ -1,8 +1,6 @@
-import { useState, useEffect, useCallback, lazy, Suspense } from 'react';
+import { useEffect, lazy, Suspense } from 'react';
 import Navigation from '@/components/Navigation';
 import CustomCursor from '@/components/CustomCursor';
-import Preloader from '@/components/Preloader';
-import ZohoIntegration from '@/components/ZohoIntegration';
 import SectionIndicator from '@/components/SectionIndicator';
 import CookieConsentReveal from '@/components/CookieConsentReveal';
 import ScrollToTop from '@/components/ScrollToTop';
@@ -45,27 +43,48 @@ function SectionLoader() {
 }
 
 function App() {
-  const [preloaderDone, setPreloaderDone] = useState(false);
-
   useEffect(() => {
     document.documentElement.style.scrollBehavior = 'smooth';
-    return () => { document.documentElement.style.scrollBehavior = 'auto'; };
-  }, []);
 
-  const handlePreloaderComplete = useCallback(() => {
-    setPreloaderDone(true);
+    // Si hay un hash en la URL, scrollear a esa sección
+    const hash = window.location.hash;
+    if (hash) {
+      setTimeout(() => {
+        const el = document.querySelector(hash);
+        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 500);
+    }
+
+    // Handler para anchor links: scroll suave compensando nav fijo
+    const handleAnchorClick = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      const anchor = target.closest('a[href^="#"]') as HTMLAnchorElement | null;
+      if (!anchor) return;
+
+      const href = anchor.getAttribute('href');
+      if (!href || href === '#') return;
+
+      const el = document.querySelector(href);
+      if (el) {
+        e.preventDefault();
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        window.history.pushState(null, '', href);
+      }
+    };
+
+    document.addEventListener('click', handleAnchorClick);
+    return () => {
+      document.documentElement.style.scrollBehavior = 'auto';
+      document.removeEventListener('click', handleAnchorClick);
+    };
   }, []);
 
   return (
     <div className="min-h-screen bg-temacon-offwhite">
       <CustomCursor />
-
-      {preloaderDone && <CookieConsentReveal />}
-      {preloaderDone && <ZohoIntegration />}
-      {preloaderDone && <SectionIndicator />}
-      {preloaderDone && <ScrollToTop />}
-
-      {!preloaderDone && <Preloader onComplete={handlePreloaderComplete} />}
+      <CookieConsentReveal />
+      <SectionIndicator />
+      <ScrollToTop />
 
       <Navigation />
       <main>
@@ -79,7 +98,6 @@ function App() {
           <Brands />
         </Suspense>
 
-        {/* Hashtag Marquee — SEO + visual break */}
         <Suspense fallback={<SectionLoader />}>
           <HashtagMarquee />
         </Suspense>
@@ -122,7 +140,6 @@ function App() {
           <Pricing />
         </Suspense>
 
-        {/* LinkedIn Event — antes de FAQ */}
         <Suspense fallback={<SectionLoader />}>
           <LinkedInEvent />
         </Suspense>

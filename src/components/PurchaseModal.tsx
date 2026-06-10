@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { X, Loader2, CheckCircle, Mail, Calendar } from 'lucide-react';
+import { MetaPixel } from '@/lib/meta-pixel';
 
 /**
  * PurchaseModal — Widget INLINE de Zoho Backstage
@@ -18,10 +19,11 @@ export default function PurchaseModal({ isOpen, onClose }: PurchaseModalProps) {
   const scriptsAdded = useRef(false);
   const initAttempts = useRef(0);
 
-  // Reset orderCompleted cuando se abre el modal
+  // Reset orderCompleted + Meta Pixel InitiateCheckout cuando se abre el modal
   useEffect(() => {
     if (isOpen) {
       setOrderCompleted(false);
+      MetaPixel.initiateCheckout();
     }
   }, [isOpen]);
 
@@ -95,7 +97,8 @@ export default function PurchaseModal({ isOpen, onClose }: PurchaseModalProps) {
               }
             },
             onOrderComplete: function () {
-              // Compra completada — analytics se maneja via Zoho
+              // Meta Pixel: Purchase + pantalla de éxito
+              MetaPixel.purchase('TEMACON2026_' + Date.now());
               setOrderCompleted(true);
             },
             onClose: function () {

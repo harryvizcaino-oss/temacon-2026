@@ -1,5 +1,5 @@
 import { useCountdown } from '@/hooks/useCountdown';
-import { useEffect, useRef, memo } from 'react';
+import { useEffect, useRef, useState, memo } from 'react';
 import gsap from 'gsap';
 import {
   Truck, Cpu, Wrench, ShieldCheck, Route, Radio, Zap, Activity,
@@ -67,19 +67,61 @@ function BouncingSquare({ icon, duration, delay = 0 }: { icon: BouncingIcon; dur
 const Hero3D = memo(function Hero3D() {
   const timeLeft = useCountdown(TARGET_DATE);
   const logoRef = useRef<HTMLDivElement>(null);
+  const heroRef = useRef<HTMLDivElement>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
+  /* Animación de entrada integrada (reemplaza al Preloader) */
   useEffect(() => {
+    // Simular carga de recursos críticos (1.2s)
+    const timer = setTimeout(() => setIsLoading(false), 1200);
+    return () => clearTimeout(timer);
+  }, []);
+
+  /* Animación del hero después de la carga */
+  useEffect(() => {
+    if (isLoading) return;
     const ctx = gsap.context(() => {
+      gsap.from(heroRef.current, {
+        opacity: 0, y: 30,
+        duration: 0.8, ease: 'power2.out',
+      });
       gsap.from(logoRef.current, {
         y: 60, opacity: 0, scale: 0.85,
-        duration: 1.2, ease: 'power3.out', delay: 0.3,
+        duration: 1.2, ease: 'power3.out', delay: 0.2,
       });
     });
     return () => { ctx.revert(); };
-  }, []);
+  }, [isLoading]);
 
   return (
     <section id="hero" className="relative flex flex-col items-center bg-black" style={{ height: '92dvh', minHeight: '620px' }}>
+
+      {/* ═══ PRELOADER INTEGRADO — animación de entrada ═══ */}
+      <div
+        className={`absolute inset-0 z-50 bg-black flex flex-col items-center justify-center transition-all duration-700 ease-out ${
+          isLoading ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+        }`}
+      >
+        <img
+          src="/logo-v2.png"
+          alt="TEMACON 2026"
+          className={`w-[50vw] max-w-[280px] transition-all duration-700 ease-out ${
+            isLoading ? 'opacity-100 scale-100' : 'opacity-0 scale-90'
+          }`}
+          style={{ filter: 'drop-shadow(0 4px 40px rgba(227,30,36,0.6))' }}
+        />
+        <div className="mt-6 flex gap-1">
+          {[0, 1, 2].map((i) => (
+            <div
+              key={i}
+              className="w-1.5 h-1.5 bg-[#E31E24] rounded-full animate-pulse"
+              style={{ animationDelay: `${i * 0.2}s` }}
+            />
+          ))}
+        </div>
+        <p className="font-mono text-[8px] tracking-[0.3em] text-white/30 uppercase mt-3">Cargando experiencia</p>
+      </div>
+
       {/* Autopartículas 3D — z-index 1, recibe mouse/touch */}
       <div className="absolute inset-0 z-[1]" style={{ pointerEvents: 'auto' }}>
         <AutopartParticles />
@@ -93,7 +135,7 @@ const Hero3D = memo(function Hero3D() {
       </div>
 
       {/* ─── CONTENT — flexbox, pointer-events-none para que el canvas reciba mouse/click ─── */}
-      <div className="relative z-10 flex flex-col items-center h-full w-full px-4" style={{ pointerEvents: 'none' }}>
+      <div ref={heroRef} className="relative z-10 flex flex-col items-center h-full w-full px-4" style={{ pointerEvents: 'none' }}>
 
         {/* Spacer para menú fijo */}
         <div className="shrink-0" style={{ height: '70px' }} />
