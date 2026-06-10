@@ -7,6 +7,7 @@ import {
 } from 'lucide-react';
 import PurchaseModal from '@/components/PurchaseModal';
 import { MetaPixel } from '@/lib/meta-pixel';
+import AutopartParticles from '@/components/AutopartParticles';
 import type { LucideIcon } from 'lucide-react';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -55,7 +56,7 @@ const Pricing = memo(function Pricing() {
   return (
     <section id="pricing" ref={sectionRef} className="relative bg-black overflow-hidden">
       <div className="absolute inset-0 z-[1]" style={{ pointerEvents: 'auto' }}>
-        <AutopartParticles sectionId="pricing" density={12} />
+        <AutopartParticles />
       </div>
       <div className="absolute inset-0 opacity-[0.03]"
         style={{
