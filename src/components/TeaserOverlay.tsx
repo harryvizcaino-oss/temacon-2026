@@ -16,10 +16,9 @@ export default function TeaserOverlay({
 }: TeaserOverlayProps) {
   return (
     <div className="absolute inset-0 z-20 flex flex-col items-center justify-center">
-      {/* Backdrop blur */}
+      {/* Backdrop — solido para Safari iOS compatibilidad */}
       <div
-        className="absolute inset-0 backdrop-blur-md bg-black/40"
-        style={{ backdropFilter: 'blur(8px)' }}
+        className="absolute inset-0 bg-black/75"
       />
 
       {/* Content */}

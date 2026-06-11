@@ -13,9 +13,10 @@ const AUTOPARTES = [
 ];
 
 const MOUSE_RADIUS = 200;
-const MAX_PARTICLES = 180;
-const MAX_PARTICLES_MOBILE = 80;
-const SORT_EVERY_N_FRAMES = 45;
+const MAX_PARTICLES = 160;
+const MAX_PARTICLES_MOBILE = 50;
+const SORT_EVERY_N_FRAMES = 60;
+const SORT_EVERY_N_FRAMES_MOBILE = 90;
 const TRAIL_ALPHA = 0.28;
 
 interface P {
@@ -47,6 +48,7 @@ const AutopartParticles = memo(function AutopartParticles() {
     let killed = false;
     const isMobile = window.innerWidth < 768;
     const PARTICLE_COUNT = isMobile ? MAX_PARTICLES_MOBILE : MAX_PARTICLES;
+    const SORT_INTERVAL = isMobile ? SORT_EVERY_N_FRAMES_MOBILE : SORT_EVERY_N_FRAMES;
 
     function resize() {
       const r = parent!.getBoundingClientRect();
@@ -216,7 +218,7 @@ const AutopartParticles = memo(function AutopartParticles() {
       }
 
       fr++;
-      if (fr % SORT_EVERY_N_FRAMES === 0) ps.sort((a, b) => b.z - a.z);
+      if (fr % SORT_INTERVAL === 0) ps.sort((a, b) => b.z - a.z);
 
       raf = requestAnimationFrame(draw);
     }

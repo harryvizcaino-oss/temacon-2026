@@ -1,8 +1,8 @@
 import { useCountdown } from '@/hooks/useCountdown';
-import { useEffect, useRef, useState, memo } from 'react';
+import { useEffect, useRef, memo } from 'react';
 import gsap from 'gsap';
 import {
-  Truck, Cpu, Wrench, ShieldCheck, Route, Radio, Zap, Activity,
+  Truck, Cpu, Wrench, ShieldCheck, Route, Radio, Zap, Activity, QrCode, Sparkles,
 } from 'lucide-react';
 import AutopartParticles from '@/components/AutopartParticles';
 import AddToCalendar from '@/components/AddToCalendar';
@@ -68,18 +68,9 @@ const Hero3D = memo(function Hero3D() {
   const timeLeft = useCountdown(TARGET_DATE);
   const logoRef = useRef<HTMLDivElement>(null);
   const heroRef = useRef<HTMLDivElement>(null);
-  const [isLoading, setIsLoading] = useState(true);
 
-  /* Animación de entrada integrada (reemplaza al Preloader) */
+  /* Animación del hero al montar */
   useEffect(() => {
-    // Simular carga de recursos críticos (1.2s)
-    const timer = setTimeout(() => setIsLoading(false), 1200);
-    return () => clearTimeout(timer);
-  }, []);
-
-  /* Animación del hero después de la carga */
-  useEffect(() => {
-    if (isLoading) return;
     const ctx = gsap.context(() => {
       gsap.from(heroRef.current, {
         opacity: 0, y: 30,
@@ -91,36 +82,10 @@ const Hero3D = memo(function Hero3D() {
       });
     });
     return () => { ctx.revert(); };
-  }, [isLoading]);
+  }, []);
 
   return (
     <section id="hero" className="relative flex flex-col items-center bg-black" style={{ height: '92dvh', minHeight: '620px' }}>
-
-      {/* ═══ PRELOADER INTEGRADO — animación de entrada ═══ */}
-      <div
-        className={`absolute inset-0 z-50 bg-black flex flex-col items-center justify-center transition-all duration-700 ease-out ${
-          isLoading ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
-        }`}
-      >
-        <img
-          src="/logo-v2.png"
-          alt="TEMACON 2026"
-          className={`w-[50vw] max-w-[280px] transition-all duration-700 ease-out ${
-            isLoading ? 'opacity-100 scale-100' : 'opacity-0 scale-90'
-          }`}
-          style={{ filter: 'drop-shadow(0 4px 40px rgba(227,30,36,0.6))' }}
-        />
-        <div className="mt-6 flex gap-1">
-          {[0, 1, 2].map((i) => (
-            <div
-              key={i}
-              className="w-1.5 h-1.5 bg-[#E31E24] rounded-full animate-pulse"
-              style={{ animationDelay: `${i * 0.2}s` }}
-            />
-          ))}
-        </div>
-        <p className="font-mono text-[8px] tracking-[0.3em] text-white/30 uppercase mt-3">Cargando experiencia</p>
-      </div>
 
       {/* Autopartículas 3D — z-index 1, recibe mouse/touch */}
       <div className="absolute inset-0 z-[1]" style={{ pointerEvents: 'auto' }}>
@@ -214,13 +179,23 @@ const Hero3D = memo(function Hero3D() {
             </p>
           </div>
           <div className="h-3" />
-          <a
-            href="#pricing"
-            className="bg-[#E31E24] text-white px-5 sm:px-8 py-2.5 rounded-full font-display text-sm sm:text-base font-semibold hover:bg-white hover:text-[#E31E24] transition-all duration-300 shadow-lg shadow-[#E31E24]/30"
-            style={{ pointerEvents: 'auto' }}
-          >
-            Adquirir Ingreso Ahora
-          </a>
+          {/* CTA buttons — side by side */}
+          <div className="flex items-center gap-3" style={{ pointerEvents: 'auto' }}>
+            <a
+              href="#testimonials"
+              className="flex items-center gap-2 bg-white text-[#E31E24] px-4 sm:px-6 py-2.5 rounded-lg font-display text-sm sm:text-base font-semibold hover:bg-black hover:text-white transition-all duration-300 shadow-lg shadow-white/10"
+            >
+              <Sparkles size={15} />
+              Por que Asistir
+            </a>
+            <a
+              href="#pricing"
+              className="flex items-center gap-2 bg-[#E31E24] text-white px-5 sm:px-8 py-2.5 rounded-lg font-display text-sm sm:text-base font-semibold hover:bg-[#c41a20] transition-all duration-300 shadow-lg shadow-[#E31E24]/30"
+            >
+              <QrCode size={16} />
+              Comprar Ticket
+            </a>
+          </div>
         </div>
 
       </div>

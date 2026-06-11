@@ -4,6 +4,7 @@ import CustomCursor from '@/components/CustomCursor';
 import SectionIndicator from '@/components/SectionIndicator';
 import CookieConsentReveal from '@/components/CookieConsentReveal';
 import ScrollToTop from '@/components/ScrollToTop';
+import WebGLFallback from '@/components/WebGLFallback';
 
 /* ═══════════════════════════════════════════
    EAGER — Critical path (First Contentful Paint)
@@ -11,6 +12,7 @@ import ScrollToTop from '@/components/ScrollToTop';
    ═══════════════════════════════════════════ */
 import Hero3D from '@/sections/Hero3D';
 import Intro from '@/sections/Intro';
+import Audience from '@/sections/Audience';
 import FlujoMantenimiento from '@/sections/FlujoMantenimiento';
 import Footer from '@/sections/Footer';
 
@@ -19,12 +21,11 @@ import Footer from '@/sections/Footer';
    Reduces initial bundle by ~60KB+ gzipped
    ═══════════════════════════════════════════ */
 const Brands        = lazy(() => import('@/sections/Brands'));
-const Audience      = lazy(() => import('@/sections/Audience'));
+// Audience moved to eager imports (section 3 - critical path)
 const TractoCamion3D= lazy(() => import('@/sections/TractoCamion3D'));
 const Tracks        = lazy(() => import('@/sections/Tracks'));
-const Speakers      = lazy(() => import('@/sections/Speakers'));
-const Testimonials  = lazy(() => import('@/sections/Testimonials'));
-const Agenda        = lazy(() => import('@/sections/Agenda'));
+// Speakers + Agenda unificados en AgendaSpeakers
+const AgendaSpeakers = lazy(() => import('@/sections/AgendaSpeakers'));
 const Venue         = lazy(() => import('@/sections/Venue'));
 const Pricing       = lazy(() => import('@/sections/Pricing'));
 const FAQ           = lazy(() => import('@/sections/FAQ'));
@@ -91,6 +92,7 @@ function App() {
         {/* CRITICAL PATH — eager loaded */}
         <Hero3D />
         <Intro />
+        <Audience />
         <FlujoMantenimiento />
 
         {/* LAZY — below the fold */}
@@ -102,13 +104,11 @@ function App() {
           <HashtagMarquee />
         </Suspense>
 
-        <Suspense fallback={<SectionLoader />}>
-          <Audience />
-        </Suspense>
-
-        <Suspense fallback={<SectionLoader />}>
-          <TractoCamion3D />
-        </Suspense>
+        <WebGLFallback>
+          <Suspense fallback={<SectionLoader />}>
+            <TractoCamion3D />
+          </Suspense>
+        </WebGLFallback>
 
         <Suspense fallback={<SectionLoader />}>
           <div className="relative">
@@ -117,19 +117,9 @@ function App() {
           </div>
         </Suspense>
 
+        {/* Agenda + Speakers unificados */}
         <Suspense fallback={<SectionLoader />}>
-          <div className="relative">
-            <ParticleField />
-            <Speakers />
-          </div>
-        </Suspense>
-
-        <Suspense fallback={<SectionLoader />}>
-          <Testimonials />
-        </Suspense>
-
-        <Suspense fallback={<SectionLoader />}>
-          <Agenda />
+          <AgendaSpeakers />
         </Suspense>
 
         <Suspense fallback={<SectionLoader />}>
@@ -155,3 +145,4 @@ function App() {
 }
 
 export default App;
+;

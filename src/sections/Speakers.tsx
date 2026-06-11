@@ -237,13 +237,13 @@ export default function Speakers() {
         {/* ─── HEADER ─── */}
         <div ref={titleRef} className="text-center mb-8 lg:mb-12 px-5">
           <p className="font-mono text-[10px] tracking-[0.4em] text-[#E31E24] uppercase mb-3">
-            8 Líderes Internacionales
+            12 Conferencistas Nacionales
           </p>
           <h2 className="font-display text-t3 text-white">
             Expertos en <span className="text-[#E31E24]">Tecnología para Camiones y Flotas</span>
           </h2>
           <p className="mt-3 text-sm text-white/40 max-w-md mx-auto">
-            Conferencistas internacionales que están transformando la industria del mantenimiento,
+            Conferencistas nacionales que están transformando la industria del mantenimiento,
             la logística y el transporte de carga en Colombia y Latinoamérica.
           </p>
         </div>

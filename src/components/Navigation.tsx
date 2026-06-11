@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, memo } from 'react';
-import { Menu, X, ChevronRight, Sparkles } from 'lucide-react';
+import { Menu, X, ChevronRight, QrCode } from 'lucide-react';
 
 /* ═══════════════════════════════════════════════════════════════
    NAVIGATION — Desktop + Mobile menu with all sections
@@ -11,7 +11,7 @@ interface NavSection {
   description?: string;
 }
 
-/*─── Las 14 secciones en orden exacto de la pagina ───*/
+/*─── Las 13 secciones en orden exacto de la pagina ───*/
 const ALL_SECTIONS: NavSection[] = [
   { label: 'Inicio', href: '#hero', description: 'Hero principal' },
   { label: 'Evento', href: '#about', description: 'Sobre TEMACON 2026' },
@@ -21,8 +21,7 @@ const ALL_SECTIONS: NavSection[] = [
   { label: '3D Experience', href: '#tractocamion', description: 'Kenworth T800' },
   { label: 'Tracks', href: '#tracks', description: '7 pistas especializadas' },
   { label: 'Speakers', href: '#speakers', description: 'Conferencistas' },
-  { label: 'Por que Asistir', href: '#testimonials', description: '12 razones' },
-  { label: 'Agenda', href: '#agenda', description: 'Programa 2 días' },
+  { label: 'Agenda & Speakers', href: '#agenda-speakers', description: 'Programa y conferencistas' },
   { label: 'Sede', href: '#venue', description: 'Bogotá, Colombia' },
   { label: 'Registro', href: '#pricing', description: 'Adquiere ingreso' },
   { label: 'FAQ', href: '#faq', description: 'Preguntas frecuentes' },
@@ -121,19 +120,6 @@ const Navigation = memo(function Navigation() {
 
             {/* CTA buttons — compact group */}
             <div className="flex items-center gap-2 ml-2 pl-2 border-l border-black/10">
-              {/* Boton llamativo: Por que Asistir */}
-              <a
-                href="#testimonials"
-                className={`relative flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold transition-all duration-300 overflow-hidden ${
-                  logoDark
-                    ? 'bg-[#E31E24] text-white hover:bg-black hover:shadow-lg hover:shadow-[#E31E24]/20'
-                    : 'bg-white text-[#E31E24] hover:bg-[#E31E24] hover:text-white hover:shadow-lg hover:shadow-white/20'
-                }`}
-              >
-                <Sparkles size={12} className="animate-pulse" />
-                <span className="whitespace-nowrap">Por que Asistir</span>
-              </a>
-
               <a
                 href="#brands"
                 className="border border-[#E31E24]/60 text-[#E31E24] px-3 py-1.5 rounded-full text-xs font-semibold hover:bg-[#E31E24] hover:text-white transition-all duration-300 whitespace-nowrap"
@@ -142,9 +128,10 @@ const Navigation = memo(function Navigation() {
               </a>
               <a
                 href="#pricing"
-                className="bg-[#E31E24] text-white px-4 py-1.5 rounded-full text-xs font-semibold hover:bg-black hover:text-white transition-all duration-300 whitespace-nowrap"
+                className="bg-[#E31E24] text-white px-4 py-1.5 rounded-lg text-xs font-semibold hover:bg-[#c41a20] transition-all duration-300 whitespace-nowrap flex items-center gap-1.5"
               >
-                Ingreso
+                <QrCode size={13} />
+                Comprar Ticket
               </a>
             </div>
           </div>
@@ -198,20 +185,7 @@ const Navigation = memo(function Navigation() {
 
           {/* Content — 13 secciones en orden */}
           <div className="overflow-y-auto flex-1">
-            {/* Boton destacado: Por que Asistir */}
-            <div className="px-3 pt-3 pb-2">
-              <a
-                href="#testimonials"
-                onClick={() => setMobileOpen(false)}
-                className="flex items-center gap-2 bg-[#E31E24] text-white px-4 py-[8px] rounded-lg font-display font-bold text-[12px] hover:bg-[#c41a20] transition-all shadow-lg shadow-[#E31E24]/30"
-              >
-                <Sparkles size={13} className="flex-shrink-0" />
-                <span>¿Por qué Asistir?</span>
-                <span className="ml-auto font-mono text-[8px] bg-white/20 px-2 py-0.5 rounded-full">+12 razones</span>
-              </a>
-            </div>
-
-            <div className="px-4 pt-2 pb-1 flex items-center justify-between">
+            <div className="px-4 pt-3 pb-1 flex items-center justify-between">
               <p className="font-mono text-[8px] text-[#E31E24] tracking-[0.3em] uppercase">
                 Secciones
               </p>
@@ -255,10 +229,11 @@ const Navigation = memo(function Navigation() {
             </a>
             <a
               href="#pricing"
-              className="flex items-center justify-center gap-1 bg-[#E31E24] text-white py-[8px] rounded-lg font-display font-semibold text-[12px] leading-tight hover:bg-white hover:text-[#E31E24] transition-all"
+              className="flex items-center justify-center gap-1.5 bg-[#E31E24] text-white py-[8px] rounded-lg font-display font-semibold text-[12px] leading-tight hover:bg-[#c41a20] transition-all"
               onClick={() => setMobileOpen(false)}
             >
-              Adquirir Ingreso Ahora
+              <QrCode size={14} />
+              Comprar Ticket
             </a>
             <p className="font-mono text-[7px] text-white/30 text-center leading-tight">
               $399,000 + IVA · 1-2 Sept 2026 · Bogotá
