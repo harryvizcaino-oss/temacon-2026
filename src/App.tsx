@@ -1,39 +1,35 @@
 import { useEffect, lazy, Suspense } from 'react';
-import Navigation from '@/components/Navigation';
-import CustomCursor from '@/components/CustomCursor';
-import SectionIndicator from '@/components/SectionIndicator';
-import CookieConsentReveal from '@/components/CookieConsentReveal';
-import ScrollToTop from '@/components/ScrollToTop';
-import WebGLFallback from '@/components/WebGLFallback';
 
 /* ═══════════════════════════════════════════
-   EAGER — Critical path (First Contentful Paint)
-   Hero3D, Intro, FlujoMantenimiento = above the fold
+   EAGER — Solo Hero (LCP < 2s para Meta)
+   Todo lo demas lazy-loaded
    ═══════════════════════════════════════════ */
+import Navigation from '@/components/Navigation';
+import SectionIndicator from '@/components/SectionIndicator';
+import ScrollToTop from '@/components/ScrollToTop';
 import Hero3D from '@/sections/Hero3D';
-import Intro from '@/sections/Intro';
-import Audience from '@/sections/Audience';
-import FlujoMantenimiento from '@/sections/FlujoMantenimiento';
 import Footer from '@/sections/Footer';
 
 /* ═══════════════════════════════════════════
-   LAZY — Below the fold (loaded on demand)
-   Reduces initial bundle by ~60KB+ gzipped
+   LAZY — Todo below-the-fold carga bajo demanda
+   Esto reduce el bundle inicial en ~400KB+
    ═══════════════════════════════════════════ */
-const Brands        = lazy(() => import('@/sections/Brands'));
-// Audience moved to eager imports (section 3 - critical path)
-const TractoCamion3D= lazy(() => import('@/sections/TractoCamion3D'));
-const Tracks        = lazy(() => import('@/sections/Tracks'));
-// Speakers + Agenda unificados en AgendaSpeakers
-const AgendaSpeakers = lazy(() => import('@/sections/AgendaSpeakers'));
-const Venue         = lazy(() => import('@/sections/Venue'));
-const Pricing       = lazy(() => import('@/sections/Pricing'));
-const FAQ           = lazy(() => import('@/sections/FAQ'));
-const LinkedInEvent = lazy(() => import('@/sections/LinkedInEvent'));
-const HashtagMarquee = lazy(() => import('@/sections/HashtagMarquee'));
-
-/* Componentes que se usan dentro de secciones lazy */
-const ParticleField = lazy(() => import('@/components/ParticleField'));
+const Intro           = lazy(() => import('@/sections/Intro'));
+const Audience        = lazy(() => import('@/sections/Audience'));
+const FlujoMantenimiento = lazy(() => import('@/sections/FlujoMantenimiento'));
+const Brands          = lazy(() => import('@/sections/Brands'));
+const HashtagMarquee  = lazy(() => import('@/sections/HashtagMarquee'));
+const Tracks          = lazy(() => import('@/sections/Tracks'));
+const AgendaSpeakers  = lazy(() => import('@/sections/AgendaSpeakers'));
+const Venue           = lazy(() => import('@/sections/Venue'));
+const Pricing         = lazy(() => import('@/sections/Pricing'));
+const FAQ             = lazy(() => import('@/sections/FAQ'));
+const LinkedInEvent   = lazy(() => import('@/sections/LinkedInEvent'));
+const ParticleField   = lazy(() => import('@/components/ParticleField'));
+const CustomCursor    = lazy(() => import('@/components/CustomCursor'));
+const CookieConsentReveal = lazy(() => import('@/components/CookieConsentReveal'));
+const WebGLFallback   = lazy(() => import('@/components/WebGLFallback'));
+const TractoCamion3D  = lazy(() => import('@/sections/TractoCamion3D'));
 
 function SectionLoader() {
   return (
@@ -82,20 +78,33 @@ function App() {
 
   return (
     <div className="min-h-screen bg-temacon-offwhite">
-      <CustomCursor />
-      <CookieConsentReveal />
       <SectionIndicator />
       <ScrollToTop />
 
+      {/* Decorativos — lazy loaded para no bloquear LCP */}
+      <Suspense fallback={null}>
+        <CustomCursor />
+        <CookieConsentReveal />
+      </Suspense>
+
       <Navigation />
       <main>
-        {/* CRITICAL PATH — eager loaded */}
+        {/* CRITICAL PATH — Solo Hero para LCP < 2s */}
         <Hero3D />
-        <Intro />
-        <Audience />
-        <FlujoMantenimiento />
 
-        {/* LAZY — below the fold */}
+        {/* LAZY — Todo below-the-fold carga bajo demanda */}
+        <Suspense fallback={<SectionLoader />}>
+          <Intro />
+        </Suspense>
+
+        <Suspense fallback={<SectionLoader />}>
+          <Audience />
+        </Suspense>
+
+        <Suspense fallback={<SectionLoader />}>
+          <FlujoMantenimiento />
+        </Suspense>
+
         <Suspense fallback={<SectionLoader />}>
           <Brands />
         </Suspense>
@@ -104,11 +113,11 @@ function App() {
           <HashtagMarquee />
         </Suspense>
 
-        <WebGLFallback>
-          <Suspense fallback={<SectionLoader />}>
+        <Suspense fallback={<SectionLoader />}>
+          <WebGLFallback>
             <TractoCamion3D />
-          </Suspense>
-        </WebGLFallback>
+          </WebGLFallback>
+        </Suspense>
 
         <Suspense fallback={<SectionLoader />}>
           <div className="relative">
@@ -117,7 +126,6 @@ function App() {
           </div>
         </Suspense>
 
-        {/* Agenda + Speakers unificados */}
         <Suspense fallback={<SectionLoader />}>
           <AgendaSpeakers />
         </Suspense>
@@ -145,4 +153,3 @@ function App() {
 }
 
 export default App;
-;

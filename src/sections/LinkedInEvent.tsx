@@ -31,16 +31,16 @@ function LinkedInEvent() {
     <section
       id="linkedin-event"
       ref={sectionRef}
-      className="bg-[#0a66c2] py-12 lg:py-16"
+      className="bg-[#0a66c2] py-9 lg:py-12"
       data-nav-light
     >
       <div className="wrapper">
         <div
           ref={cardRef}
-          className="max-w-3xl mx-auto bg-white rounded-2xl p-8 lg:p-10 shadow-2xl text-center"
+          className="max-w-3xl mx-auto bg-white rounded-2xl p-6 lg:p-8 shadow-2xl text-center"
         >
           {/* LinkedIn badge */}
-          <div className="flex items-center justify-center gap-2 mb-4">
+          <div className="flex items-center justify-center gap-2 mb-3">
             <Linkedin size={20} className="text-[#0a66c2]" />
             <span className="font-mono text-[10px] tracking-[0.2em] text-[#0a66c2] uppercase font-semibold">
               Evento Oficial en LinkedIn
@@ -52,14 +52,14 @@ function LinkedInEvent() {
             TEMACON 2026 en LinkedIn
           </h2>
 
-          <p className="text-temacon-charcoal/70 mb-6 max-w-lg mx-auto">
+          <p className="text-temacon-charcoal/70 mb-4 max-w-lg mx-auto text-sm leading-relaxed">
             Confirma tu asistencia al evento oficial de TEMACON 2026 en LinkedIn.
             Recibe recordatorios automáticos y conecta con otros profesionales del
             sector transporte de carga antes del evento.
           </p>
 
           {/* Event details */}
-          <div className="flex flex-wrap items-center justify-center gap-4 mb-8 text-sm text-temacon-charcoal/60">
+          <div className="flex flex-wrap items-center justify-center gap-3 mb-5 text-sm text-temacon-charcoal/60">
             <span className="flex items-center gap-1.5">
               <Calendar size={14} className="text-[#E31E24]" />
               1-2 Septiembre 2026
@@ -95,3 +95,4 @@ function LinkedInEvent() {
 }
 
 export default memo(LinkedInEvent);
+

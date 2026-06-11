@@ -99,3 +99,19 @@
     @apply py-[60px] lg:py-[120px];
   }
 }
+
+/* ═══════════════════════════════════════════
+   GLOW PULSE — Efecto titilante en botones
+   ═══════════════════════════════════════════ */
+@keyframes neon-pulse {
+  0%, 100% {
+    box-shadow: 0 0 3px rgba(227, 30, 36, 0.5), 0 0 6px rgba(227, 30, 36, 0.3), inset 0 0 2px rgba(255, 100, 100, 0.05);
+  }
+  50% {
+    box-shadow: 0 0 5px rgba(227, 30, 36, 1), 0 0 10px rgba(227, 30, 36, 0.7), 0 0 20px rgba(227, 30, 36, 0.3), inset 0 0 4px rgba(255, 150, 150, 0.15);
+  }
+}
+
+.glow-pulse {
+  animation: neon-pulse 1.8s ease-in-out infinite;
+}

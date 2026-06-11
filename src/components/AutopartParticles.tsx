@@ -1,23 +1,19 @@
-import { useEffect, useRef, memo } from 'react';
+import { memo, useEffect, useRef } from 'react';
+
+/* ═══════════════════════════════════════════════════════════════
+   AUTOPART PARTICLES 3D — Iconos/emojis flotantes
+   Canvas 2D con proyección en perspectiva
+   ═══════════════════════════════════════════════════════════════ */
 
 const AUTOPARTES = [
-  '\u2B21', '\u2B22', '\u25C6', '\u25A3',
-  '\u25CB', '\u25CE', '\u25C9', '\u29BF',
-  '\u26A1', '\u2726', '\u2727', '\u2605',
-  '\u2699', '\u26ED',
-  '\u25CF', '\u25D0', '\u25D1', '\u25D2', '\u25D3', '\u2299',
-  '\u25A4', '\u25A5', '\u25A6',
-  '\u2263', '\u224B',
-  '\u25B5', '\u25B4', '\u25BF', '\u25BE',
-  '\u2692', '\u26D3',
+  '⚡','📡','🔧','⚙️','🔌','📟','🚛','⛽',
+  '🛣️','🚨','🎛️','🔩','🔨','📊','🛞','🔋',
+  '📲','💻','🔬','🔦','🧰','📡','📶','🔍',
+  '🛠️','🔭','📈','🔖','📍','📎','🔒','🚦',
 ];
 
-const MOUSE_RADIUS = 200;
 const MAX_PARTICLES = 160;
-const MAX_PARTICLES_MOBILE = 50;
-const SORT_EVERY_N_FRAMES = 60;
-const SORT_EVERY_N_FRAMES_MOBILE = 90;
-const TRAIL_ALPHA = 0.28;
+const MAX_PARTICLES_MOBILE = 60;
 
 interface P {
   ch: string;
@@ -29,7 +25,7 @@ interface P {
 
 interface S {
   x: number; y: number; vx: number; vy: number;
-  ch: string; a: number; s: number; rot: number; rotS: number;
+  ch: string; a: number; s: number;
 }
 
 const AutopartParticles = memo(function AutopartParticles() {
@@ -38,41 +34,24 @@ const AutopartParticles = memo(function AutopartParticles() {
   useEffect(() => {
     const c = canvasRef.current;
     if (!c) return;
-    const x = c.getContext('2d', { alpha: false, willReadFrequently: false });
+    const x = c.getContext('2d', { alpha: true });
     if (!x) return;
-    const parent = c.parentElement;
-    if (!parent) return;
 
-    let W = 0, H = 0, mx = -1000, my = -1000, raf = 0, fr = 0;
+    let W = 0, H = 0;
     let isVisible = false;
-    let killed = false;
+    let fr = 0;
+    let mx = -9999, my = -9999, md = false;
+
+    const resize = () => {
+      const s = Math.min(window.devicePixelRatio || 1, 2);
+      W = Math.round(c.clientWidth * s);
+      H = Math.round(c.clientHeight * s);
+      c.width = W; c.height = H;
+    };
+
     const isMobile = window.innerWidth < 768;
     const PARTICLE_COUNT = isMobile ? MAX_PARTICLES_MOBILE : MAX_PARTICLES;
-    const SORT_INTERVAL = isMobile ? SORT_EVERY_N_FRAMES_MOBILE : SORT_EVERY_N_FRAMES;
 
-    function resize() {
-      const r = parent!.getBoundingClientRect();
-      W = Math.round(r.width); H = Math.round(r.height);
-      if (W < 1 || H < 1) return;
-      const d = Math.min(window.devicePixelRatio || 1, 2);
-      const w = W * d, h = H * d;
-      if (c!.width !== w || c!.height !== h) {
-        c!.width = w; c!.height = h;
-        c!.style.width = W + 'px'; c!.style.height = H + 'px';
-        x!.setTransform(d, 0, 0, d, 0, 0);
-      }
-    }
-
-    const ro = new ResizeObserver(resize);
-    ro.observe(parent); resize();
-
-    const visObs = new IntersectionObserver(
-      ([e]) => { isVisible = e.isIntersecting; },
-      { threshold: 0, rootMargin: '100px' }
-    );
-    visObs.observe(c);
-
-    // Particles
     const ps: P[] = [];
     for (let i = 0; i < PARTICLE_COUNT; i++) {
       ps.push({
@@ -85,120 +64,87 @@ const AutopartParticles = memo(function AutopartParticles() {
         vz: (Math.random() - 0.5) * 1,
         rot: Math.random() * 6.28,
         rotS: (Math.random() - 0.5) * 0.02,
-        s: 16 + Math.random() * 14,
+        s: 14 + Math.random() * 12,
       });
     }
 
     const ss: S[] = [];
-    function spark(sx: number, sy: number) {
-      const count = isMobile ? 6 : 12;
-      for (let i = 0; i < count; i++) {
-        const a = Math.random() * 6.28;
-        const v = 3 + Math.random() * 9;
-        ss.push({
-          x: sx, y: sy,
-          vx: Math.cos(a) * v, vy: Math.sin(a) * v,
-          ch: AUTOPARTES[(Math.random() * AUTOPARTES.length) | 0],
-          a: 1, s: 16 + Math.random() * 14,
-          rot: Math.random() * 6.28,
-          rotS: (Math.random() - 0.5) * 0.4,
-        });
-      }
-    }
 
-    const rect = () => c!.getBoundingClientRect();
-    const onMove = (e: MouseEvent) => { const r = rect(); mx = e.clientX - r.left; my = e.clientY - r.top; };
-    const onLeave = () => { mx = -1000; my = -1000; };
-    const onClick = (e: MouseEvent) => { const r = rect(); spark(e.clientX - r.left, e.clientY - r.top); };
+    const draw = () => {
+      if (!isVisible) return;
+      fr++;
+      x.clearRect(0, 0, W, H);
 
-    let ta = false;
-    const tPos = (e: TouchEvent) => {
-      const r = rect(), t = e.touches[0] || e.changedTouches[0];
-      return { x: t.clientX - r.left, y: t.clientY - r.top };
-    };
-    const onTS = (e: TouchEvent) => { ta = true; const o = tPos(e); mx = o.x; my = o.y; spark(o.x, o.y); };
-    const onTM = (e: TouchEvent) => { if (!ta) return; const o = tPos(e); mx = o.x; my = o.y; };
-    const onTE = () => { ta = false; mx = -1000; my = -1000; };
+      const focal = 300;
+      const cx = W / 2, cy = H / 2;
 
-    c.addEventListener('mousemove', onMove);
-    c.addEventListener('mouseleave', onLeave);
-    c.addEventListener('click', onClick);
-    c.addEventListener('touchstart', onTS, { passive: true });
-    c.addEventListener('touchmove', onTM, { passive: true });
-    c.addEventListener('touchend', onTE);
-
-    const cx_ = () => W / 2, cy_ = () => H / 2;
-    const mr2 = MOUSE_RADIUS * MOUSE_RADIUS;
-
-    function draw() {
-      if (killed) return;
-      if (!isVisible || W < 1 || H < 1) {
-        raf = requestAnimationFrame(draw);
-        return;
-      }
-
-      x!.fillStyle = `rgba(0,0,0,${TRAIL_ALPHA})`;
-      x!.fillRect(0, 0, W, H);
-
-      const cx = cx_(), cy = cy_();
+      if (fr % 90 === 0) ps.sort((a, b) => b.z - a.z);
 
       for (const p of ps) {
-        p.x += p.vx; p.y += p.vy; p.z += p.vz; p.rot += p.rotS;
-        if (p.x < -2500 || p.x > 2500) p.vx *= -1;
-        if (p.y < -1800 || p.y > 1800) p.vy *= -1;
-        if (p.z < 20 || p.z > 800) p.vz *= -1;
+        p.x += p.vx; p.y += p.vy; p.z += p.vz;
 
-        const sc = 400 / (400 + p.z);
-        const sx = cx + p.x * sc, sy = cy + p.y * sc, sz = p.s * sc;
-        const dx = sx - mx, dy = sy - my;
-        const d2 = dx * dx + dy * dy;
-        let gl = 0;
+        if (p.x < -2500) p.x = 2500; else if (p.x > 2500) p.x = -2500;
+        if (p.y < -1800) p.y = 1800; else if (p.y > 1800) p.y = -1800;
+        if (p.z < 10) { p.z = 10; p.vz *= -1; }
+        if (p.z > 800) { p.z = 800; p.vz *= -1; }
 
-        if (d2 < mr2 && mx > 0) {
-          const d = Math.sqrt(d2) || 1;
-          gl = 1 - d / MOUSE_RADIUS;
-          p.x += (dx / d) * gl * 2.5;
-          p.y += (dy / d) * gl * 2.5;
-        }
-        const al = (0.55 + sc * 0.4) + gl * 0.5;
+        const sc = focal / (focal + p.z);
+        const sx = cx + p.x * sc;
+        const sy = cy + p.y * sc;
+        const sz = p.s * sc;
 
-        if (sx > -60 && sx < W + 60 && sy > -60 && sy < H + 60) {
-          x!.save();
-          x!.translate(sx, sy);
-          x!.rotate(p.rot * gl * 3);
-          if (gl > 0.05) {
-            x!.shadowColor = '#E31E24';
-            x!.shadowBlur = gl * 35;
-            x!.fillStyle = `rgba(255,80,80,${Math.min(1, al)})`;
+        const dMouse = Math.hypot(sx - mx, sy - my);
+        const isNearMouse = dMouse < 100 && md;
+        const al = Math.max(0.15, Math.min(1, (800 - p.z) / 700));
+
+        if (sx > 80 && sx < W - 80 && sy > 80 && sy < H - 80) {
+          x.save();
+          x.translate(sx, sy);
+          x.rotate(p.rot * (isNearMouse ? 4 : 1));
+
+          if (isNearMouse) {
+            x.shadowColor = '#E31E24';
+            x.shadowBlur = 25;
+            x.fillStyle = `rgba(227,30,36,${Math.min(1, al + 0.4)})`;
           } else {
-            x!.shadowBlur = 0;
-            x!.fillStyle = `rgba(220,50,50,${Math.min(1, al * 0.85)})`;
+            x.shadowBlur = 0;
+            x.fillStyle = `rgba(200,30,30,${al * 0.85})`;
           }
-          x!.font = `bold ${sz}px "Courier New",monospace`;
-          x!.textAlign = 'center'; x!.textBaseline = 'middle';
-          x!.fillText(p.ch, 0, 0); x!.restore();
+
+          x.font = `${sz}px Arial, sans-serif`;
+          x.textAlign = 'center';
+          x.textBaseline = 'middle';
+          x.fillText(p.ch, 0, 0);
+          x.restore();
+
+          // Spark burst on mouse near
+          if (isNearMouse && Math.random() < 0.2) {
+            ss.push({
+              x: sx, y: sy,
+              vx: (Math.random() - 0.5) * 5,
+              vy: (Math.random() - 0.5) * 5 - 3,
+              ch: p.ch, a: 1, s: 6 + Math.random() * 8,
+            });
+          }
         }
       }
 
-      // Connections (desktop only)
-      if (!isMobile) {
-        x!.shadowBlur = 0; x!.lineWidth = 1;
-        for (let i = 0; i < ps.length; i++) {
-          const a = ps[i], sA = 400 / (400 + a.z), ax = cx + a.x * sA, ay = cy + a.y * sA;
-          const aDist = (ax - mx) * (ax - mx) + (ay - my) * (ay - my);
-          if (aDist >= mr2 || mx <= 0) continue;
-          const aGlow = 1 - Math.sqrt(aDist) / MOUSE_RADIUS;
-          for (let j = i + 1; j < ps.length; j++) {
-            const b = ps[j], sB = 400 / (400 + b.z), bx = cx + b.x * sB, by = cy + b.y * sB;
-            const bDist = (bx - mx) * (bx - mx) + (by - my) * (by - my);
-            if (bDist >= mr2) continue;
-            const bGlow = 1 - Math.sqrt(bDist) / MOUSE_RADIUS;
-            const pdx = ax - bx, pdy = ay - by;
-            const pd = Math.sqrt(pdx * pdx + pdy * pdy);
-            if (pd < 100) {
-              x!.strokeStyle = `rgba(255,60,60,${Math.min(aGlow, bGlow) * 0.3 * (1 - pd / 100)})`;
-              x!.beginPath(); x!.moveTo(ax, ay); x!.lineTo(bx, by); x!.stroke();
-            }
+      // Connection lines
+      for (let i = 0; i < Math.min(ps.length, 25); i++) {
+        for (let j = i + 1; j < Math.min(ps.length, 25); j++) {
+          const a = ps[i], b = ps[j];
+          const pd = Math.hypot(a.x - b.x, a.y - b.y, a.z - b.z);
+          if (pd < 200) {
+            const aSc = focal / (focal + a.z);
+            const bSc = focal / (focal + b.z);
+            const aGlow = Math.max(0.15, (800 - a.z) / 700);
+            const bGlow = Math.max(0.15, (800 - b.z) / 700);
+            x.beginPath();
+            x.moveTo(cx + a.x * aSc, cy + a.y * aSc);
+            x.lineTo(cx + b.x * bSc, cy + b.y * bSc);
+            x.strokeStyle = `rgba(227,30,36,${Math.min(aGlow, bGlow) * 0.2 * (1 - pd / 200)})`;
+            x.lineWidth = 0.5;
+            x.stroke();
           }
         }
       }
@@ -206,22 +152,82 @@ const AutopartParticles = memo(function AutopartParticles() {
       // Sparks
       for (let i = ss.length - 1; i >= 0; i--) {
         const s = ss[i];
-        s.x += s.vx; s.y += s.vy; s.vx *= 0.93; s.vy *= 0.93;
-        s.a -= 0.022; s.rot += s.rotS;
+        s.x += s.vx; s.y += s.vy; s.vy += 0.2;
+        s.a -= 0.03;
         if (s.a <= 0) { ss.splice(i, 1); continue; }
-        x!.save(); x!.translate(s.x, s.y); x!.rotate(s.rot);
-        x!.shadowColor = '#FF4444'; x!.shadowBlur = 30 * s.a;
-        x!.fillStyle = `rgba(255,120,60,${s.a})`;
-        x!.font = `bold ${s.s * s.a}px "Courier New",monospace`;
-        x!.textAlign = 'center'; x!.textBaseline = 'middle';
-        x!.fillText(s.ch, 0, 0); x!.restore();
+        x.save();
+        x.globalAlpha = s.a;
+        x.fillStyle = '#E31E24';
+        x.font = `${s.s}px Arial`;
+        x.textAlign = 'center'; x.textBaseline = 'middle';
+        x.fillText(s.ch, s.x, s.y);
+        x.restore();
       }
 
-      fr++;
-      if (fr % SORT_INTERVAL === 0) ps.sort((a, b) => b.z - a.z);
+      requestAnimationFrame(draw);
+    };
 
-      raf = requestAnimationFrame(draw);
-    }
+    // Click explosion
+    const onClick = (e: MouseEvent) => {
+      const rect = c.getBoundingClientRect();
+      const s = Math.min(window.devicePixelRatio || 1, 2);
+      const cx = (e.clientX - rect.left) * s;
+      const cy = (e.clientY - rect.top) * s;
+      for (let i = 0; i < 25; i++) {
+        const a = Math.random() * 6.28;
+        const v = 3 + Math.random() * 8;
+        ss.push({
+          x: cx, y: cy,
+          vx: Math.cos(a) * v, vy: Math.sin(a) * v - 4,
+          ch: AUTOPARTES[(Math.random() * AUTOPARTES.length) | 0],
+          a: 1, s: 10 + Math.random() * 14,
+        });
+      }
+    };
+
+    // Touch explosion
+    const onTouchStart = (e: TouchEvent) => {
+      const rect = c.getBoundingClientRect();
+      const s = Math.min(window.devicePixelRatio || 1, 2);
+      const touch = e.touches[0];
+      const cx = (touch.clientX - rect.left) * s;
+      const cy = (touch.clientY - rect.top) * s;
+      for (let i = 0; i < 18; i++) {
+        const a = Math.random() * 6.28;
+        const v = 2 + Math.random() * 6;
+        ss.push({
+          x: cx, y: cy,
+          vx: Math.cos(a) * v, vy: Math.sin(a) * v - 3,
+          ch: AUTOPARTES[(Math.random() * AUTOPARTES.length) | 0],
+          a: 1, s: 8 + Math.random() * 10,
+        });
+      }
+    };
+
+    const onMM = (e: MouseEvent) => {
+      const rect = c.getBoundingClientRect();
+      const s = Math.min(window.devicePixelRatio || 1, 2);
+      mx = (e.clientX - rect.left) * s;
+      my = (e.clientY - rect.top) * s;
+    };
+    const onMD = () => { md = true; };
+    const onMU = () => { md = false; mx = -9999; };
+    const onTouchMove = (e: TouchEvent) => {
+      const rect = c.getBoundingClientRect();
+      const s = Math.min(window.devicePixelRatio || 1, 2);
+      mx = (e.touches[0].clientX - rect.left) * s;
+      my = (e.touches[0].clientY - rect.top) * s;
+    };
+    const onTouchEnd = () => { md = false; mx = -9999; };
+
+    c.addEventListener('mousemove', onMM);
+    c.addEventListener('mousedown', onMD);
+    c.addEventListener('click', onClick);
+    window.addEventListener('mouseup', onMU);
+    c.addEventListener('touchstart', onTouchStart, { passive: true });
+    c.addEventListener('touchmove', onTouchMove, { passive: true });
+    c.addEventListener('touchend', onTouchEnd);
+    window.addEventListener('resize', resize);
 
     const startTimer = setTimeout(() => {
       resize();
@@ -231,17 +237,16 @@ const AutopartParticles = memo(function AutopartParticles() {
     }, 150);
 
     return () => {
-      killed = true;
       clearTimeout(startTimer);
-      cancelAnimationFrame(raf);
-      ro.disconnect();
-      visObs.disconnect();
-      c.removeEventListener('mousemove', onMove);
-      c.removeEventListener('mouseleave', onLeave);
+      isVisible = false;
+      c.removeEventListener('mousemove', onMM);
+      c.removeEventListener('mousedown', onMD);
       c.removeEventListener('click', onClick);
-      c.removeEventListener('touchstart', onTS);
-      c.removeEventListener('touchmove', onTM);
-      c.removeEventListener('touchend', onTE);
+      window.removeEventListener('mouseup', onMU);
+      c.removeEventListener('touchstart', onTouchStart);
+      c.removeEventListener('touchmove', onTouchMove);
+      c.removeEventListener('touchend', onTouchEnd);
+      window.removeEventListener('resize', resize);
     };
   }, []);
 

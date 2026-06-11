@@ -205,7 +205,7 @@ export default function AgendaSpeakers() {
       id="agenda-speakers"
       ref={sectionRef}
       className="relative bg-black overflow-hidden select-none"
-      style={{ paddingTop: 80, paddingBottom: 80 }}
+      style={{ paddingTop: 64, paddingBottom: 64 }}
     >
       {/* Subtle grid */}
       <div className="absolute inset-0 opacity-[0.02]"
@@ -213,29 +213,32 @@ export default function AgendaSpeakers() {
       />
 
       <div className="relative z-10 wrapper px-5">
-        {/* ═══ HEADER: Agenda y Speakers ═══ */}
-        <div ref={headerRef} className="text-center mb-10 lg:mb-14">
-          <div className="flex items-center justify-center gap-2 mb-3">
-            <Calendar size={16} className="text-[#E31E24]" />
-            <p className="font-mono text-[10px] tracking-[0.4em] text-[#E31E24] uppercase">
-              Programa & Conferencistas
-            </p>
-          </div>
-          <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl text-white tracking-tight">
-            Agenda y <span className="text-[#E31E24]">Speakers</span>
-          </h2>
-          <p className="mt-3 text-sm text-white/40 max-w-lg mx-auto">
-            Dos días de contenido intensivo con los mejores conferencistas del sector.
-          </p>
-        </div>
+        {/* WRAPPER relative para que TeaserOverlay cubra header + grid completo */}
+        <div className="relative">
 
-        {/* ═══ 2 COLUMNAS con TeaserOverlay encima ═══ */}
-        <div className="relative grid grid-cols-1 lg:grid-cols-[1fr_auto_1fr] gap-6 lg:gap-0 items-start">
-
-          {/* TeaserOverlay — CAPA POR ENCIMA, blurrea todo el contenido */}
+          {/* TeaserOverlay — CAPA POR ENCIMA de toda la seccion */}
           <TeaserOverlay message="Agenda y Speakers" submessage="Muy pronto conoceras a los conferencistas y el programa completo del evento" />
 
-          {/* ── COL IZQ: Agenda ── */}
+          {/* ═══ HEADER: Agenda y Speakers ═══ */}
+          <div ref={headerRef} className="text-center mb-8 lg:mb-10">
+            <div className="flex items-center justify-center gap-2 mb-3">
+              <Calendar size={16} className="text-[#E31E24]" />
+              <p className="font-mono text-[10px] tracking-[0.4em] text-[#E31E24] uppercase">
+                Programa & Conferencistas
+              </p>
+            </div>
+            <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl text-white tracking-tight">
+              Agenda y <span className="text-[#E31E24]">Speakers</span>
+            </h2>
+            <p className="mt-3 text-sm text-white/40 max-w-lg mx-auto">
+              Dos días de contenido intensivo con los mejores conferencistas del sector.
+            </p>
+          </div>
+
+          {/* ═══ 2 COLUMNAS ═══ */}
+          <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto_1fr] gap-6 lg:gap-0 items-start">
+
+            {/* ── COL IZQ: Agenda ── */}
           <div className="agenda-col">
             {/* Day Toggle */}
             <div className="flex items-center justify-center gap-3 mb-6">
@@ -295,7 +298,7 @@ export default function AgendaSpeakers() {
             {/* 3D Carousel */}
             <div
               className="relative w-full flex items-center justify-center"
-              style={{ perspective: '1000px', height: '380px' }}
+              style={{ perspective: '1000px', height: '304px' }}
               onMouseDown={(e) => { e.preventDefault(); handlePointerDown(e.clientX); }}
               onMouseMove={(e) => handlePointerMove(e.clientX)}
               onMouseUp={() => handlePointerUp()}
@@ -309,7 +312,7 @@ export default function AgendaSpeakers() {
               <div
                 ref={carouselRef}
                 className="relative"
-                style={{ width: '220px', height: '300px', transformStyle: 'preserve-3d', transition: isDragging ? 'none' : undefined }}
+                style={{ width: '220px', height: '240px', transformStyle: 'preserve-3d', transition: isDragging ? 'none' : undefined, margin: '0 auto' }}
               >
                 {SPEAKERS.map((speaker, i) => {
                   const angle = i * S_ANGLE_STEP;
@@ -350,6 +353,8 @@ export default function AgendaSpeakers() {
               <span className="font-mono text-[9px] tracking-wider">Arrastra para explorar</span>
             </div>
           </div>
+        </div>
+        {/* Cierre del wrapper relative del TeaserOverlay */}
         </div>
       </div>
     </section>

@@ -100,15 +100,15 @@ export default function Intro() {
   }, []);
 
   return (
-    <section id="about" ref={sectionRef} className="bg-temacon-softgray page-padding" data-nav-light>
+    <section id="about" ref={sectionRef} className="bg-black" style={{ paddingTop: 60, paddingBottom: 60 }} data-nav-light>
       <div className="wrapper">
         {/* Row 1: Title — full width */}
-        <h2 ref={titleRef} className="font-display text-t2 text-temacon-black leading-tight">
+        <h2 ref={titleRef} className="font-display text-t2 text-white leading-tight">
           El evento líder de Tecnología, Mantenimiento y Confiabilidad para Camiones y Flotas de Transporte de Carga en Colombia
         </h2>
 
         {/* Row 2: Description — full width */}
-        <p ref={descRef} className="text-base lg:text-lg text-temacon-charcoal leading-relaxed mt-6 lg:mt-8 max-w-3xl">
+        <p ref={descRef} className="text-base lg:text-lg text-white/60 leading-relaxed mt-4 lg:mt-6 max-w-3xl">
           TEMACON 2026 es el punto de encuentro para profesionales del sector camionero
           que buscan maximizar la confiabilidad de sus flotas, implementar mantenimiento predictivo,
           reducir el downtime y optimizar la cadena de suministro. Conecta con la comunidad técnica
@@ -116,13 +116,13 @@ export default function Intro() {
         </p>
 
         {/* Row 3: Stats — single horizontal row that expands */}
-        <div ref={statsRef} className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6 lg:gap-8 mt-12 lg:mt-16">
+        <div ref={statsRef} className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 lg:gap-6 mt-8 lg:mt-10">
           {STATS.map((stat) => (
             <div key={stat.label} className="stat-item text-center">
-              <p className="font-display text-3xl lg:text-4xl text-temacon-black">
+              <p className="font-display text-3xl lg:text-4xl text-[#E31E24]">
                 <AnimatedCounter target={stat.value} suffix={stat.suffix} />
               </p>
-              <p className="font-mono text-[9px] text-temacon-charcoal uppercase tracking-wider mt-2">
+              <p className="font-mono text-[9px] text-white/50 uppercase tracking-wider mt-2">
                 {stat.label}
               </p>
             </div>

@@ -681,7 +681,7 @@ export default function TractoCamion3DSection() {
   }, []);
 
   return (
-    <section id="tractocamion" ref={sectionRef} className="bg-[#0a0a0a] page-padding overflow-hidden relative">
+    <section id="tractocamion" ref={sectionRef} className="bg-[#0a0a0a] overflow-hidden relative" style={{ paddingTop: 36, paddingBottom: 36 }}>
       <div className="wrapper">
         <div ref={titleRef} className="text-center mb-8">
           <h2 className="font-display text-t2 text-white">
@@ -717,7 +717,7 @@ export default function TractoCamion3DSection() {
       </div>
 
       {/* 3D Canvas */}
-      <div className="relative w-full aspect-[16/9] max-h-[700px]">
+      <div className="relative w-full aspect-[16/9] max-h-[420px]">
         <Canvas shadows gl={{ antialias: true, alpha: false }} style={{ background: '#0a0a0a' }}>
           <PerspectiveCamera makeDefault position={[6, 3, 7]} fov={40} />
           <ambientLight intensity={0.4} />

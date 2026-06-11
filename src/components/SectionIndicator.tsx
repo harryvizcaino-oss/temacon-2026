@@ -2,26 +2,25 @@ import { useEffect, useState, memo } from 'react';
 
 /* ═══════════════════════════════════════════
    SECTION INDICATOR — HUD Digital Compacto
-   14 secciones en orden exacto de la pagina
+   11 secciones en orden exacto de la pagina
+   1 palabra fija — la caja nunca cambia de tamano
    ═══════════════════════════════════════════ */
 
 const SECTIONS = [
-  { id: 'hero',           label: 'Inicio' },
-  { id: 'about',          label: 'Evento' },
-  { id: 'flujo',          label: 'Flujo' },
-  { id: 'brands',         label: 'Marcas' },
-  { id: 'audience',       label: 'Asistente' },
-  { id: 'tractocamion',   label: '3D\nExperience' },
-  { id: 'tracks',         label: 'Tracks' },
-  { id: 'agenda-speakers', label: 'Agenda &\nSpeakers' },
-  { id: 'testimonials',   label: 'Por que\nAsistir' },
-  { id: 'venue',          label: 'Sede' },
-  { id: 'pricing',        label: 'Registro' },
-  { id: 'linkedin-event', label: 'LinkedIn' },
-  { id: 'faq',            label: 'FAQ' },
+  { id: 'hero',            label: 'Inicio' },
+  { id: 'about',           label: 'Evento' },
+  { id: 'audience',        label: 'Perfiles' },
+  { id: 'flujo',           label: 'Flujo' },
+  { id: 'brands',          label: 'Marcas' },
+  { id: 'tractocamion',    label: '3D' },
+  { id: 'tracks',          label: 'Tracks' },
+  { id: 'agenda-speakers', label: 'Agenda' },
+  { id: 'venue',           label: 'Sede' },
+  { id: 'pricing',         label: 'Tickets' },
+  { id: 'faq',             label: 'FAQ' },
 ];
 
-// NOTE: HashtagMarquee no tiene ID — es una seccion puramente visual/SEO
+// NOTE: HashtagMarquee y Footer no tienen ID
 
 function getActiveSection(): number {
   const vh = window.innerHeight;
@@ -98,7 +97,7 @@ const SectionIndicator = memo(function SectionIndicator() {
           border: '1.5px solid rgba(227,30,36,0.6)',
           boxShadow: '0 0 12px rgba(227,30,36,0.15), inset 0 0 20px rgba(227,30,36,0.03)',
           width: '72px',
-          minHeight: '52px',
+          height: '52px',
         }}
       >
         {/* Corner brackets */}
@@ -107,10 +106,10 @@ const SectionIndicator = memo(function SectionIndicator() {
         <span className="absolute -bottom-[2px] -left-[2px] w-1.5 h-1.5 sm:w-2 sm:h-2 border-l-2 border-b-2 border-[#E31E24]"></span>
         <span className="absolute -bottom-[2px] -right-[2px] w-1.5 h-1.5 sm:w-2 sm:h-2 border-r-2 border-b-2 border-[#E31E24]"></span>
 
-        {/* Section name — multi-line fijo, fuente pequeña */}
+        {/* Section name — 1 palabra fija, nunca cambia de tamaño */}
         <p
-          className="font-mono text-[5px] sm:text-[6px] tracking-[0.2em] text-[#E31E24]/70 uppercase text-right mb-0.5 leading-tight"
-          style={{ whiteSpace: 'pre-line', minHeight: '12px' }}
+          className="font-mono text-[5px] sm:text-[6px] tracking-[0.2em] text-[#E31E24]/70 uppercase text-right mb-0.5 leading-none truncate"
+          style={{ whiteSpace: 'nowrap', height: '10px', overflow: 'hidden' }}
         >
           {current.label}
         </p>
@@ -141,7 +140,7 @@ const SectionIndicator = memo(function SectionIndicator() {
           ></div>
         </div>
 
-        {/* Dots — 14 compact */}
+        {/* Dots — 11 compact */}
         <div className="flex gap-[2px] sm:gap-[3px] mt-1 justify-end flex-wrap">
           {SECTIONS.map((_, i) => {
             const isActive = i === activeIndex;

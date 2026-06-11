@@ -128,7 +128,7 @@ const Navigation = memo(function Navigation() {
               </a>
               <a
                 href="#pricing"
-                className="bg-[#E31E24] text-white px-4 py-1.5 rounded-lg text-xs font-semibold hover:bg-[#c41a20] transition-all duration-300 whitespace-nowrap flex items-center gap-1.5"
+                className="bg-[#E31E24] text-white px-4 py-1.5 rounded-lg text-xs font-semibold hover:bg-[#c41a20] transition-all duration-300 glow-pulse whitespace-nowrap flex items-center gap-1.5"
               >
                 <QrCode size={13} />
                 Comprar Ticket
@@ -229,7 +229,7 @@ const Navigation = memo(function Navigation() {
             </a>
             <a
               href="#pricing"
-              className="flex items-center justify-center gap-1.5 bg-[#E31E24] text-white py-[8px] rounded-lg font-display font-semibold text-[12px] leading-tight hover:bg-[#c41a20] transition-all"
+              className="flex items-center justify-center gap-1.5 bg-[#E31E24] text-white py-[8px] rounded-lg font-display font-semibold text-[12px] leading-tight hover:bg-[#c41a20] transition-all glow-pulse"
               onClick={() => setMobileOpen(false)}
             >
               <QrCode size={14} />

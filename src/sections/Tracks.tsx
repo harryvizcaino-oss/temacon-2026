@@ -55,17 +55,17 @@ function TrackAccordion({ track, isOpen, onToggle }: { track: typeof TRACKS[0]; 
     <div className="border-b border-temacon-charcoal/20">
       <button
         onClick={onToggle}
-        className={`w-full flex items-center justify-between py-5 lg:py-6 px-4 lg:px-6 transition-colors duration-300 ${
+        className={`w-full flex items-center justify-between py-3.5 lg:py-4 px-4 lg:px-6 transition-colors duration-300 ${
           isOpen ? 'bg-[#E31E24] text-white' : 'bg-[#333333] hover:bg-[#555555]'
         }`}
       >
         <span className="font-display text-t5 lg:text-t4 text-white text-left">{track.title}</span>
         <ChevronDown size={28} className={`text-white transition-transform duration-300 flex-shrink-0 ml-4 ${isOpen ? 'rotate-180' : ''}`} />
       </button>
-      <div className={`overflow-hidden transition-all duration-500 ease-in-out ${isOpen ? 'max-h-[600px] opacity-100' : 'max-h-0 opacity-0'}`}>
-        <div className="bg-[#E31E24] px-4 lg:px-6 pb-6">
-          <p className="text-base text-white/90 leading-relaxed max-w-3xl">{track.description}</p>
-          <div className="flex flex-wrap gap-2 mt-4">
+      <div className={`overflow-hidden transition-all duration-500 ease-in-out ${isOpen ? 'max-h-[400px] opacity-100' : 'max-h-0 opacity-0'}`}>
+        <div className="bg-[#E31E24] px-4 lg:px-6 pb-4">
+          <p className="text-sm text-white/90 leading-relaxed max-w-3xl">{track.description}</p>
+          <div className="flex flex-wrap gap-2 mt-3">
             {track.topics.map((topic) => (
               <span key={topic} className="bg-white text-temacon-black px-3 py-1.5 rounded-full text-xs font-mono">{topic}</span>
             ))}
@@ -93,9 +93,9 @@ export default function Tracks() {
   }, []);
 
   return (
-    <section id="tracks" ref={sectionRef} className="bg-temacon-offwhite page-padding" data-nav-light>
+    <section id="tracks" ref={sectionRef} className="bg-temacon-offwhite" data-nav-light style={{ paddingTop: 28, paddingBottom: 28 }}>
       <div className="wrapper">
-        <h2 ref={titleRef} className="font-display text-t2 text-temacon-black text-center mb-12 lg:mb-16">
+        <h2 ref={titleRef} className="font-display text-t2 text-temacon-black text-center mb-8 lg:mb-10">
           7 Tracks especializados en Tecnología, Mantenimiento Predictivo y Confiabilidad Vehicular
         </h2>
         <div ref={listRef} className="rounded-2xl overflow-hidden">

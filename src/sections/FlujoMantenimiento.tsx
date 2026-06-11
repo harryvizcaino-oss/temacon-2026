@@ -277,20 +277,20 @@ export default function FlujoMantenimiento() {
   }, []);
 
   return (
-    <section id="flujo" ref={sectionRef} className="bg-[#0a0a0a] page-padding overflow-hidden relative">
+    <section id="flujo" ref={sectionRef} className="bg-[#0a0a0a] overflow-hidden relative" style={{ paddingTop: 36, paddingBottom: 36 }}>
       <style>{`
         @keyframes signalWave { 0% { transform: scale(1); opacity: 0.5; } 100% { transform: scale(1.5); opacity: 0; } }
       `}</style>
       <div className="absolute inset-0 opacity-[0.02]" style={{ backgroundImage: 'linear-gradient(rgba(227,30,36,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(227,30,36,0.5) 1px, transparent 1px)', backgroundSize: '80px 80px' }} />
       <div className="wrapper relative">
         {/* Title */}
-        <div className="text-center mb-8 sm:mb-12 lg:mb-16">
-          <div className="flex items-center justify-center gap-3 mb-4">
+        <div className="text-center mb-5 sm:mb-6 lg:mb-8">
+          <div className="flex items-center justify-center gap-3 mb-3">
             <div className="w-2 h-2 bg-[#E31E24] rounded-full animate-pulse" />
             <span className="font-mono text-xs text-[#E31E24] uppercase tracking-[0.3em]">Sistema en Vivo · TEMACON v2026</span>
           </div>
           <h2 className="font-display text-2xl sm:text-t2 text-white">Flujo de Mantenimiento Inteligente</h2>
-          <p className="mt-4 text-sm sm:text-base text-white/40 max-w-2xl mx-auto px-4">
+          <p className="mt-2 text-sm sm:text-base text-white/40 max-w-2xl mx-auto px-4">
             Señales de datos viajando en tiempo real a través del proceso completo de mantenimiento predictivo del transporte de carga.
           </p>
         </div>
@@ -318,27 +318,10 @@ export default function FlujoMantenimiento() {
           </div>
         )}
 
-        {/* Bottom Metrics Bar */}
-        <div className="mt-6 sm:mt-8 lg:mt-12 grid grid-cols-2 lg:grid-cols-6 gap-2 sm:gap-3">
-          {[
-            { label: 'Flujo de Datos', value: '1,247 pkt/s', color: '#E31E24' },
-            { label: 'Latencia Red', value: '12 ms', color: '#FF8800' },
-            { label: 'Sensores Activos', value: '847/847', color: '#4A90C4' },
-            { label: 'Conexión IoT', value: '5G · -67dBm', color: '#00C853' },
-            { label: 'Confiabilidad', value: '99.7%', color: '#00B0FF' },
-            { label: 'Uptime Flota', value: '99.2%', color: '#76FF03' },
-          ].map((m) => (
-            <div key={m.label} className="bg-[#111] border border-[#222] rounded-xl p-2 sm:p-3 text-center">
-              <p className="font-mono text-[8px] sm:text-[10px] text-white/30 uppercase tracking-wider mb-1">{m.label}</p>
-              <p className="font-display text-xs sm:text-sm lg:text-base" style={{ color: m.color }}>{m.value}</p>
-            </div>
-          ))}
-        </div>
-
         {/* CTA */}
-        <div className="mt-8 sm:mt-12 text-center">
-          <a href="#pricing" className="inline-flex items-center gap-2 bg-[#E31E24] text-white px-6 sm:px-8 py-3 sm:py-4 rounded-full font-display text-sm sm:text-base font-semibold hover:bg-white hover:text-[#E31E24] transition-all duration-300 shadow-lg shadow-[#E31E24]/20">
-            <Cpu size={18} className="sm:w-5 sm:h-5" />¿Te gustaría implementar algo así en tu empresa?
+        <div className="mt-4 sm:mt-6 text-center">
+          <a href="#pricing" className="inline-flex items-center gap-2 bg-[#E31E24] text-white px-5 sm:px-6 py-2.5 sm:py-3 rounded-full font-display text-sm font-semibold hover:bg-white hover:text-[#E31E24] transition-all duration-300 shadow-lg shadow-[#E31E24]/20">
+            <Cpu size={16} className="sm:w-4 sm:h-4" />Implementar en mi empresa
           </a>
         </div>
       </div>
