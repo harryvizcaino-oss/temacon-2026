@@ -194,7 +194,7 @@ export default function Agenda() {
         {/* Bottom CTA */}
         <div className="mt-10 text-center">
           <a
-            href="#register"
+            href="#pricing"
             className="inline-flex items-center gap-2 bg-[#E31E24] text-white px-8 py-4 rounded-full font-display text-base font-semibold hover:bg-white hover:text-[#E31E24] transition-all duration-300 shadow-lg shadow-[#E31E24]/20"
           >
             <Clock size={18} />

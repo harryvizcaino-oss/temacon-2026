@@ -85,7 +85,7 @@ const Hero3D = memo(function Hero3D() {
           <div className="h-3" />
           <div className="flex items-center gap-3" style={{ pointerEvents: 'auto' }}>
             <a
-              href="#testimonials"
+              href="#audience"
               className="flex items-center gap-2 bg-white text-black border-2 border-yellow-400 px-4 sm:px-6 py-2.5 rounded-lg font-display text-sm sm:text-base font-semibold hover:bg-yellow-400 hover:text-black transition-all duration-300"
             >
               <Sparkles size={15} className="text-yellow-400 fill-transparent" strokeWidth={2.5} />

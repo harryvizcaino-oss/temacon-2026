@@ -49,7 +49,7 @@ function BrandLogo({ brand }: { brand: BrandItem }) {
           ? 'bg-white border-black/[0.06] hover:border-[#E31E24]/40 hover:shadow-[0_4px_24px_rgba(227,30,36,0.08)]'
           : 'bg-gray-100 border-black/[0.03]'
       }`}
-      style={{ width: 220, height: 140 }}
+      style={{ width: 'clamp(130px, 28vw, 220px)', height: 'clamp(85px, 18vw, 140px)' }}
     >
       {hasLogo ? (
         <img
@@ -60,10 +60,10 @@ function BrandLogo({ brand }: { brand: BrandItem }) {
         />
       ) : (
         <>
-          <span className="font-display text-lg tracking-wider text-black/50 text-center px-4 select-none" style={{ filter: 'blur(5px)' }}>
+          <span className="font-display text-sm sm:text-lg tracking-wider text-black/50 text-center px-2 sm:px-4 select-none" style={{ filter: 'blur(4px)' }}>
             {brand.name}
           </span>
-          <span className="absolute font-mono text-[8px] tracking-[0.2em] text-black/30 uppercase">Pronto</span>
+          <span className="absolute font-mono text-[7px] sm:text-[8px] tracking-[0.2em] text-black/30 uppercase">Pronto</span>
         </>
       )}
     </div>
@@ -81,7 +81,7 @@ function LogoMarquee({ brands, reverse = false }: { brands: BrandItem[]; reverse
       <div className="absolute right-0 top-0 bottom-0 w-16 sm:w-32 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none" />
 
       <div
-        className="flex items-center gap-5 w-max"
+        className="flex items-center gap-3 sm:gap-5 w-max"
         style={{ animation: `marquee${reverse ? 'R' : 'L'} 50s linear infinite` }}
       >
         {items.map((brand, i) => (

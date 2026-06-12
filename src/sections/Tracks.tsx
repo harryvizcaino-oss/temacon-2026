@@ -78,9 +78,14 @@ export default function Tracks() {
   return (
     <section id="tracks" className="bg-temacon-offwhite" data-nav-light style={{ paddingTop: 28, paddingBottom: 28 }}>
       <div className="wrapper">
-        <h2 className="font-display text-t2 text-temacon-black text-center mb-8 lg:mb-10">
-          7 Tracks especializados en Tecnología, Mantenimiento Predictivo y Confiabilidad Vehicular
-        </h2>
+        <div className="text-center mb-8 lg:mb-10">
+          <h2 className="font-display text-4xl lg:text-5xl text-temacon-black font-bold">
+            TRACKS
+          </h2>
+          <p className="font-display text-lg lg:text-xl text-temacon-black mt-1">
+            ¿Qué encontrarás en el <span className="text-[#E31E24] font-bold">evento</span>?
+          </p>
+        </div>
         <div className="rounded-2xl overflow-hidden">
           {TRACKS.map((track) => (
             <TrackAccordion key={track.id} track={track} isOpen={openId === track.id} onToggle={() => setOpenId(openId === track.id ? null : track.id)} />

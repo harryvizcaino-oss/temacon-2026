@@ -764,7 +764,7 @@ export default function TractoCamion3DSection() {
               <h4 className="font-mono text-xs text-[#E31E24] uppercase tracking-wider mb-3">Protocolo de Mantenimiento</h4>
               <p className="text-white/60 text-sm leading-relaxed">{selected.mantenimiento}</p>
             </div>
-            <a href="#register" onClick={() => { setPanelOpen(false); setTimeout(() => setSelectedId(null), 300); }}
+            <a href="#pricing" onClick={() => { setPanelOpen(false); setTimeout(() => setSelectedId(null), 300); }}
               className="mt-6 block w-full bg-[#E31E24] text-white text-center py-4 rounded-full font-display font-semibold hover:bg-white hover:text-[#E31E24] transition-all duration-300">
               Aprende más en TEMACON 2026
             </a>
