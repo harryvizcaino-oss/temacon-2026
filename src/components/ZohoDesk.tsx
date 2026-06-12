@@ -22,7 +22,7 @@ export default function ZohoDesk() {
     const s = d.createElement('script');
     s.type = 'text/javascript';
     s.id = 'zohodeskasapscript';
-    s.defer = true;
+    s.async = true;
     s.src = 'https://desk.zoho.com/portal/api/web/asapApp/1268342000001996001?orgId=913100827';
 
     const t = d.getElementsByTagName('script')[0];

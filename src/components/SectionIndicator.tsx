@@ -89,7 +89,7 @@ const SectionIndicator = memo(function SectionIndicator() {
   const totalDots = SECTIONS.length;
 
   return (
-    <div className="fixed z-[9998]" style={{ bottom: '20px', right: '12px' }}>
+    <div className="fixed z-[9998]" style={{ bottom: '20px', left: '12px' }}>
       <div
         className="relative px-2 py-1.5 sm:px-3 sm:py-2"
         style={{
@@ -108,14 +108,14 @@ const SectionIndicator = memo(function SectionIndicator() {
 
         {/* Section name */}
         <p
-          className="font-mono text-[5px] tracking-[0.15em] text-[#E31E24]/70 uppercase text-right leading-none truncate"
+          className="font-mono text-[5px] tracking-[0.15em] text-[#E31E24]/70 uppercase text-left leading-none truncate"
           style={{ whiteSpace: 'nowrap', height: '8px', overflow: 'hidden' }}
         >
           {current.label}
         </p>
 
         {/* Counter */}
-        <div className="flex items-baseline justify-end gap-0.5 mt-0.5">
+        <div className="flex items-baseline justify-start gap-0.5 mt-0.5">
           <span
             className="font-mono text-base font-bold text-[#E31E24] leading-none"
             style={{ textShadow: '0 0 10px rgba(227,30,36,0.7)' }}
@@ -141,7 +141,7 @@ const SectionIndicator = memo(function SectionIndicator() {
         </div>
 
         {/* Dots */}
-        <div className="flex gap-[2px] mt-1 justify-end flex-wrap">
+        <div className="flex gap-[2px] mt-1 justify-start flex-wrap">
           {SECTIONS.map((_, i) => {
             const isActive = i === activeIndex;
             const isPast = i < activeIndex;
