@@ -1,12 +1,7 @@
-import { useEffect, useRef } from 'react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import {
   MapPin, Calendar, Clock, Plane, Hotel, Navigation,
   ExternalLink,
 } from 'lucide-react';
-
-gsap.registerPlugin(ScrollTrigger);
 
 /* ═══════════════════════════════════════════
    VENUE — Cámara de Comercio Sede Salitre
@@ -34,30 +29,8 @@ const INFO_CARDS = [
 ];
 
 export default function Venue() {
-  const sectionRef = useRef<HTMLElement>(null);
-  const photoRef = useRef<HTMLDivElement>(null);
-  const mapRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.from(photoRef.current, {
-        scrollTrigger: { trigger: sectionRef.current, start: 'top 75%' },
-        y: 50, duration: 1, ease: 'power3.out',
-      });
-      gsap.from(mapRef.current, {
-        scrollTrigger: { trigger: mapRef.current, start: 'top 85%' },
-        y: 40, duration: 0.8, ease: 'power2.out',
-      });
-      gsap.from('.venue-card', {
-        scrollTrigger: { trigger: '.venue-cards-grid', start: 'top 90%' },
-        y: 30, stagger: 0.08, duration: 0.5, ease: 'power2.out',
-      });
-    }, sectionRef);
-    return () => ctx.revert();
-  }, []);
-
   return (
-    <section id="venue" ref={sectionRef} className="relative bg-[#f2f2f2] overflow-hidden" data-nav-light>
+    <section id="venue" className="relative bg-[#f2f2f2] overflow-hidden" data-nav-light>
       {/* ═══════════════════════════════════════════
          HEADER
          ═══════════════════════════════════════════ */}
@@ -76,7 +49,7 @@ export default function Venue() {
       {/* ═══════════════════════════════════════════
          MAIN CONTENT — 2 columns
          ═══════════════════════════════════════════ */}
-      <div ref={photoRef} className="wrapper grid grid-cols-1 lg:grid-cols-2 gap-5 lg:gap-6 pb-16 lg:pb-24">
+      <div className="wrapper grid grid-cols-1 lg:grid-cols-2 gap-5 lg:gap-6 pb-16 lg:pb-24">
 
         {/* ── COL 1: Venue Photo + overlay ── */}
         <div className="relative h-[45vh] sm:h-[55vh] lg:h-auto min-h-[420px] lg:min-h-[560px] rounded-2xl overflow-hidden shadow-2xl">
@@ -116,60 +89,54 @@ export default function Venue() {
         </div>
 
         {/* ── COL 2: Info cards + Hotels + CTAs ── */}
-        <div ref={mapRef} className="flex flex-col gap-4 lg:gap-5">
+        <div className="flex flex-col gap-4 lg:gap-5">
 
-          {/* Info Cards grid 2x3 */}
+          {/* Info Cards grid 3x2 — 3 cols en mobile */}
           <div className="venue-cards-grid">
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5 lg:gap-3">
+            <div className="grid grid-cols-3 gap-2 lg:gap-3">
               {INFO_CARDS.map(({ icon: Icon, label, value, sub }) => (
-                <div key={label} className="venue-card bg-white border border-black/[0.08] rounded-xl p-3.5 hover:border-[#E31E24]/40 hover:shadow-lg hover:shadow-[#E31E24]/5 transition-all group">
-                  <div className="w-8 h-8 bg-[#E31E24]/10 rounded-lg flex items-center justify-center mb-2 group-hover:bg-[#E31E24]/20 transition-all">
-                    <Icon size={14} className="text-[#E31E24]" />
+                <div key={label} className="venue-card bg-white border border-black/[0.08] rounded-xl p-2.5 lg:p-3.5 hover:border-[#E31E24]/40 hover:shadow-lg hover:shadow-[#E31E24]/5 transition-all group">
+                  <div className="w-7 h-7 lg:w-8 lg:h-8 bg-[#E31E24]/10 rounded-lg flex items-center justify-center mb-1.5 lg:mb-2 group-hover:bg-[#E31E24]/20 transition-all">
+                    <Icon size={12} className="lg:w-3.5 lg:h-3.5 text-[#E31E24]" />
                   </div>
-                  <p className="font-mono text-[7px] text-black/40 tracking-wider uppercase mb-0.5">{label}</p>
-                  <p className="text-xs text-black leading-tight">{value}</p>
-                  <p className="font-mono text-[8px] text-black/50 mt-0.5">{sub}</p>
+                  <p className="font-mono text-[6px] lg:text-[7px] text-black/40 tracking-wider uppercase mb-0.5">{label}</p>
+                  <p className="text-[10px] lg:text-xs text-black leading-tight">{value}</p>
+                  <p className="font-mono text-[6px] lg:text-[8px] text-black/50 mt-0.5">{sub}</p>
                 </div>
               ))}
             </div>
           </div>
 
-          {/* Hotels */}
+          {/* Hotels — 3 cols en mobile */}
           <div>
             <div className="flex items-center gap-2 mb-2.5">
               <Hotel size={14} className="text-[#E31E24]" />
               <p className="font-mono text-[9px] tracking-[0.3em] text-[#E31E24] uppercase">Alojamiento Cerca</p>
             </div>
-            <div className="space-y-2">
-              <a href="https://www.google.com/maps/place/GHL+Hotel+Capital+Bogot%C3%A1/" target="_blank" rel="noopener noreferrer" className="group bg-white border border-black/[0.08] rounded-xl p-3.5 hover:border-[#E31E24]/40 hover:shadow-lg hover:shadow-[#E31E24]/5 transition-all flex items-center justify-between">
-                <div>
-                  <p className="font-display text-sm text-black group-hover:text-[#E31E24] transition-colors">GHL Hotel Capital</p>
-                  <div className="flex items-center gap-1.5 text-black/40 mt-0.5">
-                    <Navigation size={11} className="text-[#E31E24]" />
-                    <span className="font-mono text-[9px]">5 min caminando · 400 m</span>
-                  </div>
+            <div className="grid grid-cols-3 gap-2">
+              <a href="https://www.google.com/maps/place/GHL+Hotel+Capital+Bogot%C3%A1/" target="_blank" rel="noopener noreferrer" className="group bg-white border border-black/[0.08] rounded-xl p-2.5 hover:border-[#E31E24]/40 hover:shadow-lg hover:shadow-[#E31E24]/5 transition-all flex flex-col items-center text-center">
+                <div className="w-8 h-8 bg-[#E31E24]/10 rounded-lg flex items-center justify-center mb-1.5 group-hover:bg-[#E31E24]/20 transition-all">
+                  <Hotel size={14} className="text-[#E31E24]" />
                 </div>
-                <span className="font-mono text-[9px] bg-[#E31E24]/10 text-[#E31E24] px-2 py-0.5 rounded-full flex-shrink-0">★★★★</span>
+                <p className="font-display text-[10px] lg:text-sm text-black group-hover:text-[#E31E24] transition-colors leading-tight">GHL Capital</p>
+                <span className="font-mono text-[7px] text-black/40 mt-0.5">5 min · 400m</span>
+                <span className="font-mono text-[7px] bg-[#E31E24]/10 text-[#E31E24] px-1.5 py-0.5 rounded-full mt-1">★★★★</span>
               </a>
-              <a href="https://www.google.com/maps/place/Bogota+Marriott+Hotel/" target="_blank" rel="noopener noreferrer" className="group bg-white border border-black/[0.08] rounded-xl p-3.5 hover:border-[#E31E24]/40 hover:shadow-lg hover:shadow-[#E31E24]/5 transition-all flex items-center justify-between">
-                <div>
-                  <p className="font-display text-sm text-black group-hover:text-[#E31E24] transition-colors">Bogota Marriott Hotel</p>
-                  <div className="flex items-center gap-1.5 text-black/40 mt-0.5">
-                    <Navigation size={11} className="text-[#E31E24]" />
-                    <span className="font-mono text-[9px]">6 min caminando · 450 m</span>
-                  </div>
+              <a href="https://www.google.com/maps/place/Bogota+Marriott+Hotel/" target="_blank" rel="noopener noreferrer" className="group bg-white border border-black/[0.08] rounded-xl p-2.5 hover:border-[#E31E24]/40 hover:shadow-lg hover:shadow-[#E31E24]/5 transition-all flex flex-col items-center text-center">
+                <div className="w-8 h-8 bg-[#E31E24]/10 rounded-lg flex items-center justify-center mb-1.5 group-hover:bg-[#E31E24]/20 transition-all">
+                  <Hotel size={14} className="text-[#E31E24]" />
                 </div>
-                <span className="font-mono text-[9px] bg-[#E31E24]/10 text-[#E31E24] px-2 py-0.5 rounded-full flex-shrink-0">★★★★★</span>
+                <p className="font-display text-[10px] lg:text-sm text-black group-hover:text-[#E31E24] transition-colors leading-tight">Marriott</p>
+                <span className="font-mono text-[7px] text-black/40 mt-0.5">6 min · 450m</span>
+                <span className="font-mono text-[7px] bg-[#E31E24]/10 text-[#E31E24] px-1.5 py-0.5 rounded-full mt-1">★★★★★</span>
               </a>
-              <a href="https://www.google.com/maps/place/Sheraton+Bogota+Hotel/" target="_blank" rel="noopener noreferrer" className="group bg-white border border-black/[0.08] rounded-xl p-3.5 hover:border-[#E31E24]/40 hover:shadow-lg hover:shadow-[#E31E24]/5 transition-all flex items-center justify-between">
-                <div>
-                  <p className="font-display text-sm text-black group-hover:text-[#E31E24] transition-colors">Sheraton Bogotá Hotel</p>
-                  <div className="flex items-center gap-1.5 text-black/40 mt-0.5">
-                    <Navigation size={11} className="text-[#E31E24]" />
-                    <span className="font-mono text-[9px]">7 min caminando · 550 m</span>
-                  </div>
+              <a href="https://www.google.com/maps/place/Sheraton+Bogota+Hotel/" target="_blank" rel="noopener noreferrer" className="group bg-white border border-black/[0.08] rounded-xl p-2.5 hover:border-[#E31E24]/40 hover:shadow-lg hover:shadow-[#E31E24]/5 transition-all flex flex-col items-center text-center">
+                <div className="w-8 h-8 bg-[#E31E24]/10 rounded-lg flex items-center justify-center mb-1.5 group-hover:bg-[#E31E24]/20 transition-all">
+                  <Hotel size={14} className="text-[#E31E24]" />
                 </div>
-                <span className="font-mono text-[9px] bg-[#E31E24]/10 text-[#E31E24] px-2 py-0.5 rounded-full flex-shrink-0">★★★★</span>
+                <p className="font-display text-[10px] lg:text-sm text-black group-hover:text-[#E31E24] transition-colors leading-tight">Sheraton</p>
+                <span className="font-mono text-[7px] text-black/40 mt-0.5">7 min · 550m</span>
+                <span className="font-mono text-[7px] bg-[#E31E24]/10 text-[#E31E24] px-1.5 py-0.5 rounded-full mt-1">★★★★</span>
               </a>
             </div>
           </div>

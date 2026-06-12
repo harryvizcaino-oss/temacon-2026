@@ -89,15 +89,15 @@ const SectionIndicator = memo(function SectionIndicator() {
   const totalDots = SECTIONS.length;
 
   return (
-    <div className="fixed z-[9998]" style={{ bottom: '78px', right: '12px' }}>
+    <div className="fixed z-[9998]" style={{ bottom: '20px', right: '12px' }}>
       <div
         className="relative px-2 py-1.5 sm:px-3 sm:py-2"
         style={{
           background: 'rgba(10,0,0,0.92)',
           border: '1.5px solid rgba(227,30,36,0.6)',
           boxShadow: '0 0 12px rgba(227,30,36,0.15), inset 0 0 20px rgba(227,30,36,0.03)',
-          width: '72px',
-          height: '52px',
+          width: '60px',
+          height: '60px',
         }}
       >
         {/* Corner brackets */}
@@ -106,24 +106,24 @@ const SectionIndicator = memo(function SectionIndicator() {
         <span className="absolute -bottom-[2px] -left-[2px] w-1.5 h-1.5 sm:w-2 sm:h-2 border-l-2 border-b-2 border-[#E31E24]"></span>
         <span className="absolute -bottom-[2px] -right-[2px] w-1.5 h-1.5 sm:w-2 sm:h-2 border-r-2 border-b-2 border-[#E31E24]"></span>
 
-        {/* Section name — 1 palabra fija, nunca cambia de tamaño */}
+        {/* Section name */}
         <p
-          className="font-mono text-[5px] sm:text-[6px] tracking-[0.2em] text-[#E31E24]/70 uppercase text-right mb-0.5 leading-none truncate"
-          style={{ whiteSpace: 'nowrap', height: '10px', overflow: 'hidden' }}
+          className="font-mono text-[5px] tracking-[0.15em] text-[#E31E24]/70 uppercase text-right leading-none truncate"
+          style={{ whiteSpace: 'nowrap', height: '8px', overflow: 'hidden' }}
         >
           {current.label}
         </p>
 
         {/* Counter */}
-        <div className="flex items-baseline justify-end gap-1">
+        <div className="flex items-baseline justify-end gap-0.5 mt-0.5">
           <span
-            className="font-mono text-lg sm:text-xl font-bold text-[#E31E24] leading-none"
+            className="font-mono text-base font-bold text-[#E31E24] leading-none"
             style={{ textShadow: '0 0 10px rgba(227,30,36,0.7)' }}
           >
             {String(activeIndex + 1).padStart(2, '0')}
           </span>
-          <span className="font-mono text-[8px] sm:text-[9px] text-white/20">/</span>
-          <span className="font-mono text-[9px] sm:text-[10px] text-white/30">
+          <span className="font-mono text-[7px] text-white/20">/</span>
+          <span className="font-mono text-[8px] text-white/30">
             {String(totalDots).padStart(2, '0')}
           </span>
         </div>
@@ -140,8 +140,8 @@ const SectionIndicator = memo(function SectionIndicator() {
           ></div>
         </div>
 
-        {/* Dots — 11 compact */}
-        <div className="flex gap-[2px] sm:gap-[3px] mt-1 justify-end flex-wrap">
+        {/* Dots */}
+        <div className="flex gap-[2px] mt-1 justify-end flex-wrap">
           {SECTIONS.map((_, i) => {
             const isActive = i === activeIndex;
             const isPast = i < activeIndex;
@@ -155,7 +155,7 @@ const SectionIndicator = memo(function SectionIndicator() {
               <div
                 key={i}
                 className={`transition-all duration-300 ${dotClass}`}
-                style={{ width: '4px', height: '4px' }}
+                style={{ width: '3px', height: '3px' }}
               ></div>
             );
           })}

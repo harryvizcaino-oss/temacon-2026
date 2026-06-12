@@ -1,9 +1,5 @@
-import { useRef, useEffect, useMemo } from 'react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useMemo } from 'react';
 import { Anchor } from 'lucide-react';
-
-gsap.registerPlugin(ScrollTrigger);
 
 /* ═══════════════════════════════════════════════════════════════
    MARCAS CONFIRMADAS — Carrusel de Logos Enormes
@@ -102,19 +98,6 @@ function LogoMarquee({ brands, reverse = false }: { brands: BrandItem[]; reverse
 }
 
 export default function Brands() {
-  const sectionRef = useRef<HTMLElement>(null);
-  const headerRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.from(headerRef.current, {
-        scrollTrigger: { trigger: sectionRef.current, start: 'top 80%' },
-        y: 40, opacity: 0, duration: 0.8, ease: 'power2.out',
-      });
-    }, sectionRef);
-    return () => ctx.revert();
-  }, []);
-
   const mid = Math.ceil(BRANDS.length / 2);
   const row1 = BRANDS.slice(0, mid);
   const row2 = BRANDS.slice(mid);
@@ -122,14 +105,13 @@ export default function Brands() {
   return (
     <section
       id="brands"
-      ref={sectionRef}
       className="relative bg-white overflow-hidden"
       data-nav-light
       style={{ paddingTop: 80, paddingBottom: 80, scrollMarginTop: 80 }}
     >
       <div className="relative z-10">
         {/* Header */}
-        <div ref={headerRef} className="text-center mb-10 px-5">
+        <div className="text-center mb-10 px-5">
           <div className="flex items-center justify-center gap-2 mb-3">
             <Anchor size={14} className="text-[#E31E24]" />
             <p className="font-mono text-[10px] tracking-[0.4em] text-[#E31E24] uppercase">

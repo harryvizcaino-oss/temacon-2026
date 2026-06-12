@@ -36,6 +36,10 @@
     scroll-behavior: smooth;
     scroll-padding-top: 80px;
   }
+
+  #root {
+    min-height: 100dvh;
+  }
 }
 
 @layer components {

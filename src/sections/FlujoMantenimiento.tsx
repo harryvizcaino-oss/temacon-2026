@@ -78,7 +78,7 @@ function MiniDashboardNode({ nodo, isActive, index }: { nodo: NodoFlujo; isActiv
   );
 }
 
-/* ─── Mobile vertical step card ─── */
+/* ─── Mobile vertical step card (full width, with arrows) ─── */
 function MobileStep({ nodo, index, isLast }: { nodo: NodoFlujo; index: number; isLast: boolean }) {
   const Icon = nodo.icono;
   return (
@@ -128,6 +128,49 @@ function MobileStep({ nodo, index, isLast }: { nodo: NodoFlujo; index: number; i
           <div className="w-px h-2" style={{ backgroundColor: `${NODOS[index + 1].color}40` }} />
         </div>
       )}
+    </div>
+  );
+}
+
+/* ─── Mobile compact card (2-col grid) ─── */
+function MobileStepCompact({ nodo, index }: { nodo: NodoFlujo; index: number }) {
+  const Icon = nodo.icono;
+  return (
+    <div
+      className="bg-[#111] border rounded-xl p-3 relative overflow-hidden"
+      style={{ borderColor: nodo.color + '40', boxShadow: `0 0 12px ${nodo.color}15` }}
+    >
+      {/* Pulse glow */}
+      <div className="absolute -top-3 -right-3 w-12 h-12 rounded-full animate-pulse" style={{ background: `radial-gradient(circle, ${nodo.color}15 0%, transparent 70%)` }} />
+
+      {/* Estado dot */}
+      <div className="flex items-center gap-1.5 mb-2 relative z-10">
+        <div className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ backgroundColor: nodo.color }} />
+        <span className="font-mono text-[7px] tracking-wider" style={{ color: nodo.color }}>{nodo.estado}</span>
+      </div>
+
+      {/* Icon */}
+      <div className="flex justify-center my-1.5 relative z-10">
+        <div className="w-9 h-9 rounded-lg flex items-center justify-center" style={{ backgroundColor: `${nodo.color}15` }}>
+          <Icon size={16} style={{ color: nodo.color }} />
+        </div>
+      </div>
+
+      {/* Title */}
+      <h4 className="font-display text-[10px] text-white text-center leading-tight mb-1.5 relative z-10">{nodo.titulo}</h4>
+
+      {/* Metrics */}
+      <div className="space-y-0.5 relative z-10">
+        {nodo.metricas.map((m) => (
+          <div key={m.label} className="flex items-center justify-between">
+            <span className="font-mono text-[6px] text-white/30">{m.label}</span>
+            <span className="font-mono text-[8px]" style={{ color: nodo.color }}>{m.value}</span>
+          </div>
+        ))}
+      </div>
+
+      {/* Bottom bar */}
+      <div className="absolute bottom-0 left-0 right-0 h-[2px]" style={{ backgroundColor: nodo.color, opacity: 0.4 }} />
     </div>
   );
 }
@@ -295,11 +338,11 @@ export default function FlujoMantenimiento() {
           </p>
         </div>
 
-        {/* ═══ MOBILE: Vertical Steps ═══ */}
+        {/* ═══ MOBILE: 2-column grid (3 rows x 2 cols) ═══ */}
         {isMobile && (
-          <div className="flex flex-col items-center max-w-sm mx-auto">
+          <div className="grid grid-cols-2 gap-3 max-w-sm mx-auto">
             {NODOS.map((nodo, i) => (
-              <MobileStep key={nodo.id} nodo={nodo} index={i} isLast={i === NODOS.length - 1} />
+              <MobileStepCompact key={nodo.id} nodo={nodo} index={i} />
             ))}
           </div>
         )}

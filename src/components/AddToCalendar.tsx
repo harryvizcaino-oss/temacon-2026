@@ -59,7 +59,7 @@ export default function AddToCalendar({ variant = 'button' }: { variant?: 'butto
     return (
       <button
         onClick={handleDownload}
-        className="inline-flex items-center gap-2 bg-white/5 border border-white/10 rounded-full px-4 py-2 text-white/70 hover:text-[#E31E24] hover:border-[#E31E24]/30 transition-all duration-300"
+        className="inline-flex items-center gap-2 bg-black/5 border border-black/15 rounded-full px-4 py-2 text-black/60 hover:text-[#E31E24] hover:border-[#E31E24]/40 hover:bg-[#E31E24]/5 transition-all duration-300"
       >
         <CalendarPlus size={14} className="text-[#E31E24]" />
         <span className="font-mono text-[11px] tracking-wider uppercase">Agregar al calendario</span>

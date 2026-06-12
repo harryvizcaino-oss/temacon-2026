@@ -1,9 +1,6 @@
 import { useCountdown } from '@/hooks/useCountdown';
-import { useEffect, useRef, memo } from 'react';
-import gsap from 'gsap';
-import {
-  Truck, Cpu, Wrench, ShieldCheck, Route, Radio, Zap, Activity, QrCode, Sparkles,
-} from 'lucide-react';
+import { memo } from 'react';
+import { QrCode, Sparkles } from 'lucide-react';
 import AutopartParticles from '@/components/AutopartParticles';
 import AddToCalendar from '@/components/AddToCalendar';
 
@@ -12,26 +9,9 @@ function pad(n: number) { return n.toString().padStart(2, '0'); }
 
 const Hero3D = memo(function Hero3D() {
   const timeLeft = useCountdown(TARGET_DATE);
-  const logoRef = useRef<HTMLDivElement>(null);
-  const heroRef = useRef<HTMLDivElement>(null);
-
-  /* Animación del hero al montar */
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.from(heroRef.current, {
-        opacity: 0, y: 30,
-        duration: 0.8, ease: 'power2.out',
-      });
-      gsap.from(logoRef.current, {
-        y: 60, opacity: 0, scale: 0.85,
-        duration: 1.2, ease: 'power3.out', delay: 0.2,
-      });
-    });
-    return () => { ctx.revert(); };
-  }, []);
 
   return (
-    <section id="hero" className="relative flex flex-col items-center bg-white" style={{ height: '92dvh', minHeight: '620px' }}>
+    <section id="hero" className="relative flex flex-col items-center bg-white" style={{ height: '90vh', minHeight: '550px' }}>
 
       {/* Autopartículas 3D — z-index 1, recibe mouse/touch */}
       <div className="absolute inset-0 z-[1]" style={{ pointerEvents: 'auto' }}>
@@ -39,7 +19,7 @@ const Hero3D = memo(function Hero3D() {
       </div>
 
       {/* ─── CONTENT ─── */}
-      <div ref={heroRef} className="relative z-10 flex flex-col items-center h-full w-full px-4" style={{ pointerEvents: 'none' }}>
+      <div className="relative z-10 flex flex-col items-center h-full w-full px-4" style={{ pointerEvents: 'none' }}>
 
         {/* Spacer para menú fijo */}
         <div className="shrink-0" style={{ height: '60px' }} />
@@ -75,7 +55,7 @@ const Hero3D = memo(function Hero3D() {
 
         {/* CENTER: Hero Banner — ancho completo */}
         <div className="flex-1 flex items-center justify-center w-full min-h-0">
-          <div ref={logoRef} className="w-full px-4 sm:px-8 lg:px-12">
+          <div className="w-full px-4 sm:px-8 lg:px-12">
             <img
               src="/hero-banner.png"
               alt="TEMACON 2026 — Tecnología, Mantenimiento, Confiabilidad · 1-2 Septiembre 2026 · Aliados: Logyca, Fedetranscarga · Organiza: Tiendacamion"

@@ -80,14 +80,13 @@ const Navigation = memo(function Navigation() {
         }`}
       >
         <div className="wrapper flex items-center justify-between w-full px-4 sm:px-6">
-          {/* Logo */}
+          {/* Logo — Siempre ROJO */}
           <a href="#" className="flex items-center gap-2 z-10">
             <img
               src="/logo-v2.png"
               alt="TEMACON"
-              className={`h-8 sm:h-10 lg:h-14 w-auto object-contain transition-all duration-300 ${
-                logoDark ? 'brightness-0' : 'brightness-100'
-              }`}
+              className="h-8 sm:h-10 lg:h-14 w-auto object-contain transition-all duration-300"
+              style={{ filter: 'brightness(0) saturate(100%) invert(16%) sepia(97%) saturate(4950%) hue-rotate(350deg) brightness(93%) contrast(108%)' }}
             />
           </a>
 
@@ -136,11 +135,9 @@ const Navigation = memo(function Navigation() {
             </div>
           </div>
 
-          {/* Mobile Menu Button */}
+          {/* Mobile Menu Button — Siempre ROJO */}
           <button
-            className={`lg:hidden p-2 rounded-lg transition-colors ${
-              logoDark ? 'text-black' : 'text-white'
-            }`}
+            className="lg:hidden p-2 rounded-lg transition-colors text-[#E31E24]"
             onClick={() => setMobileOpen(true)}
             aria-label="Abrir menu"
           >

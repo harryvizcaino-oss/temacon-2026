@@ -1,9 +1,5 @@
-import { useState, useEffect, useRef } from 'react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useState } from 'react';
 import { ChevronDown } from 'lucide-react';
-
-gsap.registerPlugin(ScrollTrigger);
 
 const TRACKS = [
   {
@@ -78,27 +74,14 @@ function TrackAccordion({ track, isOpen, onToggle }: { track: typeof TRACKS[0]; 
 
 export default function Tracks() {
   const [openId, setOpenId] = useState<number | null>(0);
-  const sectionRef = useRef<HTMLElement>(null);
-  const titleRef = useRef<HTMLHeadingElement>(null);
-  const listRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.from(titleRef.current, { scrollTrigger: { trigger: sectionRef.current, start: 'top 80%' }, y: 40, opacity: 0, duration: 0.8, ease: 'power2.out' });
-      if (listRef.current) {
-        gsap.from(listRef.current.children, { scrollTrigger: { trigger: listRef.current, start: 'top 85%' }, y: 20, opacity: 0, duration: 0.5, stagger: 0.08, ease: 'power2.out' });
-      }
-    }, sectionRef);
-    return () => ctx.revert();
-  }, []);
 
   return (
-    <section id="tracks" ref={sectionRef} className="bg-temacon-offwhite" data-nav-light style={{ paddingTop: 28, paddingBottom: 28 }}>
+    <section id="tracks" className="bg-temacon-offwhite" data-nav-light style={{ paddingTop: 28, paddingBottom: 28 }}>
       <div className="wrapper">
-        <h2 ref={titleRef} className="font-display text-t2 text-temacon-black text-center mb-8 lg:mb-10">
+        <h2 className="font-display text-t2 text-temacon-black text-center mb-8 lg:mb-10">
           7 Tracks especializados en Tecnología, Mantenimiento Predictivo y Confiabilidad Vehicular
         </h2>
-        <div ref={listRef} className="rounded-2xl overflow-hidden">
+        <div className="rounded-2xl overflow-hidden">
           {TRACKS.map((track) => (
             <TrackAccordion key={track.id} track={track} isOpen={openId === track.id} onToggle={() => setOpenId(openId === track.id ? null : track.id)} />
           ))}

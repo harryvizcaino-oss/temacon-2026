@@ -1,9 +1,4 @@
-import { useRef, useEffect } from 'react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Users } from 'lucide-react';
-
-gsap.registerPlugin(ScrollTrigger);
 
 /* ═══════════════════════════════════════════════════════════════
    PERFIL DEL ASISTENTE — 12 flip cards 3D con fotos reales
@@ -88,35 +83,16 @@ const PROFILES = [
 ];
 
 export default function Audience() {
-  const sectionRef = useRef<HTMLElement>(null);
-  const headerRef = useRef<HTMLDivElement>(null);
-  const gridRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.from(headerRef.current, {
-        scrollTrigger: { trigger: sectionRef.current, start: 'top 80%' },
-        y: 40, opacity: 0, duration: 0.8, ease: 'power2.out',
-      });
-      gsap.from('.flip-card', {
-        scrollTrigger: { trigger: gridRef.current, start: 'top 90%' },
-        y: 50, opacity: 0, stagger: 0.06, duration: 0.5, ease: 'power2.out',
-      });
-    }, sectionRef);
-    return () => ctx.revert();
-  }, []);
-
   return (
     <section
       id="audience"
-      ref={sectionRef}
       className="relative bg-[#f2f2f2] overflow-hidden"
       data-nav-light
       style={{ paddingTop: 80, paddingBottom: 80 }}
     >
       <div className="relative z-10 wrapper px-4 sm:px-5">
         {/* Header */}
-        <div ref={headerRef} className="text-center mb-6 sm:mb-8">
+        <div className="text-center mb-6 sm:mb-8">
           <div className="flex items-center justify-center gap-2 mb-3">
             <Users size={16} className="text-[#E31E24]" />
             <p className="font-mono text-[10px] tracking-[0.4em] text-[#E31E24] uppercase">
@@ -136,7 +112,6 @@ export default function Audience() {
 
         {/* Grid: 6 cols desktop (2 filas), 3 cols mobile */}
         <div
-          ref={gridRef}
           className="grid grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4 lg:gap-5"
         >
           {PROFILES.map((profile) => (
@@ -157,16 +132,16 @@ export default function Audience() {
               >
                 {/* ── FRONT: Foto + nombre ── */}
                 <div
-                  className="relative rounded-xl overflow-hidden"
+                  className="relative rounded-xl overflow-hidden w-full"
                   style={{
                     backfaceVisibility: 'hidden',
                     WebkitBackfaceVisibility: 'hidden',
-                    minHeight: '220px',
+                    aspectRatio: '3/4',
                     backgroundColor: profile.bg,
                   }}
                 >
-                  {/* Photo */}
-                  <div className="relative w-full aspect-square">
+                  {/* Photo fills the card */}
+                  <div className="relative w-full h-full">
                     <img
                       src={profile.image}
                       alt={profile.role}
@@ -175,16 +150,16 @@ export default function Audience() {
                     />
                     {/* Gradient overlay at bottom */}
                     <div
-                      className="absolute inset-x-0 bottom-0 h-1/2"
+                      className="absolute inset-x-0 bottom-0 h-3/5"
                       style={{
-                        background: `linear-gradient(to top, ${profile.bg}, transparent)`,
+                        background: `linear-gradient(to top, ${profile.bg} 10%, transparent)`,
                       }}
                     />
                     {/* Role name at bottom */}
-                    <div className="absolute bottom-0 left-0 right-0 p-2.5 sm:p-3">
+                    <div className="absolute bottom-0 left-0 right-0 p-2 sm:p-2.5">
                       <h3
-                        className="font-display text-[11px] sm:text-sm text-white font-bold leading-tight text-center"
-                        style={{ textShadow: '0 1px 4px rgba(0,0,0,0.4)' }}
+                        className="font-display text-[10px] sm:text-xs text-white font-bold leading-tight text-center"
+                        style={{ textShadow: '0 1px 4px rgba(0,0,0,0.5)' }}
                       >
                         {profile.role}
                       </h3>
@@ -194,21 +169,21 @@ export default function Audience() {
 
                 {/* ── BACK: Testimonial ── */}
                 <div
-                  className="absolute inset-0 rounded-xl overflow-hidden"
+                  className="absolute inset-0 rounded-xl overflow-hidden w-full"
                   style={{
                     backfaceVisibility: 'hidden',
                     WebkitBackfaceVisibility: 'hidden',
                     transform: 'rotateY(180deg)',
                     backgroundColor: '#1a1a1a',
-                    minHeight: '220px',
+                    aspectRatio: '3/4',
                   }}
                 >
-                  <div className="flex flex-col h-full p-3.5 sm:p-4">
-                    <p className="text-white/90 text-[10px] sm:text-xs leading-relaxed flex-1 font-display">
+                  <div className="flex flex-col h-full p-2.5 sm:p-3">
+                    <p className="text-white/90 text-[9px] sm:text-[10px] leading-relaxed flex-1 font-display">
                       &ldquo;{profile.text}&rdquo;
                     </p>
-                    <div className="mt-2 pt-2 border-t border-white/10">
-                      <p className="font-display text-[9px] sm:text-[10px] tracking-wider uppercase text-[#E31E24] font-bold">
+                    <div className="mt-1.5 pt-1.5 border-t border-white/10">
+                      <p className="font-display text-[8px] sm:text-[9px] tracking-wider uppercase text-[#E31E24] font-bold">
                         {profile.role}
                       </p>
                     </div>

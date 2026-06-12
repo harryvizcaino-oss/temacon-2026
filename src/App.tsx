@@ -14,7 +14,7 @@ import Footer from '@/sections/Footer';
    LAZY — Todo below-the-fold carga bajo demanda
    Esto reduce el bundle inicial en ~400KB+
    ═══════════════════════════════════════════ */
-const Intro           = lazy(() => import('@/sections/Intro'));
+const IntroLinkedInUnified = lazy(() => import('@/sections/IntroLinkedInUnified'));
 const Audience        = lazy(() => import('@/sections/Audience'));
 const FlujoMantenimiento = lazy(() => import('@/sections/FlujoMantenimiento'));
 const Brands          = lazy(() => import('@/sections/Brands'));
@@ -24,7 +24,6 @@ const AgendaSpeakers  = lazy(() => import('@/sections/AgendaSpeakers'));
 const Venue           = lazy(() => import('@/sections/Venue'));
 const Pricing         = lazy(() => import('@/sections/Pricing'));
 const FAQ             = lazy(() => import('@/sections/FAQ'));
-const LinkedInEvent   = lazy(() => import('@/sections/LinkedInEvent'));
 const ParticleField   = lazy(() => import('@/components/ParticleField'));
 const CustomCursor    = lazy(() => import('@/components/CustomCursor'));
 const CookieConsentReveal = lazy(() => import('@/components/CookieConsentReveal'));
@@ -93,8 +92,9 @@ function App() {
         <Hero3D />
 
         {/* LAZY — Todo below-the-fold carga bajo demanda */}
+        {/* Intro (2/3) + LinkedIn (1/3) unificados en desktop */}
         <Suspense fallback={<SectionLoader />}>
-          <Intro />
+          <IntroLinkedInUnified />
         </Suspense>
 
         <Suspense fallback={<SectionLoader />}>
@@ -136,10 +136,6 @@ function App() {
 
         <Suspense fallback={<SectionLoader />}>
           <Pricing />
-        </Suspense>
-
-        <Suspense fallback={<SectionLoader />}>
-          <LinkedInEvent />
         </Suspense>
 
         <Suspense fallback={<SectionLoader />}>
