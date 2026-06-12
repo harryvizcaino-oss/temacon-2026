@@ -7,6 +7,7 @@ import { useEffect, lazy, Suspense } from 'react';
 import Navigation from '@/components/Navigation';
 import SectionIndicator from '@/components/SectionIndicator';
 import ScrollToTop from '@/components/ScrollToTop';
+import ZohoDesk from '@/components/ZohoDesk';
 import Hero3D from '@/sections/Hero3D';
 import Footer from '@/sections/Footer';
 
@@ -78,6 +79,7 @@ function App() {
   return (
     <div className="min-h-screen bg-temacon-offwhite">
       <SectionIndicator />
+      <ZohoDesk />
       <ScrollToTop />
 
       {/* Decorativos — lazy loaded para no bloquear LCP */}

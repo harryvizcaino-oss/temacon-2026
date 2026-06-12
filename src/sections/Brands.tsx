@@ -44,23 +44,22 @@ function BrandLogo({ brand }: { brand: BrandItem }) {
   const hasLogo = brand.logo && brand.logo.length > 0;
   return (
     <div
-      className={`flex-shrink-0 flex items-center justify-center rounded-xl border transition-all duration-300 relative overflow-hidden ${
+      className={`flex items-center justify-center rounded-lg sm:rounded-xl border transition-all duration-300 relative overflow-hidden w-[110px] h-[70px] sm:w-48 sm:h-32 ${
         hasLogo
           ? 'bg-white border-black/[0.06] hover:border-[#E31E24]/40 hover:shadow-[0_4px_24px_rgba(227,30,36,0.08)]'
           : 'bg-gray-100 border-black/[0.03]'
       }`}
-      style={{ width: 'clamp(130px, 28vw, 220px)', height: 'clamp(85px, 18vw, 140px)' }}
     >
       {hasLogo ? (
         <img
           src={brand.logo}
           alt={brand.name}
-          className="max-w-[75%] max-h-[60%] object-contain"
+          className="max-w-[70%] max-h-[55%] object-contain"
           loading="lazy"
         />
       ) : (
         <>
-          <span className="font-display text-sm sm:text-lg tracking-wider text-black/50 text-center px-2 sm:px-4 select-none" style={{ filter: 'blur(4px)' }}>
+          <span className="font-display text-xs sm:text-lg tracking-wider text-black/50 text-center px-2 sm:px-4 select-none" style={{ filter: 'blur(3px)' }}>
             {brand.name}
           </span>
           <span className="absolute font-mono text-[7px] sm:text-[8px] tracking-[0.2em] text-black/30 uppercase">Pronto</span>
@@ -70,19 +69,19 @@ function BrandLogo({ brand }: { brand: BrandItem }) {
   );
 }
 
-/* Marquee row */
+/* Marquee row — desktop only. Mobile: static grid */
 function LogoMarquee({ brands, reverse = false }: { brands: BrandItem[]; reverse?: boolean }) {
-  const items = useMemo(() => [...brands, ...brands, ...brands], [brands]);
+  const items = useMemo(() => [...brands, ...brands], [brands]);
 
   return (
     <div className="relative w-full overflow-hidden py-3">
       {/* Edge fades */}
-      <div className="absolute left-0 top-0 bottom-0 w-16 sm:w-32 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none" />
-      <div className="absolute right-0 top-0 bottom-0 w-16 sm:w-32 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none" />
+      <div className="absolute left-0 top-0 bottom-0 w-8 sm:w-32 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none" />
+      <div className="absolute right-0 top-0 bottom-0 w-8 sm:w-32 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none" />
 
       <div
-        className="flex items-center gap-3 sm:gap-5 w-max"
-        style={{ animation: `marquee${reverse ? 'R' : 'L'} 50s linear infinite` }}
+        className="flex items-center gap-2 sm:gap-5 w-max"
+        style={{ animation: `marquee${reverse ? 'R' : 'L'} 35s linear infinite` }}
       >
         {items.map((brand, i) => (
           <BrandLogo key={`${brand.name}-${i}`} brand={brand} />
@@ -90,8 +89,8 @@ function LogoMarquee({ brands, reverse = false }: { brands: BrandItem[]; reverse
       </div>
 
       <style>{`
-        @keyframes marqueeL { 0% { transform: translateX(-33.333%); } 100% { transform: translateX(-66.666%); } }
-        @keyframes marqueeR { 0% { transform: translateX(-66.666%); } 100% { transform: translateX(-33.333%); } }
+        @keyframes marqueeL { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+        @keyframes marqueeR { 0% { transform: translateX(-50%); } 100% { transform: translateX(0); } }
       `}</style>
     </div>
   );

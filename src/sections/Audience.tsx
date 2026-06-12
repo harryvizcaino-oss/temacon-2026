@@ -1,3 +1,4 @@
+import { useRef, useEffect, useState, useCallback } from 'react';
 import { Users } from 'lucide-react';
 
 /* ═══════════════════════════════════════════════════════════════
@@ -5,6 +6,9 @@ import { Users } from 'lucide-react';
    Frente: Foto + nombre del perfil (color de fondo)
    Detrás: testimonial "por qué asistiría"
    Desktop: 6 cols (2 filas) | Mobile: 3 cols
+   
+   Efecto especial: al scrollear a la sección, 3 cards giran
+   aleatoriamente durante 3 segundos y vuelven a su posición.
    ═══════════════════════════════════════════════════════════════ */
 
 const PROFILES = [
@@ -83,9 +87,70 @@ const PROFILES = [
 ];
 
 export default function Audience() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const [autoFlipped, setAutoFlipped] = useState<number[]>([]);
+  const hasTriggered = useRef(false);
+
+  /* Auto-flip: cuando la sección entra al viewport, gira 3 cards aleatoriamente */
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !hasTriggered.current) {
+            hasTriggered.current = true;
+
+            /* Seleccionar 3 índices aleatorios entre 0 y 11 */
+            const indices = Array.from({ length: PROFILES.length }, (_, i) => i);
+            const shuffled = indices.sort(() => Math.random() - 0.5);
+            const selected = shuffled.slice(0, 3);
+
+            setAutoFlipped(selected);
+
+            /* Aplicar transform a las refs */
+            selected.forEach((idx) => {
+              const el = cardRefs.current[idx];
+              if (el) el.style.transform = 'rotateY(180deg)';
+            });
+
+            /* Después de 3.5 segundos, devolver a posición original */
+            setTimeout(() => {
+              selected.forEach((idx) => {
+                const el = cardRefs.current[idx];
+                if (el) el.style.transform = 'rotateY(0deg)';
+              });
+              setAutoFlipped([]);
+            }, 3500);
+          }
+        });
+      },
+      { threshold: 0.3 }
+    );
+
+    observer.observe(section);
+    return () => observer.disconnect();
+  }, []);
+
+  /* Handlers para hover manual */
+  const handleMouseEnter = useCallback((e: React.MouseEvent<HTMLDivElement>, idx: number) => {
+    if (!autoFlipped.includes(idx)) {
+      (e.currentTarget as HTMLElement).style.transform = 'rotateY(180deg)';
+    }
+  }, [autoFlipped]);
+
+  const handleMouseLeave = useCallback((e: React.MouseEvent<HTMLDivElement>, idx: number) => {
+    if (!autoFlipped.includes(idx)) {
+      (e.currentTarget as HTMLElement).style.transform = 'rotateY(0deg)';
+    }
+  }, [autoFlipped]);
+
   return (
     <section
       id="audience"
+      ref={sectionRef}
       className="relative bg-[#f2f2f2] overflow-hidden"
       data-nav-light
       style={{ paddingTop: 80, paddingBottom: 80 }}
@@ -111,24 +176,19 @@ export default function Audience() {
         </div>
 
         {/* Grid: 6 cols desktop (2 filas), 3 cols mobile */}
-        <div
-          className="grid grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4 lg:gap-5"
-        >
-          {PROFILES.map((profile) => (
+        <div className="grid grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4 lg:gap-5">
+          {PROFILES.map((profile, idx) => (
             <div
               key={profile.role}
-              className="flip-card group"
+              className="group"
               style={{ perspective: '1000px' }}
             >
               <div
+                ref={(el) => { cardRefs.current[idx] = el; }}
                 className="relative w-full transition-transform duration-700 ease-out"
                 style={{ transformStyle: 'preserve-3d' }}
-                onMouseEnter={(e) => {
-                  (e.currentTarget as HTMLElement).style.transform = 'rotateY(180deg)';
-                }}
-                onMouseLeave={(e) => {
-                  (e.currentTarget as HTMLElement).style.transform = 'rotateY(0deg)';
-                }}
+                onMouseEnter={(e) => handleMouseEnter(e, idx)}
+                onMouseLeave={(e) => handleMouseLeave(e, idx)}
               >
                 {/* ── FRONT: Foto + nombre ── */}
                 <div
@@ -140,7 +200,6 @@ export default function Audience() {
                     backgroundColor: profile.bg,
                   }}
                 >
-                  {/* Photo fills the card */}
                   <div className="relative w-full h-full">
                     <img
                       src={profile.image}
@@ -148,14 +207,12 @@ export default function Audience() {
                       className="w-full h-full object-cover"
                       loading="lazy"
                     />
-                    {/* Gradient overlay at bottom */}
                     <div
                       className="absolute inset-x-0 bottom-0 h-3/5"
                       style={{
                         background: `linear-gradient(to top, ${profile.bg} 10%, transparent)`,
                       }}
                     />
-                    {/* Role name at bottom */}
                     <div className="absolute bottom-0 left-0 right-0 p-2 sm:p-2.5">
                       <h3
                         className="font-display text-[10px] sm:text-xs text-white font-bold leading-tight text-center"
@@ -188,7 +245,6 @@ export default function Audience() {
                       </p>
                     </div>
                   </div>
-                  {/* Decorative corner */}
                   <div className="absolute top-2 left-2 w-1.5 h-1.5 bg-[#E31E24] rounded-full opacity-60" />
                 </div>
               </div>
