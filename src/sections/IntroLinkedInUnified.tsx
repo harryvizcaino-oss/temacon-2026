@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { Calendar, Linkedin, Users, MapPin } from 'lucide-react';
 
 const LINKEDIN_EVENT_URL = 'https://www.linkedin.com/events/temacon20267468427912283721730';
@@ -27,7 +27,7 @@ function AnimatedCounter({ target, suffix }: { target: number; suffix: string })
   const [current, setCurrent] = useState(0);
   const hasAnimated = useRef(false);
 
-  useState(() => {
+  useEffect(() => {
     const el = ref.current;
     if (!el) return;
 
@@ -87,30 +87,40 @@ export default function IntroLinkedInUnified() {
       {/* Desktop: 2 columnas (2/3 negra + 1/3 azul) | Mobile: apiladas */}
       <div className="flex flex-col lg:flex-row">
 
-        {/* ═══ IZQUIERDA: Intro (2/3) — FONDO NEGRO ═══ */}
-        <div className="lg:w-2/3 bg-black" style={{ paddingTop: 42, paddingBottom: 42 }}>
-          <div className="wrapper lg:pr-8 xl:pr-12">
-            {/* Title */}
-            <h2 className="font-display text-t2 text-white leading-tight">
-              El evento líder de Tecnología, Mantenimiento y Confiabilidad para Camiones y Flotas de Transporte de Carga en Colombia
+        {/* ═══ IZQUIERDA: Intro (3/5) — FONDO NEGRO, más compacto ═══ */}
+        <div className="lg:w-3/5 bg-black flex flex-col justify-center" style={{ paddingTop: 32, paddingBottom: 32 }}>
+          <div className="wrapper lg:pr-6 xl:pr-10">
+            {/* Title — más compacto */}
+            <h2 className="font-display text-xl lg:text-2xl xl:text-3xl text-white leading-tight">
+              El evento líder de Tecnología, Mantenimiento y Confiabilidad para el transporte de carga en Colombia
             </h2>
 
-            {/* Description */}
-            <p className="text-base lg:text-lg text-white/60 leading-relaxed mt-4 lg:mt-5 max-w-3xl">
-              TEMACON 2026 es el punto de encuentro para profesionales del sector camionero
-              que buscan maximizar la confiabilidad de sus flotas, implementar mantenimiento predictivo,
-              reducir el downtime y optimizar la cadena de suministro. Conecta con la comunidad técnica
-              más influyente de Latinoamérica en tecnología para transporte de carga.
+            {/* Description — más corto */}
+            <p className="text-sm lg:text-base text-white/60 leading-relaxed mt-3 max-w-2xl">
+              TEMACON 2026 reúne a profesionales del sector camionero para maximizar la confiabilidad de flotas,
+              implementar mantenimiento predictivo y reducir el downtime.
             </p>
 
-            {/* Stats */}
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 lg:gap-4 mt-6 lg:mt-8">
-              {STATS.map((stat) => (
+            {/* Stats — 3 columnas, más compactas */}
+            <div className="grid grid-cols-3 gap-2 lg:gap-3 mt-5">
+              {STATS.slice(0, 3).map((stat) => (
                 <div key={stat.label} className="stat-item text-center">
-                  <p className="font-display text-3xl lg:text-4xl text-[#E31E24]">
+                  <p className="font-display text-2xl lg:text-3xl text-[#E31E24]">
                     <AnimatedCounter target={stat.value} suffix={stat.suffix} />
                   </p>
-                  <p className="font-mono text-[9px] text-white/50 uppercase tracking-wider mt-1">
+                  <p className="font-mono text-[8px] text-white/50 uppercase tracking-wider mt-0.5">
+                    {stat.label}
+                  </p>
+                </div>
+              ))}
+            </div>
+            <div className="grid grid-cols-3 gap-2 lg:gap-3 mt-2">
+              {STATS.slice(3).map((stat) => (
+                <div key={stat.label} className="stat-item text-center">
+                  <p className="font-display text-2xl lg:text-3xl text-[#E31E24]">
+                    <AnimatedCounter target={stat.value} suffix={stat.suffix} />
+                  </p>
+                  <p className="font-mono text-[8px] text-white/50 uppercase tracking-wider mt-0.5">
                     {stat.label}
                   </p>
                 </div>
@@ -119,8 +129,8 @@ export default function IntroLinkedInUnified() {
           </div>
         </div>
 
-        {/* ═══ DERECHA: LinkedIn (1/3) — FONDO AZUL ═══ */}
-        <div className="lg:w-1/3 mt-10 lg:mt-0" style={{ paddingTop: 42, paddingBottom: 42, backgroundColor: '#0a66c2' }}>
+        {/* ═══ DERECHA: LinkedIn (2/5) — FONDO AZUL ═══ */}
+        <div className="lg:w-2/5 mt-10 lg:mt-0" style={{ paddingTop: 32, paddingBottom: 32, backgroundColor: '#0a66c2' }}>
           <div className="wrapper lg:pl-0">
             <div
               id="linkedin-event"

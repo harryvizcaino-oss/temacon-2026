@@ -11,21 +11,19 @@ interface NavSection {
   description?: string;
 }
 
-/*─── Las 13 secciones en orden exacto de la pagina ───*/
+/*─── Las 11 secciones en orden exacto de la pagina ───*/
 const ALL_SECTIONS: NavSection[] = [
   { label: 'Inicio', href: '#hero', description: 'Hero principal' },
-  { label: 'Evento', href: '#about', description: 'Sobre TEMACON 2026' },
+  { label: 'Evento', href: '#about', description: 'Sobre TEMACON 2026 + LinkedIn' },
+  { label: 'Perfiles', href: '#audience', description: '12 perfiles profesionales' },
   { label: 'Flujo', href: '#flujo', description: 'Mantenimiento inteligente' },
   { label: 'Marcas', href: '#brands', description: 'Patrocinadores' },
-  { label: 'Asistente', href: '#audience', description: '12 perfiles profesionales' },
-  { label: '3D Experience', href: '#tractocamion', description: 'Kenworth T800' },
-  { label: 'Tracks', href: '#tracks', description: '7 pistas especializadas' },
-  { label: 'Speakers', href: '#speakers', description: 'Conferencistas' },
-  { label: 'Agenda & Speakers', href: '#agenda-speakers', description: 'Programa y conferencistas' },
+  { label: '3D', href: '#tractocamion', description: 'Kenworth T800' },
+  { label: 'Tracks', href: '#tracks', description: '6 tracks especializados' },
+  { label: 'Agenda', href: '#agenda-speakers', description: 'Programa y speakers' },
   { label: 'Sede', href: '#venue', description: 'Bogotá, Colombia' },
-  { label: 'Registro', href: '#pricing', description: 'Adquiere ingreso' },
+  { label: 'Tickets', href: '#pricing', description: 'Adquiere ingreso' },
   { label: 'FAQ', href: '#faq', description: 'Preguntas frecuentes' },
-  { label: 'LinkedIn', href: '#linkedin-event', description: 'Confirma asistencia' },
 ];
 
 const Navigation = memo(function Navigation() {

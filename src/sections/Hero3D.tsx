@@ -48,9 +48,6 @@ const Hero3D = memo(function Hero3D() {
               </div>
             ))}
           </div>
-          <div className="mt-1" style={{ pointerEvents: 'auto' }}>
-            <AddToCalendar variant="pill" />
-          </div>
         </div>
 
         {/* CENTER: Hero Banner — ancho completo */}
@@ -101,6 +98,10 @@ const Hero3D = memo(function Hero3D() {
               <QrCode size={16} />
               Comprar Ticket
             </a>
+          </div>
+          {/* Agregar al calendario — centrado debajo de los botones */}
+          <div className="mt-2" style={{ pointerEvents: 'auto' }}>
+            <AddToCalendar variant="pill" />
           </div>
         </div>
 
