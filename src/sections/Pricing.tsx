@@ -167,7 +167,7 @@ const Pricing = memo(function Pricing() {
                   </div>
                 </div>
                 <button onClick={() => { MetaPixel.initiateCheckout(); setIsModalOpen(true); }}
-                  className="w-full py-3.5 bg-[#E31E24] text-white rounded-lg font-display font-semibold text-sm hover:bg-[#c41a20] transition-all duration-300 glow-pulse flex items-center justify-center gap-2 cursor-pointer"
+                  className="w-full py-3.5 bg-[#22c55e] text-white rounded-lg font-display font-semibold text-sm hover:bg-[#16a34a] transition-all duration-300 glow-pulse-green flex items-center justify-center gap-2 cursor-pointer"
                   style={{ pointerEvents: 'auto' }}>
                   <QrCode size={16} className="flex-shrink-0" />
                   Comprar Ticket
@@ -210,7 +210,7 @@ const Pricing = memo(function Pricing() {
                   </div>
                 </div>
                 <button onClick={() => { MetaPixel.initiateCheckout(); setIsModalOpen(true); }}
-                  className="w-full py-2.5 bg-[#E31E24] text-white rounded-lg font-display font-semibold text-xs hover:bg-[#c41a20] transition-all duration-300 glow-pulse flex items-center justify-center gap-1.5 cursor-pointer"
+                  className="w-full py-2.5 bg-[#22c55e] text-white rounded-lg font-display font-semibold text-xs hover:bg-[#16a34a] transition-all duration-300 glow-pulse-green flex items-center justify-center gap-1.5 cursor-pointer"
                   style={{ pointerEvents: 'auto' }}>
                   <QrCode size={13} className="flex-shrink-0" />
                   Comprar Ticket

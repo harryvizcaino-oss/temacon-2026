@@ -97,6 +97,8 @@ export default function Audience() {
     const section = sectionRef.current;
     if (!section) return;
 
+    /* Detectar mobile para usar threshold más bajo */
+    const isMobile = window.innerWidth < 768;
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -127,7 +129,7 @@ export default function Audience() {
           }
         });
       },
-      { threshold: 0.3 }
+      { threshold: isMobile ? 0.05 : 0.3 }
     );
 
     observer.observe(section);

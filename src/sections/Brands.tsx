@@ -106,7 +106,7 @@ export default function Brands() {
       id="brands"
       className="relative bg-white overflow-hidden"
       data-nav-light
-      style={{ paddingTop: 80, paddingBottom: 80, scrollMarginTop: 80 }}
+      style={{ paddingTop: 50, paddingBottom: 50, scrollMarginTop: 80 }}
     >
       <div className="relative z-10">
         {/* Header */}

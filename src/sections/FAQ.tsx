@@ -60,53 +60,53 @@ export default function FAQ() {
 
       <div className="relative z-10 wrapper py-16 lg:py-24">
 
-        {/* Banner principal — 1 solo botón que despliega TODO */}
-        <div className="max-w-[900px] mx-auto">
+        {/* Banner principal — ancho completo, fondo negro */}
+        <div className="w-full">
           <button
             onClick={() => setIsOpen(!isOpen)}
             className={`w-full flex items-center justify-between py-5 lg:py-6 px-5 lg:px-8 rounded-2xl border transition-all duration-300 ${
               isOpen
                 ? 'bg-[#E31E24] border-[#E31E24]'
-                : 'bg-black/[0.03] border-black/[0.08] hover:bg-black/[0.06] hover:border-black/[0.15]'
+                : 'bg-black border-black hover:bg-black/90 transition-all'
             }`}
           >
             <div className="text-left">
               <p className="font-mono text-[9px] lg:text-[10px] tracking-[0.4em] text-[#E31E24] uppercase mb-1">
                 {isOpen ? 'Cerrar' : 'Haz clic para ver'}
               </p>
-              <h2 className={`font-display text-xl sm:text-2xl lg:text-t3 ${isOpen ? 'text-white' : 'text-black'}`}>
+              <h2 className={`font-display text-xl sm:text-2xl lg:text-t3 ${isOpen ? 'text-white' : 'text-white'}`}>
                 Preguntas <span className={isOpen ? 'text-white' : 'text-[#E31E24]'}>Frecuentes</span>
               </h2>
             </div>
             <ChevronDown
               size={28}
               className={`flex-shrink-0 transition-transform duration-500 ${
-                isOpen ? 'rotate-180 text-white' : 'text-black/30'
+                isOpen ? 'rotate-180 text-white' : 'text-white/40'
               }`}
             />
           </button>
 
-          {/* Contenido desplegable — TODAS las preguntas */}
+          {/* Contenido desplegable — fondo blanco */}
           <div
             className={`overflow-hidden transition-all duration-700 ease-in-out ${
               isOpen ? 'max-h-[3000px] opacity-100 mt-3' : 'max-h-0 opacity-0 mt-0'
             }`}
           >
-            <div className="rounded-2xl overflow-hidden border border-black/[0.08]">
+            <div className="rounded-2xl overflow-hidden border border-black/[0.08] bg-white">
               {FAQS.map((faq, i) => (
                 <div key={i} className="border-b border-black/[0.06] last:border-b-0">
-                  {/* Pregunta */}
+                  {/* Pregunta — NEGRILLA */}
                   <div className="bg-black/[0.02] px-4 lg:px-6 py-3.5 lg:py-4 flex items-start gap-3">
                     <span className="font-mono text-xs text-[#E31E24]/60 flex-shrink-0 mt-0.5">
                       {String(i + 1).padStart(2, '0')}
                     </span>
-                    <p className="font-display text-sm lg:text-base text-black/90 leading-snug">
+                    <p className="font-display text-sm lg:text-base text-black/90 leading-snug font-bold">
                       {faq.q}
                     </p>
                   </div>
-                  {/* Respuesta */}
+                  {/* Respuesta — NORMAL */}
                   <div className="bg-[#E31E24]/5 px-4 lg:px-6 pb-4 pt-1">
-                    <p className="text-sm text-black/70 leading-relaxed max-w-4xl ml-7 lg:ml-9">
+                    <p className="text-sm text-black/70 leading-relaxed max-w-4xl ml-7 lg:ml-9 font-normal">
                       {faq.a}
                     </p>
                   </div>

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
-import { AlertTriangle, Warehouse, Wrench, Cpu, ShieldCheck, Route, Radio, ChevronDown } from 'lucide-react';
+import { AlertTriangle, Warehouse, Wrench, Cpu, ShieldCheck, Route, Radio, ChevronDown, ChevronRight } from 'lucide-react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -338,12 +338,52 @@ export default function FlujoMantenimiento() {
           </p>
         </div>
 
-        {/* ═══ MOBILE: 2-column grid (3 rows x 2 cols) ═══ */}
+        {/* ═══ MOBILE: 2-column grid (3 rows x 2 cols) con conectores ═══ */}
         {isMobile && (
-          <div className="grid grid-cols-2 gap-3 max-w-sm mx-auto">
-            {NODOS.map((nodo, i) => (
-              <MobileStepCompact key={nodo.id} nodo={nodo} index={i} />
-            ))}
+          <div className="max-w-sm mx-auto space-y-1">
+            {/* Fila 1: 0 → 1 */}
+            <div className="grid grid-cols-[1fr_28px_1fr] gap-1 items-center">
+              <MobileStepCompact nodo={NODOS[0]} index={0} />
+              <div className="flex flex-col items-center">
+                <div className="w-5 h-px bg-[#E31E24]/40" />
+                <ChevronRight size={12} className="text-[#E31E24]/60 -mt-1" />
+              </div>
+              <MobileStepCompact nodo={NODOS[1]} index={1} />
+            </div>
+            {/* Conector vertical: 1 → 2 */}
+            <div className="flex justify-center py-0.5">
+              <div className="flex flex-col items-center">
+                <div className="w-px h-3 bg-[#E31E24]/40" />
+                <ChevronDown size={12} className="text-[#E31E24]/60 -mt-1" />
+                <div className="w-px h-3 bg-[#E31E24]/40" />
+              </div>
+            </div>
+            {/* Fila 2: 2 → 3 */}
+            <div className="grid grid-cols-[1fr_28px_1fr] gap-1 items-center">
+              <MobileStepCompact nodo={NODOS[2]} index={2} />
+              <div className="flex flex-col items-center">
+                <div className="w-5 h-px bg-[#E31E24]/40" />
+                <ChevronRight size={12} className="text-[#E31E24]/60 -mt-1" />
+              </div>
+              <MobileStepCompact nodo={NODOS[3]} index={3} />
+            </div>
+            {/* Conector vertical: 3 → 4 */}
+            <div className="flex justify-center py-0.5">
+              <div className="flex flex-col items-center">
+                <div className="w-px h-3 bg-[#E31E24]/40" />
+                <ChevronDown size={12} className="text-[#E31E24]/60 -mt-1" />
+                <div className="w-px h-3 bg-[#E31E24]/40" />
+              </div>
+            </div>
+            {/* Fila 3: 4 → 5 */}
+            <div className="grid grid-cols-[1fr_28px_1fr] gap-1 items-center">
+              <MobileStepCompact nodo={NODOS[4]} index={4} />
+              <div className="flex flex-col items-center">
+                <div className="w-5 h-px bg-[#E31E24]/40" />
+                <ChevronRight size={12} className="text-[#E31E24]/60 -mt-1" />
+              </div>
+              <MobileStepCompact nodo={NODOS[5]} index={5} />
+            </div>
           </div>
         )}
 
