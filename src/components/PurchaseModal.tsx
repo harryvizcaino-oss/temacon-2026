@@ -131,12 +131,12 @@ export default function PurchaseModal({ isOpen, onClose }: PurchaseModalProps) {
   if (!isOpen) return null;
 
   return createPortal(
-    <div className="fixed inset-0 z-[200]">
+    <div className="fixed inset-0 z-[10001]">
       {/* Backdrop */}
       <div className="absolute inset-0 bg-black/90 backdrop-blur-sm" onClick={onClose} />
 
-      {/* Modal */}
-      <div className="absolute inset-0 overflow-hidden flex flex-col bg-white">
+      {/* Modal — pt-9 en mobile compensa el banner fijo */}
+      <div className="absolute inset-0 pt-9 sm:pt-0 overflow-hidden flex flex-col bg-white">
 
         {/* Header */}
         <div className="flex items-center justify-between px-4 sm:px-6 py-3 bg-[#0a0a0a] border-b border-[#E31E24]/20 shrink-0 z-10">
