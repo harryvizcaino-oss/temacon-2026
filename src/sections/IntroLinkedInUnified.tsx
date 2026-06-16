@@ -1,10 +1,10 @@
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useState, useEffect, useCallback } from 'react';
 import { Calendar, Linkedin, Users, MapPin, QrCode } from 'lucide-react';
 
 const LINKEDIN_EVENT_URL = 'https://www.linkedin.com/events/temacon20267468427912283721730';
 
 /* ═══════════════════════════════════════════════════════════════
-   INTRO STATS
+   INTRO STATS — Contadores animados que funcionan SIEMPRE
    ═══════════════════════════════════════════════════════════════ */
 
 interface Stat {
@@ -23,52 +23,28 @@ const STATS: Stat[] = [
 ];
 
 function AnimatedCounter({ target, suffix }: { target: number; suffix: string }) {
-  const ref = useRef<HTMLSpanElement>(null);
-  const [current, setCurrent] = useState(0);
-  const hasAnimated = useRef(false);
+  const [value, setValue] = useState(0);
+  const hasRun = useRef(false);
 
   useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
+    if (hasRun.current) return;
+    hasRun.current = true;
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting && !hasAnimated.current) {
-            hasAnimated.current = true;
-            const startTime = performance.now();
-            const duration = 2000;
+    const duration = 1800;
+    const start = performance.now();
 
-            const animate = (now: number) => {
-              const elapsed = now - startTime;
-              const progress = Math.min(elapsed / duration, 1);
-              const eased = 1 - Math.pow(1 - progress, 4);
-              const value = Math.floor(eased * target);
-              setCurrent(value);
+    const tick = (now: number) => {
+      const elapsed = now - start;
+      const progress = Math.min(elapsed / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      setValue(Math.floor(eased * target));
+      if (progress < 1) requestAnimationFrame(tick);
+    };
 
-              if (progress < 1) {
-                requestAnimationFrame(animate);
-              } else {
-                setCurrent(target);
-              }
-            };
-
-            requestAnimationFrame(animate);
-          }
-        });
-      },
-      { threshold: 0.3 }
-    );
-
-    observer.observe(el);
-    return () => observer.disconnect();
+    requestAnimationFrame(tick);
   }, [target]);
 
-  return (
-    <span ref={ref}>
-      {current}{suffix}
-    </span>
-  );
+  return <>{value}{suffix}</>;
 }
 
 /* ═══════════════════════════════════════════════════════════════

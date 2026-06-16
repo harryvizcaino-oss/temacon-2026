@@ -39,6 +39,7 @@
 
   #root {
     min-height: 100dvh;
+    padding-bottom: 52px; /* espacio para StickyBottomCTA */
   }
 }
 

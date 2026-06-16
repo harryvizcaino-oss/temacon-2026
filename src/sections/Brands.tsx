@@ -1,8 +1,9 @@
-import { useMemo } from 'react';
-import { Anchor } from 'lucide-react';
+import { useState } from 'react';
+import { Anchor, X, ZoomIn } from 'lucide-react';
 
 /* ═══════════════════════════════════════════════════════════════
-   MARCAS CONFIRMADAS — Carrusel de Logos Enormes
+   MARCAS CONFIRMADAS — Board fijo de 28 marcas clickeables
+   Click en una marca abre modal con imagen ampliada
    ═══════════════════════════════════════════════════════════════ */
 
 interface BrandItem {
@@ -12,9 +13,10 @@ interface BrandItem {
 
 const BRANDS: BrandItem[] = [
   { name: 'LogiMiles', logo: '/brands/logimiles.png' },
-  { name: 'puntored', logo: '/brands/puntored.png' },
+  { name: 'Puntored', logo: '/brands/puntored.png' },
   { name: 'RPV-05', logo: '/brands/rpv-05.png' },
   { name: 'RPV-26', logo: '/brands/rpv-26.png' },
+  { name: 'TEMACON', logo: '/logo-v2.png' },
   { name: 'Volvo', logo: '' },
   { name: 'Kenworth', logo: '' },
   { name: 'Michelin', logo: '' },
@@ -30,76 +32,118 @@ const BRANDS: BrandItem[] = [
   { name: 'Hino', logo: '' },
   { name: 'Fleetboard', logo: '' },
   { name: 'Sascar', logo: '' },
-  { name: 'TEMACON', logo: '/logo-v2.png' },
   { name: 'Maxion', logo: '' },
   { name: 'Randon', logo: '' },
   { name: 'Weg', logo: '' },
   { name: 'Dana', logo: '' },
   { name: 'Eaton', logo: '' },
   { name: 'Fleet Complete', logo: '' },
+  { name: 'Freightliner', logo: '' },
+  { name: 'Meritor', logo: '' },
 ];
 
-/* Single brand logo — blurred si aun no tiene logo */
-function BrandLogo({ brand }: { brand: BrandItem }) {
+/* Single brand card — clickeable */
+function BrandCard({ brand, onClick }: { brand: BrandItem; onClick: () => void }) {
   const hasLogo = brand.logo && brand.logo.length > 0;
   return (
-    <div
-      className={`flex items-center justify-center rounded-lg sm:rounded-xl border transition-all duration-300 relative overflow-hidden w-[110px] h-[70px] sm:w-48 sm:h-32 ${
+    <button
+      onClick={onClick}
+      className={`relative flex items-center justify-center rounded-xl border transition-all duration-300 overflow-hidden aspect-[3/2] w-full ${
         hasLogo
-          ? 'bg-white border-black/[0.06] hover:border-[#E31E24]/40 hover:shadow-[0_4px_24px_rgba(227,30,36,0.08)]'
-          : 'bg-gray-100 border-black/[0.03]'
+          ? 'bg-white border-black/[0.08] hover:border-[#E31E24]/50 hover:shadow-lg hover:shadow-[#E31E24]/10 active:scale-95 cursor-zoom-in'
+          : 'bg-gray-100 border-black/[0.04] cursor-default'
       }`}
     >
       {hasLogo ? (
-        <img
-          src={brand.logo}
-          alt={brand.name}
-          className="max-w-[70%] max-h-[55%] object-contain"
-          loading="lazy"
-        />
+        <>
+          <img
+            src={brand.logo}
+            alt={brand.name}
+            className="max-w-[80%] max-h-[65%] object-contain"
+            loading="lazy"
+          />
+          <div className="absolute top-1.5 right-1.5 opacity-0 hover:opacity-100 transition-opacity">
+            <ZoomIn size={14} className="text-[#E31E24]" />
+          </div>
+        </>
       ) : (
         <>
-          <span className="font-display text-xs sm:text-lg tracking-wider text-black/50 text-center px-2 sm:px-4 select-none" style={{ filter: 'blur(3px)' }}>
+          <span
+            className="font-display text-xs sm:text-sm tracking-wider text-black/40 text-center px-2 select-none"
+            style={{ filter: 'blur(3px)' }}
+          >
             {brand.name}
           </span>
-          <span className="absolute font-mono text-[7px] sm:text-[8px] tracking-[0.2em] text-black/30 uppercase">Pronto</span>
+          <span className="absolute font-mono text-[7px] tracking-[0.2em] text-black/25 uppercase">
+            Pronto
+          </span>
         </>
       )}
-    </div>
+    </button>
   );
 }
 
-/* Marquee row — desktop only. Mobile: static grid */
-function LogoMarquee({ brands, reverse = false }: { brands: BrandItem[]; reverse?: boolean }) {
-  const items = useMemo(() => [...brands, ...brands], [brands]);
+/* Modal — muestra marca ampliada */
+function BrandModal({ brand, onClose }: { brand: BrandItem | null; onClose: () => void }) {
+  if (!brand) return null;
+  const hasLogo = brand.logo && brand.logo.length > 0;
 
   return (
-    <div className="relative w-full overflow-hidden py-3">
-      {/* Edge fades */}
-      <div className="absolute left-0 top-0 bottom-0 w-8 sm:w-32 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none" />
-      <div className="absolute right-0 top-0 bottom-0 w-8 sm:w-32 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none" />
+    <div
+      className="fixed inset-0 z-[200] flex items-center justify-center p-4"
+      onClick={onClose}
+    >
+      {/* Backdrop */}
+      <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" />
 
+      {/* Content */}
       <div
-        className="flex items-center gap-2 sm:gap-5 w-max"
-        style={{ animation: `marquee${reverse ? 'R' : 'L'} 35s linear infinite` }}
+        className="relative bg-white rounded-2xl p-6 sm:p-10 max-w-lg w-full shadow-2xl"
+        onClick={(e) => e.stopPropagation()}
       >
-        {items.map((brand, i) => (
-          <BrandLogo key={`${brand.name}-${i}`} brand={brand} />
-        ))}
-      </div>
+        {/* Close */}
+        <button
+          onClick={onClose}
+          className="absolute top-3 right-3 p-1.5 rounded-full hover:bg-black/5 transition-colors"
+        >
+          <X size={20} className="text-black/40" />
+        </button>
 
-      <style>{`
-        @keyframes marqueeL { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-        @keyframes marqueeR { 0% { transform: translateX(-50%); } 100% { transform: translateX(0); } }
-      `}</style>
+        {/* Logo ampliado */}
+        <div className="flex flex-col items-center">
+          {hasLogo ? (
+            <img
+              src={brand.logo}
+              alt={brand.name}
+              className="max-w-full max-h-[200px] sm:max-h-[280px] object-contain"
+            />
+          ) : (
+            <div className="flex flex-col items-center py-8">
+              <span
+                className="font-display text-2xl sm:text-3xl tracking-wider text-black/30 text-center"
+                style={{ filter: 'blur(6px)' }}
+              >
+                {brand.name}
+              </span>
+              <span className="font-mono text-[10px] tracking-[0.3em] text-black/30 uppercase mt-2">
+                Pronto
+              </span>
+            </div>
+          )}
+          <p className="mt-4 font-display text-lg text-black text-center">
+            {brand.name}
+          </p>
+          <p className="font-mono text-[9px] text-black/40 tracking-wider uppercase">
+            {hasLogo ? 'Aliado Confirmado' : 'Próximamente'}
+          </p>
+        </div>
+      </div>
     </div>
   );
 }
 
 export default function Brands() {
-  const mid = Math.ceil(BRANDS.length / 2);
-  const row1 = BRANDS.slice(0, mid);
-  const row2 = BRANDS.slice(mid);
+  const [selectedBrand, setSelectedBrand] = useState<BrandItem | null>(null);
 
   return (
     <section
@@ -108,9 +152,9 @@ export default function Brands() {
       data-nav-light
       style={{ paddingTop: 50, paddingBottom: 50, scrollMarginTop: 80 }}
     >
-      <div className="relative z-10">
+      <div className="relative z-10 wrapper px-4 sm:px-5">
         {/* Header */}
-        <div className="text-center mb-10 px-5">
+        <div className="text-center mb-6 sm:mb-8">
           <div className="flex items-center justify-center gap-2 mb-3">
             <Anchor size={14} className="text-[#E31E24]" />
             <p className="font-mono text-[10px] tracking-[0.4em] text-[#E31E24] uppercase">
@@ -121,11 +165,14 @@ export default function Brands() {
             Marcas <span className="text-[#E31E24]">Confirmadas</span>
           </h2>
           <p className="mt-3 text-sm text-black/40 max-w-md mx-auto">
-            Marcas líderes respaldan TEMACON 2026.
+            {BRANDS.filter(b => b.logo).length} marcas líderes respaldan TEMACON 2026.
+            <span className="block mt-1 text-black/30 font-mono text-[10px] tracking-wider">
+              Haz clic en un logo para ampliar
+            </span>
           </p>
 
-          {/* CTAs — debajo del texto, antes del carrusel */}
-          <div className="mt-6 flex flex-col sm:flex-row items-center justify-center gap-3">
+          {/* CTAs */}
+          <div className="mt-5 flex flex-col sm:flex-row items-center justify-center gap-3">
             <a
               href="https://wa.me/573113782522?text=Hola%20quisiera%20ser%20patrocinador%20en%20TEMACON%202026"
               target="_blank"
@@ -145,13 +192,28 @@ export default function Brands() {
           </div>
         </div>
 
-        {/* Row 1 — left */}
-        <LogoMarquee brands={row1} />
-        {/* Row 2 — right */}
-        <LogoMarquee brands={row2} reverse />
-
-
+        {/* ═══ BOARD: Grid fijo de 28 marcas ═══ */}
+        {/* Desktop: 7 cols x 4 rows | Tablet: 4 cols | Mobile: 3 cols */}
+        <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-7 gap-2 sm:gap-3 lg:gap-4 max-w-6xl mx-auto">
+          {BRANDS.map((brand) => (
+            <BrandCard
+              key={brand.name}
+              brand={brand}
+              onClick={() => {
+                if (brand.logo) setSelectedBrand(brand);
+              }}
+            />
+          ))}
+        </div>
       </div>
+
+      {/* Modal de ampliación */}
+      {selectedBrand && (
+        <BrandModal
+          brand={selectedBrand}
+          onClose={() => setSelectedBrand(null)}
+        />
+      )}
     </section>
   );
 }

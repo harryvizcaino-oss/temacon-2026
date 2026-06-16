@@ -89,7 +89,7 @@ const SectionIndicator = memo(function SectionIndicator() {
   const totalDots = SECTIONS.length;
 
   return (
-    <div className="fixed z-[9998]" style={{ bottom: '20px', left: '12px' }}>
+    <div className="fixed z-[9998]" style={{ bottom: '60px', left: '12px' }}>
       <div
         className="relative px-2 py-1.5 sm:px-3 sm:py-2"
         style={{

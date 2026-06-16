@@ -4,13 +4,6 @@
     <meta charset="UTF-8" />
     <!-- Facebook Domain Verification -->
     <meta name="facebook-domain-verification" content="0q6f9pn3fn58fmv4t9kl9e5kyphmt3" />
-    <!-- Google Tag Manager -->
-    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-NBZZFC6C');</script>
-    <!-- End Google Tag Manager -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <!-- ═══════════════════════════════════════════
@@ -22,6 +15,7 @@
          ═══════════════════════════════════════════ -->
 
     <!-- Precarga de recursos criticos (LCP) -->
+    <link rel="preload" href="/hero-banner.png" as="image" />
     <link rel="preload" href="/logo-v2.png" as="image" />
 
     <!-- Preconnect: DNS + TCP + TLS early -->
@@ -180,39 +174,7 @@
     <!-- Google Fonts — display=swap evita FOIT -->
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
-    <!-- ═══════════════════════════════════════════
-         META PIXEL — Facebook / Instagram Ads
-         Pixel ID: 1534259407420824
-         ═══════════════════════════════════════════ -->
-    <script>
-    !function(f,b,e,v,n,t,s)
-    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-    n.queue=[];t=b.createElement(e);t.async=!0;
-    t.src=v;s=b.getElementsByTagName(e)[0];
-    s.parentNode.insertBefore(t,s)}(window, document,'script',
-    'https://connect.facebook.net/en_US/fbevents.js');
-    fbq('init', '688486956674568');
-    fbq('track', 'PageView');
-    </script>
 
-    <!-- Zoho SalesIQ — Chatbot (debe ir en <head>) -->
-    <script type="text/javascript">
-    var $zoho=$zoho || {};
-    $zoho.salesiq = $zoho.salesiq || {
-      widgetcode: "e0806a1b49b4ef24e1016f11eb08c4eb2f49748f0fdad4230858eadebaebbbb7",
-      values: {},
-      ready: function() {}
-    };
-    var d=document;
-    var s=d.createElement("script");
-    s.type="text/javascript";
-    s.id="zsiqscript";
-    s.src="https://salesiq.zohopublic.com/widget";
-    var t=d.getElementsByTagName("script")[0];
-    t.parentNode.insertBefore(s,t);
-    </script>
 
     <!-- ═══════════════════════════════════════════
          CRITICAL CSS — Inline para evitar FOUC / render-blocking
@@ -220,15 +182,11 @@
          ═══════════════════════════════════════════ -->
     <style>
       *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-      html{background:#000;font-family:'Inter',system-ui,-apple-system,sans-serif;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+      html{background:#fff;font-family:'Inter',system-ui,-apple-system,sans-serif;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
       body{margin:0;opacity:1!important;visibility:visible!important;overflow-x:hidden}
-      #root{min-height:100dvh}
-      /* Preloader fade-in */
-      @keyframes fadeIn{from{opacity:0}to{opacity:1}}
-      /* Font face hints */
+      #root{min-height:100dvh;padding-bottom:52px}
       @font-face{font-family:'Space Grotesk';font-display:swap;src:local('Space Grotesk')}
       @font-face{font-family:'IBM Plex Mono';font-display:swap;src:local('IBM Plex Mono')}
-      /* Reduce motion preference */
       @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
     </style>
 
@@ -470,6 +428,71 @@
       };
       c.addScript({src:"https://cdn.pagesense.io/js/tiendacamion/5e786635c46648d5bbd549c97ed1b9f9.js"})
     }();
+    </script>
+
+    <!-- Meta Pixel — Facebook / Instagram Ads (deferred para no bloquear LCP) -->
+    <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '688486956674568');
+    fbq('track', 'PageView');
+    </script>
+
+    <!-- Zoho SalesIQ — Chatbot (deferred para no bloquear LCP) -->
+    <script type="text/javascript">
+    var $zoho=$zoho || {};
+    $zoho.salesiq = $zoho.salesiq || {
+      widgetcode: "e0806a1b49b4ef24e1016f11eb08c4eb2f49748f0fdad4230858eadebaebbbb7",
+      values: {},
+      ready: function() {}
+    };
+    var d=document;
+    var s=d.createElement("script");
+    s.type="text/javascript";
+    s.id="zsiqscript";
+    s.defer=true;
+    s.src="https://salesiq.zohopublic.com/widget";
+    var t=d.getElementsByTagName("script")[0];
+    t.parentNode.insertBefore(s,t);
+    </script>
+
+    <!-- Zoho Desk ASAP -->
+    <script type="text/javascript" id="zohodeskasap">
+    var d=document;
+    var s=d.createElement("script");
+    s.type="text/javascript";
+    s.id="zohodeskasapscript";
+    s.defer=true;
+    s.src="https://desk.zoho.com/portal/api/web/asapApp/1268342000001996001?orgId=913100827";
+    var t=d.getElementsByTagName("script")[0];
+    t.parentNode.insertBefore(s,t);
+    window.ZohoDeskAsapReady=function(cb){
+      var queue=window.ZohoDeskAsap__asyncalls=window.ZohoDeskAsap__asyncalls||[];
+      if(window.ZohoDeskAsapReadyStatus){
+        if(cb) queue.push(cb);
+        queue.forEach(function(fn){ fn && fn(); });
+        window.ZohoDeskAsap__asyncalls=null;
+      } else if(cb){
+        queue.push(cb);
+      }
+    };
+    </script>
+
+    <!-- Zoho SalesIQ — Trigger automático TEMACON-Bienvenida a los 8 segundos -->
+    <script type="text/javascript">
+    window.$zoho = window.$zoho || {};
+    $zoho.salesiq = $zoho.salesiq || {ready: function(){}};
+    $zoho.salesiq.ready = function(embedinfo) {
+      setTimeout(function() {
+        $zoho.salesiq.visitor.trigger("TEMACON-Bienvenida");
+      }, 8000);
+    };
     </script>
   </body>
 </html>

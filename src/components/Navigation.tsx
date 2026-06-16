@@ -71,7 +71,7 @@ const Navigation = memo(function Navigation() {
     <>
       <nav
         ref={navRef}
-        className={`fixed top-0 left-0 right-0 z-50 h-16 sm:h-20 flex items-center transition-all duration-500 ${
+        className={`fixed top-9 left-0 right-0 z-50 h-16 sm:h-20 flex items-center transition-all duration-500 ${
           scrolled
             ? 'bg-white/60 backdrop-blur-2xl shadow-[0_8px_32px_rgba(0,0,0,0.08)]'
             : 'bg-transparent'
@@ -143,7 +143,7 @@ const Navigation = memo(function Navigation() {
          MOBILE MENU
          ═══════════════════════════════════════════ */}
       <div
-        className={`fixed inset-0 z-[100] lg:hidden transition-all duration-300 ${
+        className={`fixed inset-0 z-[10001] lg:hidden transition-all duration-300 ${
           mobileOpen
             ? 'opacity-100 pointer-events-auto'
             : 'opacity-0 pointer-events-none'

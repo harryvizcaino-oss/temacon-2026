@@ -1,8 +1,7 @@
 import { useCountdown } from '@/hooks/useCountdown';
 import { memo } from 'react';
-import { QrCode, Sparkles } from 'lucide-react';
+import { QrCode } from 'lucide-react';
 import AutopartParticles from '@/components/AutopartParticles';
-import AddToCalendar from '@/components/AddToCalendar';
 
 const TARGET_DATE = new Date('2026-09-01T08:00:00');
 function pad(n: number) { return n.toString().padStart(2, '0'); }
@@ -21,8 +20,8 @@ const Hero3D = memo(function Hero3D() {
       {/* ─── CONTENT ─── */}
       <div className="relative z-10 flex flex-col items-center h-full w-full px-4" style={{ pointerEvents: 'none' }}>
 
-        {/* Spacer para menú fijo */}
-        <div className="shrink-0" style={{ height: '60px' }} />
+        {/* Spacer para banner de urgencia + menú fijo */}
+        <div className="shrink-0" style={{ height: '96px' }} />
 
         {/* TOP: Countdown */}
         <div className="shrink-0 flex flex-col items-center text-center">
@@ -61,15 +60,31 @@ const Hero3D = memo(function Hero3D() {
           </div>
         </div>
 
-        {/* BOTTOM: CTA buttons */}
+        {/* BOTTOM: CTA buttons + headline */}
         <div className="shrink-0 flex flex-col items-center text-center pb-5">
-          {/* Espacio entre banner y ES HORA DE */}
-          <div className="h-6 sm:h-8" />
+          {/* Espacio proporcional: banner → botón */}
+          <div className="h-5 sm:h-8" />
+
+          {/* BOTÓN centrado entre banner y headline */}
+          <div className="flex items-center justify-center gap-3" style={{ pointerEvents: 'auto' }}>
+            <a
+              href="#pricing"
+              className="flex items-center gap-2 bg-[#E31E24] text-white px-6 sm:px-10 py-3 rounded-lg font-display text-base sm:text-lg font-bold hover:bg-[#c41a20] transition-all duration-300 glow-pulse"
+            >
+              <QrCode size={18} />
+              Comprar Ticket
+            </a>
+          </div>
+
+          {/* Espacio proporcional: botón → headline */}
+          <div className="h-4 sm:h-6" />
+
+          {/* ES HORA DE TRANSFORMAR — debajo del botón */}
           <div className="hidden sm:block">
             <h1 className="font-display text-3xl lg:text-4xl text-black leading-tight mb-1">
               ES HORA DE <span className="text-[#E31E24]">TRANSFORMAR</span>
             </h1>
-            <p className="font-mono text-[9px] lg:text-[10px] text-black/30 tracking-wider mb-3">
+            <p className="font-mono text-[9px] lg:text-[10px] text-black/30 tracking-wider">
               TECNOLOGÍA · MANTENIMIENTO · CONFIABILIDAD · TRANSPORTE DE CARGA
             </p>
           </div>
@@ -81,27 +96,6 @@ const Hero3D = memo(function Hero3D() {
               TECNOLOGÍA · MANTENIMIENTO · CONFIABILIDAD<br/>
               TRANSPORTE DE CARGA
             </p>
-          </div>
-          <div className="h-3" />
-          <div className="flex items-center gap-3" style={{ pointerEvents: 'auto' }}>
-            <a
-              href="#audience"
-              className="flex items-center gap-2 bg-white text-black border-2 border-yellow-400 px-4 sm:px-6 py-2.5 rounded-lg font-display text-sm sm:text-base font-semibold hover:bg-yellow-400 hover:text-black transition-all duration-300"
-            >
-              <Sparkles size={15} className="text-yellow-400 fill-transparent" strokeWidth={2.5} />
-              Por que Asistir
-            </a>
-            <a
-              href="#pricing"
-              className="flex items-center gap-2 bg-[#E31E24] text-white px-5 sm:px-8 py-2.5 rounded-lg font-display text-sm sm:text-base font-semibold hover:bg-[#c41a20] transition-all duration-300 glow-pulse"
-            >
-              <QrCode size={16} />
-              Comprar Ticket
-            </a>
-          </div>
-          {/* Agregar al calendario — centrado debajo de los botones */}
-          <div className="mt-2" style={{ pointerEvents: 'auto' }}>
-            <AddToCalendar variant="pill" />
           </div>
         </div>
 

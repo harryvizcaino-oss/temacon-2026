@@ -7,7 +7,8 @@ import { useEffect, lazy, Suspense } from 'react';
 import Navigation from '@/components/Navigation';
 import SectionIndicator from '@/components/SectionIndicator';
 import ScrollToTop from '@/components/ScrollToTop';
-import ZohoDesk from '@/components/ZohoDesk';
+import StickyBanner from '@/components/StickyBanner';
+import StickyBottomCTA from '@/components/StickyBottomCTA';
 import Hero3D from '@/sections/Hero3D';
 import Footer from '@/sections/Footer';
 
@@ -33,9 +34,7 @@ const TractoCamion3D  = lazy(() => import('@/sections/TractoCamion3D'));
 
 function SectionLoader() {
   return (
-    <div className="min-h-[400px] bg-temacon-offwhite flex items-center justify-center">
-      <div className="w-8 h-8 border-2 border-[#E31E24] border-t-transparent rounded-full animate-spin" />
-    </div>
+    <div className="min-h-[300px] bg-temacon-offwhite" aria-hidden="true" />
   );
 }
 
@@ -78,8 +77,8 @@ function App() {
 
   return (
     <div className="min-h-screen bg-temacon-offwhite">
+      <StickyBanner />
       <SectionIndicator />
-      <ZohoDesk />
       <ScrollToTop />
 
       {/* Decorativos — lazy loaded para no bloquear LCP */}
@@ -146,6 +145,9 @@ function App() {
       </main>
 
       <Footer />
+
+      {/* Sticky bottom CTA — Comprar Ticket verde */}
+      <StickyBottomCTA />
     </div>
   );
 }
