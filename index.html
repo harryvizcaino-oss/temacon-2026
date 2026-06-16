@@ -5,6 +5,22 @@
     <!-- Facebook Domain Verification -->
     <meta name="facebook-domain-verification" content="0q6f9pn3fn58fmv4t9kl9e5kyphmt3" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- ═══════════════════════════════════════════
+         1. CONTENT SECURITY POLICY (CSP)
+         Permite solo dominios autorizados. Previene XSS.
+         ═══════════════════════════════════════════ -->
+    <meta http-equiv="Content-Security-Policy" content="
+      default-src 'self';
+      script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://connect.facebook.net https://salesiq.zohopublic.com https://desk.zoho.com https://cdn.pagesense.io https://js.zohostatic.com;
+      style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+      img-src 'self' data: https:;
+      font-src 'self' https://fonts.gstatic.com;
+      frame-src https://www.googletagmanager.com https://desk.zoho.com;
+      connect-src 'self' https: wss:;
+      manifest-src 'self';
+      base-uri 'self';
+      form-action 'self';
+    ">
 
     <!-- ═══════════════════════════════════════════
          SEO — Meta Tags Optimizados
@@ -372,7 +388,8 @@
   <body>
     <!-- Google Tag Manager (noscript) -->
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NBZZFC6C"
-    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    height="0" width="0" style="display:none;visibility:hidden"
+    sandbox="allow-scripts allow-same-origin"></iframe></noscript>
     <!-- End Google Tag Manager (noscript) -->
 
     <!-- Meta Pixel (noscript) — debe ir en body, no en head -->
