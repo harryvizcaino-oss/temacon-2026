@@ -1,6 +1,8 @@
+import { useState } from 'react';
 import { Facebook, Instagram, Linkedin } from 'lucide-react';
 import type { ComponentType } from 'react';
 import type { LucideProps } from 'lucide-react';
+import PrivacyModal from '@/components/PrivacyModal';
 
 /* ═══════════════════════════════════════════
    FOOTER — Compacto: 4 redes sociales + copyright
@@ -47,6 +49,8 @@ const EXTERNAL_LINKS = [
 ];
 
 export default function Footer() {
+  const [privacyOpen, setPrivacyOpen] = useState(false);
+
   return (
     <footer id="footer" className="bg-temacon-mediumgray">
       <div className="wrapper py-8 lg:py-10 flex flex-col items-center text-center">
@@ -146,7 +150,18 @@ export default function Footer() {
         >
           contacto@tiendacamion.com
         </a>
+
+        {/* Privacy Policy */}
+        <button
+          onClick={() => setPrivacyOpen(true)}
+          className="text-[10px] font-mono text-black/30 hover:text-[#E31E24] transition-colors tracking-wider mt-1 bg-transparent border-none cursor-pointer p-0"
+        >
+          Política de Privacidad
+        </button>
       </div>
+
+      {/* Privacy Policy Modal */}
+      <PrivacyModal isOpen={privacyOpen} onClose={() => setPrivacyOpen(false)} />
     </footer>
   );
 }

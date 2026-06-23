@@ -51,6 +51,14 @@ function App() {
       }, 500);
     }
 
+    // Si ?buy=1 en la URL, abrir modal de compra automáticamente (desde QR)
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('buy') === '1') {
+      setTimeout(() => {
+        window.dispatchEvent(new CustomEvent('open-purchase-modal'));
+      }, 1500);
+    }
+
     // Handler para anchor links: scroll suave compensando nav fijo
     const handleAnchorClick = (e: MouseEvent) => {
       const target = e.target as HTMLElement;

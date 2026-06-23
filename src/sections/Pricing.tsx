@@ -31,6 +31,13 @@ const Pricing = memo(function Pricing() {
   const stampRef   = useRef<HTMLDivElement>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  // Escuchar evento para abrir modal desde QR (?buy=1)
+  useEffect(() => {
+    const handleOpen = () => setIsModalOpen(true);
+    window.addEventListener('open-purchase-modal', handleOpen);
+    return () => window.removeEventListener('open-purchase-modal', handleOpen);
+  }, []);
+
   /* Meta Pixel: ViewContent cuando pricing es visible */
   useEffect(() => {
     const ctx = gsap.context(() => {

@@ -1,0 +1,273 @@
+import { useEffect, useRef } from 'react';
+import { X, Shield } from 'lucide-react';
+
+interface PrivacyModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+const PRIVACY_HTML = `
+<div class="privacy-content">
+  <style>
+    .privacy-content{font-family:'Space Grotesk',system-ui,sans-serif;background:#0a0a0a;color:#fff;line-height:1.65}
+    .privacy-content .p-header{background:#0a0a0a;color:#fff;padding:28px 20px 20px;text-align:center;border-bottom:2px solid #E31E24}
+    .privacy-content .p-header h1{font-size:22px;font-weight:700;line-height:1.2;margin:0}
+    .privacy-content .p-header h1 span{color:#E31E24}
+    .privacy-content .p-header .sub{font-size:10px;color:#fff6;margin-top:8px;font-family:'IBM Plex Mono',monospace;letter-spacing:.1em}
+    .privacy-content .p-container{max-width:680px;margin:0 auto;padding:24px 20px 40px}
+    .privacy-content .p-section{margin-bottom:24px;padding-bottom:20px;border-bottom:1px solid #ffffff10}
+    .privacy-content .p-section:last-child{border-bottom:none}
+    .privacy-content h2{font-size:14px;font-weight:700;margin-bottom:10px;color:#E31E24;text-transform:uppercase;letter-spacing:.05em;margin-top:0}
+    .privacy-content p{font-size:12px;margin-bottom:10px;color:#ffffffcc;text-align:justify;line-height:1.7}
+    .privacy-content ul{list-style:none;padding-left:0;margin-bottom:10px}
+    .privacy-content li{font-size:11px;margin-bottom:8px;color:#ffffffb3;padding-left:16px;position:relative;line-height:1.6}
+    .privacy-content li::before{content:'>';position:absolute;left:0;color:#E31E24;font-weight:700}
+    .privacy-content li strong{color:#fff;font-weight:700}
+    .privacy-content table{width:100%;border-collapse:collapse;margin:14px 0;font-size:11px}
+    .privacy-content th{background:#E31E24;color:#fff;padding:8px 10px;text-align:left;font-weight:700;font-size:10px;text-transform:uppercase;letter-spacing:.05em}
+    .privacy-content td{padding:8px 10px;border-bottom:1px solid #ffffff15;color:#ffffffcc}
+    .privacy-content .p-highlight{background:#ffffff08;border-left:3px solid #E31E24;padding:10px 14px;margin:12px 0}
+    .privacy-content .p-highlight p{margin-bottom:6px;font-size:11px}
+    .privacy-content .p-highlight p:last-child{margin-bottom:0}
+    .privacy-content .p-contact{background:#f7f7f7;color:#0a0a0a;padding:16px 20px;text-align:center}
+    .privacy-content .p-contact .p-mono{color:#E31E24;margin-bottom:6px;display:block;font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.15em;text-transform:uppercase}
+    .privacy-content .p-contact p{font-size:11px;color:#111;text-align:center;margin-bottom:4px}
+    .privacy-content .p-contact a{color:#E31E24;text-decoration:none;font-weight:700}
+    @media(max-width:640px){
+      .privacy-content .p-header h1{font-size:18px}
+      .privacy-content .p-container{padding:16px 16px 32px}
+      .privacy-content h2{font-size:13px}
+      .privacy-content p, .privacy-content li{font-size:11px}
+    }
+  </style>
+
+  <div class="p-header">
+    <h1>POL&Iacute;TICA DE TRATAMIENTO<br><span>DE DATOS PERSONALES</span></h1>
+    <div class="sub">TIENDACAMION S.A.S. | NIT 901788469-0</div>
+  </div>
+
+  <div class="p-container">
+    <div class="p-section">
+      <p>TIENDACAMION S.A.S. establecimiento comercial (en adelante la &quot;Empresa&quot; o la &quot;Compa&ntilde;&iacute;a&quot;), identificada con el NIT. 901788469-0, con domicilio principal en la direcci&oacute;n AUTOPISTA MEDELLIN KM4 VIA SIBERIA EDS PRIMAX LOTTO BG3, Cota, Colombia, reconoce la importancia de la seguridad, privacidad y confidencialidad de los Datos Personales de sus clientes, usuarios, colaboradores, proveedores, accionistas, aliados y en general de todos sus grupos de inter&eacute;s respecto de los cuales ejerce Tratamiento de informaci&oacute;n personal, por lo que en cumplimiento de las disposiciones constitucionales y legales, adopt&oacute; la presente Pol&iacute;tica para el Tratamiento de Datos Personales de TIENDACAMION S.A.S.</p>
+    </div>
+
+    <div class="p-section">
+      <h2>1. Normatividad aplicable</h2>
+      <ul>
+        <li>Art&iacute;culo 15 de la Constituci&oacute;n Pol&iacute;tica de Colombia.</li>
+        <li>Ley Estatutaria 1266 de 2008.</li>
+        <li>Ley 1273 de 2009.</li>
+        <li>Ley Estatutaria 1581 de 2012.</li>
+        <li>Decreto 1377 de 2013.</li>
+        <li>Decreto 886 de 2014.</li>
+        <li>Decreto 1074 de 2015.</li>
+        <li>T&iacute;tulo V de la Circular &Uacute;nica de la Superintendencia de Industria y Comercio.</li>
+      </ul>
+    </div>
+
+    <div class="p-section">
+      <h2>2. Contexto y alcance</h2>
+      <p>De acuerdo con el art&iacute;culo 15 de la Constituci&oacute;n Pol&iacute;tica de Colombia, todas las personas tienen derecho a conocer, actualizar y rectificar la informaci&oacute;n que se tenga de ellas en las centrales de datos. La Ley 1581 de 2012 estableci&oacute; el r&eacute;gimen general de Protecci&oacute;n de Datos Personales en Colombia.</p>
+      <p>En TIENDACAMION S.A.S. contamos con una regulaci&oacute;n especial sobre la Protecci&oacute;n de los Datos de nuestros clientes, y definimos procesos y pol&iacute;ticas que buscan garantizar la confianza, seguridad y calidad en el uso de la informaci&oacute;n. La Empresa recibe, registra, conserva, modifica, reporta, consulta, entrega, comparte y elimina informaci&oacute;n con la Autorizaci&oacute;n del Titular.</p>
+      <p>Los datos nos permiten ofrecer y suministrar informaci&oacute;n de los productos y servicios, consultar, reportar y actualizar ante los operadores de informaci&oacute;n y riesgo, actualizar el estado de las relaciones contractuales, dar cumplimiento a las obligaciones pactadas, prevenir el riesgo de lavado de activos, financiaci&oacute;n del terrorismo, entre otras.</p>
+    </div>
+
+    <div class="p-section">
+      <h2>3. Destinatarios</h2>
+      <p>La presente pol&iacute;tica est&aacute; dirigida a nuestros clientes, usuarios, colaboradores, proveedores, aliados y en general nuestros grupos de inter&eacute;s sobre los cuales TIENDACAMION S.A.S. realiza Tratamiento de informaci&oacute;n personal.</p>
+    </div>
+
+    <div class="p-section">
+      <h2>4. Definiciones</h2>
+      <ul>
+        <li><strong>Autorizaci&oacute;n:</strong> consentimiento previo, expreso e informado del Titular para llevar a cabo el Tratamiento de Datos Personales.</li>
+        <li><strong>Base de Datos:</strong> conjunto organizado de Datos Personales objeto de Tratamiento.</li>
+        <li><strong>Dato Personal:</strong> cualquier informaci&oacute;n vinculada o que pueda asociarse a una persona natural determinada o determinable.</li>
+        <li><strong>Encargado del Tratamiento:</strong> persona que realice el Tratamiento por cuenta del Responsable.</li>
+        <li><strong>Responsable del Tratamiento:</strong> persona que realice el Tratamiento de Datos Personales.</li>
+        <li><strong>Titular:</strong> persona natural cuyos Datos Personales sean objeto de Tratamiento.</li>
+        <li><strong>Tratamiento:</strong> cualquier operaci&oacute;n sobre Datos Personales (recolecci&oacute;n, almacenamiento, uso, circulaci&oacute;n o supresi&oacute;n).</li>
+      </ul>
+    </div>
+
+    <div class="p-section">
+      <h2>5. Principios rectores</h2>
+      <table>
+        <tr><th>Principio</th><th>Descripci&oacute;n</th></tr>
+        <tr><td>Acceso restringido</td><td>El Tratamiento est&aacute; sujeto a los l&iacute;mites derivados de la naturaleza de los Datos Personales y la ley 1581 de 2012.</td></tr>
+        <tr><td>Confidencialidad</td><td>Todas las personas est&aacute;n obligadas a garantizar la reserva de la informaci&oacute;n.</td></tr>
+        <tr><td>Consentimiento</td><td>La Autorizaci&oacute;n puede ser por escrito, oral o mediante conductas inequ&iacute;vocas.</td></tr>
+        <tr><td>Finalidad</td><td>Toda actividad debe obedecer a las finalidades leg&iacute;timas informadas al Titular.</td></tr>
+        <tr><td>Integridad y calidad</td><td>El Dato debe ser veraz, completo, exacto, actualizado y comprensible.</td></tr>
+        <tr><td>Seguridad</td><td>Se deben disponer medidas t&eacute;cnicas, humanas y administrativas de seguridad.</td></tr>
+        <tr><td>Temporalidad</td><td>No se usar&aacute;n los Datos m&aacute;s all&aacute; del plazo razonable de la finalidad informada.</td></tr>
+        <tr><td>Transparencia</td><td>La Empresa debe entregar informaci&oacute;n al Titular sobre sus Datos Personales.</td></tr>
+      </table>
+    </div>
+
+    <div class="p-section">
+      <h2>6. Autorizaciones</h2>
+      <p>TIENDACAMION S.A.S. solicitar&aacute; la Autorizaci&oacute;n para que el Titular otorgue su consentimiento previo, expreso e informado del Tratamiento al cual son sujetos sus Datos Personales. La Autorizaci&oacute;n no ser&aacute; necesaria cuando se trate de informaci&oacute;n requerida por entidad p&uacute;blica, datos de naturaleza p&uacute;blica, urgencia m&eacute;dica, fines hist&oacute;ricos/estad&iacute;sticos/cient&iacute;ficos autorizados por ley, o datos del registro civil.</p>
+    </div>
+
+    <div class="p-section">
+      <h2>7. Datos Sensibles</h2>
+      <p>TIENDACAMION S.A.S. podr&aacute; recolectar Datos Sensibles (biom&eacute;tricos, fotograf&iacute;as, videos) para garantizar el ingreso y permanencia en instalaciones. Para estos datos se informar&aacute; de forma expl&iacute;cita y previa, y la Autorizaci&oacute;n ser&aacute; previa, expresa y clara.</p>
+    </div>
+
+    <div class="p-section">
+      <h2>8. Finalidades</h2>
+      <div class="p-highlight">
+        <p><strong style="color:#E31E24">Corporativas:</strong> Gestionar informaci&oacute;n del cliente, ofrecer productos/servicios, gesti&oacute;n de cobro, cumplir obligaciones tributarias, an&aacute;lisis comerciales, administrar proveedores, verificar antecedentes, tr&aacute;mites de financiaci&oacute;n, eventos/capacitaciones, administrar recurso humano, facturaci&oacute;n, consultar RUNT, seguridad de instalaciones.</p>
+      </div>
+      <div class="p-highlight">
+        <p><strong style="color:#E31E24">Mercadeo:</strong> Actividades de mercadeo, sensibilizaci&oacute;n, enviar informaci&oacute;n sobre novedades, eventos, campa&ntilde;as, promociones, encuestas de satisfacci&oacute;n, fidelizaci&oacute;n, invitaciones a eventos, investigaciones de mercado.</p>
+      </div>
+      <div class="p-highlight">
+        <p><strong style="color:#E31E24">Terceros:</strong> Gestionar solicitudes/quejas/reclamos, transmitir Datos Personales a terceros para fines comerciales/operativos, verificar informaci&oacute;n jur&iacute;dica/financiera en procesos contractuales.</p>
+      </div>
+    </div>
+
+    <div class="p-section">
+      <h2>9. Duraci&oacute;n del Tratamiento</h2>
+      <p>Los Datos Personales estar&aacute;n sujetos a Tratamiento durante el t&eacute;rmino contractual en el que el Titular tenga el producto, servicio, contrato o relaci&oacute;n, m&aacute;s el t&eacute;rmino que establezca la ley.</p>
+    </div>
+
+    <div class="p-section">
+      <h2>10. Derechos del Titular</h2>
+      <ul>
+        <li>Conocer, actualizar y corregir sus Datos Personales.</li>
+        <li>Solicitar prueba de la Autorizaci&oacute;n otorgada.</li>
+        <li>Tener acceso gratuito a sus Datos Personales.</li>
+        <li>Ser informado del Tratamiento que se le da a sus Datos.</li>
+        <li>Solicitar revocatoria de la Autorizaci&oacute;n.</li>
+        <li>Solicitar supresi&oacute;n de sus Datos de las Bases de Datos.</li>
+        <li>Presentar quejas ante la Superintendencia de Industria y Comercio.</li>
+      </ul>
+    </div>
+
+    <div class="p-section">
+      <h2>11. Atenci&oacute;n de consultas, quejas y reclamos</h2>
+      <p>Los Titulares podr&aacute;n ejercer sus derechos a trav&eacute;s de:</p>
+      <ul>
+        <li><strong>Correo:</strong> notificaciones@tiendacamion.com</li>
+        <li><strong>Direcci&oacute;n:</strong> AUTOPISTA MEDELLIN KM4 VIA SIBERIA EDS PRIMAX LOTTO BG3, Cota, Colombia</li>
+        <li><strong>Tel&eacute;fono:</strong> (+57-601) 377 7705</li>
+      </ul>
+      <p>TIENDACAMION S.A.S. dar&aacute; respuesta dentro de 10 d&iacute;as h&aacute;biles para consultas y 15 d&iacute;as h&aacute;biles para reclamos.</p>
+    </div>
+
+    <div class="p-section">
+      <h2>12. Transferencia y Transmisi&oacute;n</h2>
+      <p>Eventualmente TIENDACAMION S.A.S. podr&aacute; realizar Transferencia o Transmisi&oacute;n nacional o internacional de datos, verificando el nivel de est&aacute;ndares de protecci&oacute;n del pa&iacute;s receptor.</p>
+    </div>
+
+    <div class="p-section">
+      <h2>13. Relacionamiento con terceros</h2>
+      <p>TIENDACAMION S.A.S. velar&aacute; porque los terceros con que se vincule adecuen sus conductas al r&eacute;gimen de protecci&oacute;n de Datos Personales en Colombia.</p>
+    </div>
+
+    <div class="p-section">
+      <h2>14. Cookies</h2>
+      <p>TIENDACAMION S.A.S. utiliza cookies propias y de terceros para optimizar la experiencia de usuarios, monitorear estad&iacute;sticas y presentar contenidos relacionados con preferencias. La informaci&oacute;n recopilada est&aacute; cifrada y no se utiliza para identificar al usuario.</p>
+    </div>
+
+    <div class="p-section">
+      <h2>15. Modificaciones</h2>
+      <p>Esta pol&iacute;tica puede ser modificada en cualquier momento. Cualquier actualizaci&oacute;n se pondr&aacute; a disposici&oacute;n en el sitio web con la fecha de entrada en vigencia.</p>
+    </div>
+
+    <div class="p-section" style="border-bottom:none">
+      <h2>16. Vigencia</h2>
+      <p>Esta pol&iacute;tica se encuentra vigente desde el 14 de enero de 2024 y continuar&aacute; vigente durante el tiempo necesario para cumplir con las finalidades mencionadas.</p>
+    </div>
+  </div>
+
+  <div class="p-contact">
+    <span class="p-mono">&iquest;Preguntas sobre tus datos?</span>
+    <p>Escr&iacute;benos a <a href="mailto:notificaciones@tiendacamion.com">notificaciones@tiendacamion.com</a></p>
+    <p>o ll&aacute;manos al <strong>(+57-601) 377 7705</strong></p>
+  </div>
+</div>
+`;
+
+export default function PrivacyModal({ isOpen, onClose }: PrivacyModalProps) {
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleEsc = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    if (isOpen) {
+      document.addEventListener('keydown', handleEsc);
+      document.body.style.overflow = 'hidden';
+    }
+    return () => {
+      document.removeEventListener('keydown', handleEsc);
+      document.body.style.overflow = '';
+    };
+  }, [isOpen, onClose]);
+
+  // Reset scroll when opening
+  useEffect(() => {
+    if (isOpen && scrollRef.current) {
+      scrollRef.current.scrollTop = 0;
+    }
+  }, [isOpen]);
+
+  if (!isOpen) return null;
+
+  return (
+    <div
+      className="fixed inset-0 z-[9999] flex items-center justify-center"
+      style={{ background: 'rgba(0,0,0,0.85)', backdropFilter: 'blur(8px)' }}
+      onClick={onClose}
+    >
+      <div
+        className="relative w-[96%] max-w-3xl overflow-hidden flex flex-col"
+        style={{
+          height: '88vh',
+          background: '#0a0a0a',
+          borderRadius: '12px',
+          border: '1px solid rgba(255,255,255,0.08)',
+          boxShadow: '0 25px 80px rgba(0,0,0,0.7), 0 0 0 1px rgba(227,30,36,0.15)',
+        }}
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* Header */}
+        <div
+          className="flex items-center justify-between px-5 py-3 flex-shrink-0"
+          style={{ borderBottom: '2px solid #E31E24', background: '#0a0a0a' }}
+        >
+          <div className="flex items-center gap-2">
+            <Shield size={16} className="text-[#E31E24]" />
+            <h3
+              className="text-sm font-semibold text-white"
+              style={{ fontFamily: "'Space Grotesk', sans-serif" }}
+            >
+              Pol&iacute;tica de Privacidad
+            </h3>
+          </div>
+          <button
+            onClick={onClose}
+            className="w-8 h-8 flex items-center justify-center rounded-full transition-colors cursor-pointer"
+            style={{ background: 'rgba(255,255,255,0.08)' }}
+            onMouseEnter={(e) => (e.currentTarget.style.background = '#E31E24')}
+            onMouseLeave={(e) => (e.currentTarget.style.background = 'rgba(255,255,255,0.08)')}
+            aria-label="Cerrar"
+          >
+            <X size={16} className="text-white" />
+          </button>
+        </div>
+
+        {/* Content — no iframe, direct HTML */}
+        <div
+          ref={scrollRef}
+          className="flex-1 overflow-y-auto"
+          style={{ scrollbarWidth: 'thin', scrollbarColor: '#E31E24 #0a0a0a' }}
+          dangerouslySetInnerHTML={{ __html: PRIVACY_HTML }}
+        />
+      </div>
+    </div>
+  );
+}
