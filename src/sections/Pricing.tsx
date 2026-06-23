@@ -166,7 +166,7 @@ const Pricing = memo(function Pricing() {
                     <span className="font-mono text-[10px] text-black/30">COP</span>
                   </div>
                 </div>
-                <button onClick={() => { MetaPixel.initiateCheckout(); setIsModalOpen(true); }}
+                <button onClick={() => { MetaPixel.initiateCheckout(); if((window as any).lintrk)(window as any).lintrk('track',{conversion_id:26968820}); setIsModalOpen(true); }}
                   className="w-full py-3.5 bg-[#22c55e] text-white rounded-lg font-display font-semibold text-sm hover:bg-[#16a34a] transition-all duration-300 glow-pulse-green flex items-center justify-center gap-2 cursor-pointer"
                   style={{ pointerEvents: 'auto' }}>
                   <QrCode size={16} className="flex-shrink-0" />
@@ -209,7 +209,7 @@ const Pricing = memo(function Pricing() {
                     <span className="font-mono text-[8px] text-black/30">COP</span>
                   </div>
                 </div>
-                <button onClick={() => { MetaPixel.initiateCheckout(); setIsModalOpen(true); }}
+                <button onClick={() => { MetaPixel.initiateCheckout(); if((window as any).lintrk)(window as any).lintrk('track',{conversion_id:26968820}); setIsModalOpen(true); }}
                   className="w-full py-2.5 bg-[#22c55e] text-white rounded-lg font-display font-semibold text-xs hover:bg-[#16a34a] transition-all duration-300 glow-pulse-green flex items-center justify-center gap-1.5 cursor-pointer"
                   style={{ pointerEvents: 'auto' }}>
                   <QrCode size={13} className="flex-shrink-0" />
