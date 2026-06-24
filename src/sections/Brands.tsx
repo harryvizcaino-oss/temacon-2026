@@ -182,7 +182,7 @@ export default function Brands() {
               Conviértete en Patrocinador
             </a>
             <a
-              href="/temacon-portafolio-vinculacion.pdf"
+              href="/portafolio-comercial.pdf"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 bg-[#E31E24] text-white px-6 py-2.5 rounded-full font-mono text-xs tracking-wider hover:bg-white hover:text-[#E31E24] transition-all duration-300 shadow-lg shadow-[#E31E24]/20"

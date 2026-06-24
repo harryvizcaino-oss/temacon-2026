@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Comprar Ticket - TEMACON 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://static.zohocdn.com/backstage/v1.0/styles/ticket-widget/v1.3/register-widget.min.css">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100dvh;overflow:hidden}
+    body{font-family:'Space Grotesk',system-ui,sans-serif;background:#0a0a0a;color:#fff;display:flex;flex-direction:column}
+    .header{background:#0a0a0a;padding:16px 20px;display:flex;align-items:center;justify-content:space-between;border-bottom:2px solid #E31E24;flex-shrink:0}
+    .header .logo{font-size:16px;font-weight:700}
+    .header .logo span{color:#E31E24}
+    .header .badge{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:#fff4}
+    .header .close-btn{width:32px;height:32px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:#ffffff14;border:none;cursor:pointer;transition:background .2s}
+    .header .close-btn:hover{background:#E31E24}
+    .header .close-btn svg{width:16px;height:16px;stroke:#fff;stroke-width:2;fill:none}
+    .main{flex:1;display:flex;flex-direction:column;overflow-y:auto;position:relative}
+    .content{max-width:720px;margin:0 auto;padding:20px;width:100%}
+    .loading{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:80px 20px;flex:1}
+    .loading .spinner{width:32px;height:32px;border:3px solid #E31E2440;border-top-color:#E31E24;border-radius:50%;animation:spin 1s linear infinite;margin-bottom:16px}
+    .loading p{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:#fff4}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    .success{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 20px;text-align:center}
+    .success .icon{width:80px;height:80px;background:#E31E2418;border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:24px}
+    .success .icon svg{width:40px;height:40px;stroke:#E31E24;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round}
+    .success h2{font-size:24px;font-weight:700;margin-bottom:12px}
+    .success p{font-size:14px;color:#ffffff99;max-width:400px;line-height:1.6;margin-bottom:8px}
+    .success .info-box{width:100%;max-width:360px;background:#ffffff08;border:1px solid #ffffff10;border-radius:12px;padding:16px;margin:16px 0;text-align:left}
+    .success .info-box .row{display:flex;align-items:flex-start;gap:12px;margin-bottom:12px}
+    .success .info-box .row:last-child{margin-bottom:0}
+    .success .info-box .row svg{width:18px;height:18px;stroke:#E31E24;stroke-width:2;fill:none;flex-shrink:0;margin-top:2px}
+    .success .info-box .row .label{font-size:13px;font-weight:600;color:#fff}
+    .success .info-box .row .value{font-size:12px;color:#ffffff80;margin-top:2px}
+    .success .btn-close{width:100%;max-width:360px;padding:14px;background:#E31E24;color:#fff;border:none;border-radius:999px;font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:600;cursor:pointer;transition:all .3s;margin-top:8px}
+    .success .btn-close:hover{background:#fff;color:#0a0a0a}
+    .success .footer-note{font-family:'IBM Plex Mono',monospace;font-size:9px;color:#ffffff30;margin-top:16px;letter-spacing:.1em}
+    #zbs-register-widget-section{min-height:500px}
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <div class="header">
+    <div>
+      <div class="logo">TEMACON <span>2026</span></div>
+      <div class="badge">ADQUIRIR INGRESO</div>
+    </div>
+    <button class="close-btn" onclick="window.location.href='/'" aria-label="Cerrar">
+      <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main">
+
+  <!-- Loading -->
+  <div class="loading" id="loading">
+    <div class="spinner"></div>
+    <p>Cargando formulario...</p>
+  </div>
+
+  <!-- Success Screen -->
+  <div class="success" id="success" style="display:none;min-height:100dvh">
+    <div class="icon">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9 12l2 2 4-4"/></svg>
+    </div>
+    <h2>&iexcl;Compra Exitosa!</h2>
+    <p>Gracias por ser parte de <strong style="color:#E31E24">TEMACON 2026</strong>. Tu registro ha sido procesado correctamente.</p>
+    <div class="info-box">
+      <div class="row">
+        <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        <div>
+          <div class="label">Revisa tu correo electr&oacute;nico</div>
+          <div class="value">Enviaremos tu ticket de activaci&oacute;n y toda la informaci&oacute;n del evento al correo registrado.</div>
+        </div>
+      </div>
+      <div class="row">
+        <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        <div>
+          <div class="label">1-2 de Septiembre, 2026</div>
+          <div class="value">C&aacute;mara de Comercio de Bogot&aacute;, Sede Salitre. Te esperamos.</div>
+        </div>
+      </div>
+    </div>
+    <button class="btn-close" onclick="window.location.href='/'">Cerrar</button>
+    <div class="footer-note">&iquest;Preguntas? Escr&iacute;benos a contacto@tiendacamion.com</div>
+  </div>
+
+  <!-- Zoho Widget Container -->
+  <div id="zbs-register-widget-section" style="flex:1;min-height:0"></div>
+
+  </div><!-- /main -->
+
+  <script src="https://static.zohocdn.com/backstage/v1.0/javascript/ticket-widget/v1.3/register-widget.min.js"></script>
+  <script>
+    // Meta Pixel
+    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','688486956674568');fbq('track','PageView');fbq('track','InitiateCheckout');
+
+    // LinkedIn Insight Tag
+    _linkedin_partner_id = "9557340";
+    window._linkedin_data_partner_ids = window._linkedin_data_partner_ids || [];
+    window._linkedin_data_partner_ids.push(_linkedin_partner_id);
+    (function(l) {
+      if (!l) { window.lintrk = function(a,b) { window.lintrk.q.push([a,b]) }; window.lintrk.q = []; }
+      var s = document.getElementsByTagName("script")[0];
+      var b = document.createElement("script");
+      b.type = "text/javascript"; b.async = true;
+      b.src = "https://snap.licdn.com/li.lms-analytics/insight.min.js";
+      s.parentNode.insertBefore(b, s);
+    })(window.lintrk);
+
+    // Initialize Zoho Widget
+    function initWidget() {
+      var zbs = window.ZBSCheckOutWidget;
+      if (!zbs || !zbs._createWidget) {
+        setTimeout(initWidget, 400);
+        return;
+      }
+      document.getElementById('loading').style.display = 'none';
+
+      try {
+        zbs._createWidget(
+          {
+            eventUrl: 'https://ticketstemacon.tiendacamion.com/embed/TEMACON2026/buyTickets',
+            modal: false,
+            clickableElements: [],
+            ticketClassIdVsSelectorMap: {},
+            ticketGroupIdVsSelectorMap: {},
+            skipValidation: true,
+            widgetOptions: {
+              theme: {
+                primaryButton: {
+                  backgroundColor: '#E31E24',
+                  textColor: '#ffffff',
+                  borderColor: '#E31E24'
+                },
+                eventHeader: {
+                  backgroundColor: '#1a1a1a',
+                  textColor: '#ffffff'
+                }
+              },
+              visibilityOptions: {
+                showEventHeader: true,
+                showCheckoutProgress: true,
+                showBSBranding: false,
+                showEventDate: true,
+                showEventVenue: true,
+                ticketClassIds: [],
+                ticketItemGroupIds: []
+              },
+              messageContents: {
+                'lbl.closed': 'Cerrado',
+                'lbl.yet.to.start': 'Proximamente',
+                'lbl.sales.ended': 'Ventas finalizadas',
+                'lbl.unavailable': 'No disponible',
+                'lbl.sold.out': 'Agotado',
+                'lbl.open': 'Comprar ahora'
+              }
+            },
+            onOrderComplete: function () {
+              // Meta Pixel Purchase
+              if (typeof fbq !== 'undefined') fbq('track', 'Purchase', {value: 399000, currency: 'COP'});
+              // LinkedIn Conversion
+              if (window.lintrk) window.lintrk('track', {conversion_id: 26968820});
+              // Show success
+              document.getElementById('zbs-register-widget-section').style.display = 'none';
+              document.getElementById('success').style.display = 'flex';
+            },
+            onClose: function () {}
+          },
+          '#zbs-register-widget-section'
+        );
+      } catch (e) {
+        console.error('Error widget:', e);
+      }
+    }
+
+    setTimeout(initWidget, 600);
+  </script>
+
+  <!-- LinkedIn noscript -->
+  <noscript>
+    <img height="1" width="1" style="display:none;" alt="" src="https://px.ads.linkedin.com/collect/?pid=9557340&fmt=gif" />
+  </noscript>
+</body>
+</html>
