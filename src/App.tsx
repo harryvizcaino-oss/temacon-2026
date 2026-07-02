@@ -9,6 +9,7 @@ import SectionIndicator from '@/components/SectionIndicator';
 import ScrollToTop from '@/components/ScrollToTop';
 import StickyBanner from '@/components/StickyBanner';
 import StickyBottomCTA from '@/components/StickyBottomCTA';
+import MobileBottomNav from '@/components/MobileBottomNav';
 import Hero3D from '@/sections/Hero3D';
 import Footer from '@/sections/Footer';
 
@@ -154,8 +155,13 @@ function App() {
 
       <Footer />
 
-      {/* Sticky bottom CTA — Comprar Ticket verde */}
-      <StickyBottomCTA />
+      {/* Sticky bottom CTA — Comprar Ticket verde (solo desktop) */}
+      <div className="hidden md:block">
+        <StickyBottomCTA />
+      </div>
+
+      {/* Mobile Bottom Nav — tipo app con QR prominente */}
+      <MobileBottomNav />
     </div>
   );
 }
