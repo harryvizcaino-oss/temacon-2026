@@ -112,7 +112,7 @@ function App() {
         </Suspense>
 
         <Suspense fallback={<SectionLoader />}>
-          <FlujoMantenimiento />
+          <Pricing />
         </Suspense>
 
         <Suspense fallback={<SectionLoader />}>
@@ -142,10 +142,6 @@ function App() {
 
         <Suspense fallback={<SectionLoader />}>
           <Venue />
-        </Suspense>
-
-        <Suspense fallback={<SectionLoader />}>
-          <Pricing />
         </Suspense>
 
         <Suspense fallback={<SectionLoader />}>

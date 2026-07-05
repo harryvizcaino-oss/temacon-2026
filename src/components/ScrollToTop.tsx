@@ -31,7 +31,7 @@ export default function ScrollToTop() {
   return (
     <button
       onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-      className={`fixed bottom-[60px] z-[80] w-12 h-12 rounded-full flex items-center justify-center transition-all duration-500 ${
+      className={`fixed bottom-[60px] z-[80] w-12 h-12 rounded-full hidden md:flex items-center justify-center transition-all duration-500 ${
         visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'
       }`}
       style={{

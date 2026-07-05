@@ -12,6 +12,8 @@ interface BrandItem {
 }
 
 const BRANDS: BrandItem[] = [
+  { name: 'LOGYCA', logo: '/brands/logyca.png' },
+  { name: 'Fedetranscarga', logo: '/brands/fedetranscarga.png' },
   { name: 'LogiMiles', logo: '/brands/logimiles.png' },
   { name: 'Puntored', logo: '/brands/puntored.png' },
   { name: 'RPV-05', logo: '/brands/rpv-05.png' },
@@ -165,7 +167,7 @@ export default function Brands() {
             Marcas <span className="text-[#E31E24]">Confirmadas</span>
           </h2>
           <p className="mt-3 text-sm text-black/40 max-w-md mx-auto">
-            {BRANDS.filter(b => b.logo).length} marcas líderes respaldan TEMACON 2026.
+            Marcas líderes que respaldan TEMACON 2026.
             <span className="block mt-1 text-black/30 font-mono text-[10px] tracking-wider">
               Haz clic en un logo para ampliar
             </span>

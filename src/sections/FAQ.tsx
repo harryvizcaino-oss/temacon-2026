@@ -1,134 +1,132 @@
 import { useState } from 'react';
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown, HelpCircle } from 'lucide-react';
 
 /* ═══════════════════════════════════════════
-   FAQ — Banner único que despliega todo
+   FAQ — Acordeón individual por pregunta
+   Estilo limpio: pregunta negrilla, respuesta normal
    ═══════════════════════════════════════════ */
 
 const FAQS = [
   {
-    q: '¿Qué es TEMACON 2026 y por qué es el evento más importante de Tecnología, Mantenimiento y Confiabilidad para el transporte de carga en Colombia?',
-    a: 'TEMACON 2026 es el Evento de Tecnología, Mantenimiento y Confiabilidad líder de Latinoamérica para el transporte de carga. Reúne a más de 400 profesionales del sector transporte de carga y sus líderes de tecnología, mantenimiento y confiabilidad, 12 conferencistas nacionales y marcas líderes en tecnología para flotas. Se realiza los días 1 y 2 de septiembre de 2026 en Bogotá, Colombia.',
+    q: '&iquest;Qu&eacute; es TEMACON 2026?',
+    a: 'TEMACON 2026 es el Evento de Tecnolog&iacute;a, Mantenimiento y Confiabilidad l&iacute;der de Latinoam&eacute;rica para el transporte de carga. Re&uacute;ne a m&aacute;s de 400 profesionales, 12 conferencistas y marcas l&iacute;deres en tecnolog&iacute;a para flotas.',
   },
   {
-    q: '¿Por qué debería participar como empresa en TEMACON 2026?',
-    a: 'Participar en TEMACON te da 4 ventajas clave: 1) Proyección nacional — Tu marca gana exposición directa ante flotas y empresas de transporte de carga de toda Colombia. 2) Generación de negocios — Abres un canal comercial directo interactuando con usuarios que evalúan y solicitan cotizaciones de repuestos y servicios. 3) Posicionamiento de confianza — Te consolidas como referente prioritario en confiabilidad, colocando tu propuesta como primera opción. 4) Cierre por recomendación — La venta en carga pesada se define en el taller, y cuando el área operativa valida tu solución, la negociación con la alta dirección se acelera y la objeción técnica desaparece.',
+    q: '&iquest;Por qu&eacute; deber&iacute;a participar como empresa?',
+    a: 'Participar te da 4 ventajas clave: 1) Proyecci&oacute;n nacional ante flotas de toda Colombia. 2) Generaci&oacute;n de negocios directos. 3) Posicionamiento de confianza como referente. 4) Cierre por recomendaci&oacute;n — la venta se define en el taller.',
   },
   {
-    q: '¿Quién puede asistir al Evento de Tecnología, Mantenimiento y Confiabilidad TEMACON 2026?',
-    a: 'TEMACON está dirigido a directores de flota, jefes de mantenimiento, ingenieros de confiabilidad, gerentes de logística, técnicos especializados en vehículos pesados, contratistas de transporte y cualquier profesional del sector transporte de carga interesado en tecnología, mantenimiento predictivo y optimización de flotas.',
+    q: '&iquest;Qui&eacute;n puede asistir?',
+    a: 'Directores de flota, jefes de mantenimiento, ingenieros de confiabilidad, gerentes de log&iacute;stica, t&eacute;cnicos especializados y cualquier profesional del sector transporte de carga.',
   },
   {
-    q: '¿Cuánto cuesta la entrada al Evento de Tecnología, Mantenimiento y Confiabilidad para transporte de carga TEMACON 2026?',
-    a: 'El precio general del evento es de $399,000 COP + IVA. Incluye acceso a los 2 días del evento, todas las conferencias, la muestra comercial, coffee breaks, almuerzo tipo BOX y certificado de participación digital.',
+    q: '&iquest;Cu&aacute;nto cuesta la entrada?',
+    a: 'El precio general es de <strong>$399,000 COP + IVA</strong>. Incluye acceso a los 2 d&iacute;as, todas las conferencias, muestra comercial, coffee breaks, almuerzo tipo BOX y certificado digital.',
   },
   {
-    q: '¿Qué temas se tratan en los tracks del Evento de Tecnología, Mantenimiento y Confiabilidad TEMACON 2026?',
-    a: 'Los 7 tracks de TEMACON 2026 cubren: Telemática y Flotas Conectadas, Mantenimiento Predictivo con IA, Confiabilidad Vehicular y RCM, Gestión de Flotas y KPIs, Tecnología en Frenos y Suspensión, Diagnóstico Electrónico y SCR, y Gestión de Llantas y Eficiencia Energética.',
+    q: '&iquest;Qu&eacute; temas se tratan en los tracks?',
+    a: 'Los 7 tracks cubren: Telem&aacute;tica y Flotas Conectadas, Mantenimiento Predictivo con IA, Confiabilidad Vehicular y RCM, Gesti&oacute;n de Flotas y KPIs, Tecnolog&iacute;a en Frenos y Suspensi&oacute;n, Diagn&oacute;stico Electr&oacute;nico y SCR, y Gesti&oacute;n de Llantas y Eficiencia Energ&eacute;tica.',
   },
   {
-    q: '¿Dónde y cuándo se realiza el Evento de Tecnología, Mantenimiento y Confiabilidad TEMACON 2026?',
-    a: 'TEMACON 2026, el Evento de Tecnología, Mantenimiento y Confiabilidad para el transporte de carga, se realiza los días 1 y 2 de septiembre de 2026 en Bogotá, Colombia. La sede es la Cámara de Comercio de Bogotá en la Avenida El Dorado. El horario de apertura es 8:00 AM y cierra a las 6:00 PM.',
+    q: '&iquest;D&oacute;nde y cu&aacute;ndo se realiza?',
+    a: '1-2 de septiembre de 2026 en Bogot&aacute;, Colombia. La sede es la C&aacute;mara de Comercio de Bogot&aacute; en la Avenida El Dorado. Horario: 8:00 AM - 6:00 PM.',
   },
   {
-    q: '¿Cómo puedo patrocinar el Evento de Tecnología, Mantenimiento y Confiabilidad más importante de Latinoamérica?',
-    a: 'Para patrocinar TEMACON 2026, el Evento de Tecnología, Mantenimiento y Confiabilidad para el transporte de carga, puedes contactarnos directamente por WhatsApp al +57 311 378 2522 o escribir a contacto@tiendacamion.com. Ofrecemos diferentes niveles de patrocinio con acceso a la muestra comercial, branding en materiales del evento y oportunidades de networking con directores de flota de las principales empresas de transporte de Colombia.',
+    q: '&iquest;C&oacute;mo patrocinar?',
+    a: 'Escr&iacute;benos por WhatsApp al <strong>+57 311 378 2522</strong> o a <strong>contacto@tiendacamion.com</strong>. Ofrecemos diferentes niveles de patrocinio con acceso a la muestra comercial y networking con directores de flota.',
   },
   {
-    q: '¿Qué es el mantenimiento predictivo y cómo ayuda a reducir costos en flotas de camiones?',
-    a: 'El mantenimiento predictivo es una estrategia que utiliza sensores IoT, telemática y análisis de datos para anticipar fallas antes de que ocurran. En TEMACON 2026, el Evento de Tecnología, Mantenimiento y Confiabilidad, aprenderás cómo las flotas que implementan mantenimiento predictivo reducen en promedio un 30% sus costos operativos, disminuyen el downtime y extienden la vida útil de sus vehículos pesados.',
+    q: '&iquest;Qu&eacute; es el mantenimiento predictivo?',
+    a: 'Es una estrategia que utiliza sensores IoT, telem&aacute;tica y an&aacute;lisis de datos para anticipar fallas. Las flotas que lo implementan reducen en promedio un <strong>30% sus costos operativos</strong>.',
   },
   {
-    q: '¿Cuáles son las tendencias de Tecnología, Mantenimiento y Confiabilidad para el transporte de carga en 2026?',
-    a: 'Las principales tendencias que se discuten en TEMACON 2026, el Evento de Tecnología, Mantenimiento y Confiabilidad, incluyen: inteligencia artificial para mantenimiento predictivo, vehículos conectados con telemática avanzada, gestión de flotas en tiempo real, sistemas ADAS para camiones, economía circular en repuestos, combustibles alternativos, electrificación de flotas y normativas de emisiones para vehículos pesados en Colombia.',
+    q: '&iquest;Cu&aacute;les son las tendencias 2026?',
+    a: 'IA para mantenimiento predictivo, veh&iacute;culos conectados con telem&aacute;tica avanzada, gesti&oacute;n de flotas en tiempo real, sistemas ADAS, econom&iacute;a circular en repuestos, combustibles alternativos y electrificaci&oacute;n.',
   },
   {
-    q: '¿Cómo me registro para el Evento de Tecnología, Mantenimiento y Confiabilidad TEMACON 2026?',
-    a: 'Puedes registrarte directamente en esta página haciendo clic en el botón "Adquirir Ingreso Ahora". El proceso es simple: seleccionas tus tickets, completas tus datos y realizas el pago seguro. Una vez confirmada la compra, recibirás tu pase digital por correo electrónico.',
+    q: '&iquest;C&oacute;mo me registro?',
+    a: 'Haz clic en el bot&oacute;n &ldquo;Comprar Ticket&rdquo; en esta p&aacute;gina. Seleccionas tus tickets, completas tus datos y realizas el pago seguro. Recibir&aacute;s tu pase digital por correo.',
   },
   {
-    q: '¿Qué marcas y empresas participan en la muestra comercial del Evento de Tecnología, Mantenimiento y Confiabilidad TEMACON 2026?',
-    a: 'La muestra comercial de TEMACON 2026, el Evento de Tecnología, Mantenimiento y Confiabilidad para el transporte de carga, reúne a las marcas líderes del sector: proveedores de telemática y GPS, fabricantes de repuestos para camiones, empresas de software de gestión de flotas, proveedores de lubricantes, especialistas en frenos y suspensión, empresas de diagnóstico electrónico, y fabricantes de llantas para transporte pesado.',
+    q: '&iquest;Qu&eacute; marcas participan en la muestra comercial?',
+    a: 'Proveedores de telem&aacute;tica y GPS, fabricantes de repuestos, software de gesti&oacute;n de flotas, lubricantes, especialistas en frenos y suspensi&oacute;n, diagn&oacute;stico electr&oacute;nico, y fabricantes de llantas para transporte pesado.',
   },
 ];
 
-export default function FAQ() {
-  const [isOpen, setIsOpen] = useState(false);
+function AccordionItem({ faq, index }: { faq: typeof FAQS[0]; index: number }) {
+  const [open, setOpen] = useState(false);
 
   return (
-    <section id="faq" className="relative bg-white overflow-hidden">
+    <div className="border-b border-black/[0.06] last:border-b-0">
+      <button
+        onClick={() => setOpen(!open)}
+        className="w-full flex items-start gap-3 px-4 lg:px-6 py-3.5 lg:py-4 text-left bg-transparent border-none cursor-pointer group"
+      >
+        <span className="font-mono text-xs text-[#E31E24]/60 flex-shrink-0 mt-0.5">
+          {String(index + 1).padStart(2, '0')}
+        </span>
+        <span
+          className="font-display text-sm lg:text-base text-black/90 leading-snug font-bold flex-1 group-hover:text-[#E31E24] transition-colors"
+          dangerouslySetInnerHTML={{ __html: faq.q }}
+        />
+        <ChevronDown
+          size={18}
+          className={`flex-shrink-0 text-black/30 group-hover:text-[#E31E24] transition-all duration-300 mt-0.5 ${open ? 'rotate-180' : ''}`}
+        />
+      </button>
 
-      <div className="relative z-10 wrapper py-16 lg:py-24">
+      <div
+        className={`overflow-hidden transition-all duration-400 ease-in-out ${open ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'}`}
+      >
+        <div className="px-4 lg:px-6 pb-4 pt-0">
+          <p
+            className="text-sm text-black/60 leading-relaxed ml-7 lg:ml-9"
+            dangerouslySetInnerHTML={{ __html: faq.a }}
+          />
+        </div>
+      </div>
+    </div>
+  );
+}
 
-        {/* Banner principal — ancho completo, fondo negro */}
-        <div className="w-full">
-          <button
-            onClick={() => setIsOpen(!isOpen)}
-            className={`w-full flex items-center justify-between py-5 lg:py-6 px-5 lg:px-8 rounded-2xl border transition-all duration-300 ${
-              isOpen
-                ? 'bg-[#E31E24] border-[#E31E24]'
-                : 'bg-black border-black hover:bg-black/90 transition-all'
-            }`}
-          >
-            <div className="text-left">
-              <p className="font-mono text-[9px] lg:text-[10px] tracking-[0.4em] text-[#E31E24] uppercase mb-1">
-                {isOpen ? 'Cerrar' : 'Haz clic para ver'}
-              </p>
-              <h2 className={`font-display text-xl sm:text-2xl lg:text-t3 ${isOpen ? 'text-white' : 'text-white'}`}>
-                Preguntas <span className={isOpen ? 'text-white' : 'text-[#E31E24]'}>Frecuentes</span>
-              </h2>
-            </div>
-            <ChevronDown
-              size={28}
-              className={`flex-shrink-0 transition-transform duration-500 ${
-                isOpen ? 'rotate-180 text-white' : 'text-white/40'
-              }`}
-            />
-          </button>
+export default function FAQ() {
+  return (
+    <section id="faq" className="relative bg-[#f7f7f7] overflow-hidden">
+      <div className="wrapper py-12 lg:py-16">
 
-          {/* Contenido desplegable — fondo blanco */}
-          <div
-            className={`overflow-hidden transition-all duration-700 ease-in-out ${
-              isOpen ? 'max-h-[3000px] opacity-100 mt-3' : 'max-h-0 opacity-0 mt-0'
-            }`}
-          >
-            <div className="rounded-2xl overflow-hidden border border-black/[0.08] bg-white">
-              {FAQS.map((faq, i) => (
-                <div key={i} className="border-b border-black/[0.06] last:border-b-0">
-                  {/* Pregunta — NEGRILLA */}
-                  <div className="bg-black/[0.02] px-4 lg:px-6 py-3.5 lg:py-4 flex items-start gap-3">
-                    <span className="font-mono text-xs text-[#E31E24]/60 flex-shrink-0 mt-0.5">
-                      {String(i + 1).padStart(2, '0')}
-                    </span>
-                    <p className="font-display text-sm lg:text-base text-black/90 leading-snug font-bold">
-                      {faq.q}
-                    </p>
-                  </div>
-                  {/* Respuesta — NORMAL */}
-                  <div className="bg-[#E31E24]/5 px-4 lg:px-6 pb-4 pt-1">
-                    <p className="text-sm text-black/70 leading-relaxed max-w-4xl ml-7 lg:ml-9 font-normal">
-                      {faq.a}
-                    </p>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            {/* CTA WhatsApp */}
-            <div className="text-center mt-6">
-              <p className="font-mono text-[10px] text-black/40 tracking-wider mb-3">
-                ¿MÁS PREGUNTAS? CONTÁCTANOS
-              </p>
-              <a
-                href="https://wa.me/573113782522"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 bg-[#E31E24] text-white px-6 py-2.5 rounded-full font-display text-sm font-semibold hover:bg-white hover:text-[#E31E24] transition-all"
-              >
-                Escríbenos por WhatsApp
-              </a>
-            </div>
+        {/* Header */}
+        <div className="text-center mb-8 lg:mb-10">
+          <div className="flex items-center justify-center gap-2 mb-3">
+            <HelpCircle size={14} className="text-[#E31E24]" />
+            <p className="font-mono text-[10px] tracking-[0.4em] text-[#E31E24] uppercase">
+              Resolvemos tus dudas
+            </p>
           </div>
+          <h2 className="font-display text-3xl lg:text-4xl text-black tracking-tight">
+            Preguntas <span className="text-[#E31E24]">Frecuentes</span>
+          </h2>
+        </div>
+
+        {/* Acordeón */}
+        <div className="max-w-3xl mx-auto rounded-2xl overflow-hidden border border-black/[0.08] bg-white shadow-sm">
+          {FAQS.map((faq, i) => (
+            <AccordionItem key={i} faq={faq} index={i} />
+          ))}
+        </div>
+
+        {/* CTA WhatsApp */}
+        <div className="text-center mt-8">
+          <p className="font-mono text-[10px] text-black/40 tracking-wider mb-3">
+            &iquest;M&Aacute;S PREGUNTAS? CONT&Aacute;CTANOS
+          </p>
+          <a
+            href="https://wa.me/573113782522"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 bg-[#E31E24] text-white px-6 py-2.5 rounded-full font-display text-sm font-semibold hover:bg-white hover:text-[#E31E24] border-2 border-[#E31E24] transition-all"
+          >
+            Escr&iacute;benos por WhatsApp
+          </a>
         </div>
       </div>
     </section>

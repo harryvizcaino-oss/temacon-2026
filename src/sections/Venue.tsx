@@ -1,6 +1,5 @@
 import {
   MapPin, Calendar, Clock, Plane, Hotel, Navigation,
-  ExternalLink,
 } from 'lucide-react';
 
 /* ═══════════════════════════════════════════
@@ -52,7 +51,7 @@ export default function Venue() {
       <div className="wrapper grid grid-cols-1 lg:grid-cols-2 gap-5 lg:gap-6 pb-16 lg:pb-24">
 
         {/* ── COL 1: Venue Photo + overlay ── */}
-        <div className="relative h-[45vh] sm:h-[55vh] lg:h-auto min-h-[420px] lg:min-h-[560px] rounded-2xl overflow-hidden shadow-2xl">
+        <div className="relative h-[28vh] sm:h-[45vh] lg:h-auto min-h-[280px] sm:min-h-[420px] lg:min-h-[560px] rounded-2xl overflow-hidden shadow-2xl">
           <img
             src="/venue-salitre.jpg"
             alt="Cámara de Comercio de Bogotá Sede Salitre — TEMACON 2026"
@@ -141,17 +140,11 @@ export default function Venue() {
             </div>
           </div>
 
-          {/* CTAs */}
-          <div className="flex flex-col sm:flex-row gap-2">
-            <a href="https://www.google.com/maps/search/hoteles+cerca+C%C3%A1mara+de+Comercio+de+Bogot%C3%A1+Av+El+Dorado/" target="_blank" rel="noopener noreferrer" className="flex-1 flex items-center justify-center gap-2 bg-[#E31E24] hover:bg-[#c41a20] text-white py-3 rounded-lg font-mono text-xs transition-all">
-              <Hotel size={14} />
-              Ver más hoteles
-            </a>
-            <a href="https://www.google.com/maps/dir/Aeropuerto+Internacional+El+Dorado,+Bogot%C3%A1/C%C3%A1mara+de+Comercio+de+Bogot%C3%A1,+Av.+El+Dorado+%2368D-35,+Bogot%C3%A1/" target="_blank" rel="noopener noreferrer" className="flex-1 flex items-center justify-center gap-2 bg-white hover:bg-black/5 text-black/70 hover:text-black py-3 rounded-lg font-mono text-xs border border-black/10 transition-all">
-              <ExternalLink size={14} />
-              Ruta desde aeropuerto
-            </a>
-          </div>
+          {/* CTA Hospedaje */}
+          <a href="https://www.google.com/maps/search/hoteles+cerca+C%C3%A1mara+de+Comercio+de+Bogot%C3%A1+Av+El+Dorado/" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2 bg-[#E31E24] hover:bg-[#c41a20] text-white py-3 rounded-lg font-mono text-xs transition-all">
+            <Hotel size={14} />
+            Ver hospedaje cerca
+          </a>
         </div>
       </div>
     </section>

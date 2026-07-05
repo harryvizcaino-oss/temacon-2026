@@ -5,7 +5,7 @@ import type { LucideProps } from 'lucide-react';
 import PrivacyModal from '@/components/PrivacyModal';
 
 /* ═══════════════════════════════════════════
-   FOOTER — Compacto: 4 redes sociales + copyright
+   FOOTER — Limpio: 6 links + 4 redes + copyright
    ═══════════════════════════════════════════ */
 
 interface SocialLink {
@@ -17,7 +17,7 @@ interface SocialLink {
 const SOCIALS: SocialLink[] = [
   { icon: Facebook,  label: 'Facebook',  href: 'https://www.facebook.com/share/1CKDii2Eop/?mibextid=wwXIfr' },
   { icon: Instagram, label: 'Instagram', href: 'https://www.instagram.com/tiendacamion' },
-  { icon: Linkedin,  label: 'LinkedIn',  href: 'https://www.linkedin.com/company/tiendacamion' },
+  { icon: Linkedin,  label: 'LinkedIn',  href: 'https://www.linkedin.com/events/temacon20267468427912283721730' },
   { icon: 'tiktok',  label: 'TikTok',    href: 'https://www.tiktok.com/@tiendacamion.com?_r=1&_t=ZS-96jJHIymlQv' },
 ];
 
@@ -39,33 +39,24 @@ const MAIN_LINKS = [
   { label: 'Lugar', href: '#venue' },
 ];
 
-const EXP_LINKS = [
-  { label: 'Exploración 3D', href: '#tractocamion' },
-  { label: 'Flujo de Mantenimiento', href: '#flujo' },
-];
-
-const EXTERNAL_LINKS = [
-  { label: 'LinkedIn Event', href: 'https://www.linkedin.com/events/temacon20267468427912283721730' },
-];
-
 export default function Footer() {
   const [privacyOpen, setPrivacyOpen] = useState(false);
 
   return (
     <footer id="footer" className="bg-temacon-mediumgray">
-      <div className="wrapper py-8 lg:py-10 flex flex-col items-center text-center">
+      <div className="wrapper py-6 lg:py-8 flex flex-col items-center text-center">
 
         {/* Logo */}
         <a href="#" className="mb-3">
           <img
             src="/logo-tiendacamion-footer.png"
             alt="TEMACON 2026"
-            className="h-10 lg:h-12 w-auto object-contain"
+            className="h-8 lg:h-10 w-auto object-contain"
           />
         </a>
 
-        {/* Main Menu */}
-        <nav className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 mb-2">
+        {/* Main Menu — 6 links */}
+        <nav className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 mb-3">
           {MAIN_LINKS.map((link) => (
             <a
               key={link.label}
@@ -77,40 +68,8 @@ export default function Footer() {
           ))}
         </nav>
 
-        {/* Experiences */}
-        <div className="flex items-center justify-center gap-3 mb-4">
-          <span className="text-[9px] font-mono text-temacon-charcoal/40 tracking-wider uppercase">
-            Experiencias
-          </span>
-          <div className="w-6 h-px bg-temacon-charcoal/20" />
-          {EXP_LINKS.map((link) => (
-            <a
-              key={link.label}
-              href={link.href}
-              className="text-[10px] text-temacon-charcoal/60 hover:text-[#E31E24] transition-colors font-mono"
-            >
-              {link.label}
-            </a>
-          ))}
-        </div>
-
-        {/* External Links */}
-        <div className="flex items-center justify-center gap-3 mb-3">
-          {EXTERNAL_LINKS.map((link) => (
-            <a
-              key={link.label}
-              href={link.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-[10px] font-mono text-[#0a66c2] hover:text-[#E31E24] transition-colors tracking-wider"
-            >
-              {link.label} ↗
-            </a>
-          ))}
-        </div>
-
-        {/* Social Icons — 4: Facebook, Instagram, LinkedIn, TikTok */}
-        <div className="flex items-center gap-3 mb-4">
+        {/* Social Icons — 4: Facebook, Instagram, LinkedIn (evento), TikTok */}
+        <div className="flex items-center gap-2.5 mb-4">
           {SOCIALS.map(({ icon, label, href }) => {
             const isTikTok = icon === 'tiktok';
             const IconComponent = isTikTok ? null : icon as ComponentType<LucideProps>;
@@ -136,28 +95,28 @@ export default function Footer() {
         </div>
 
         {/* Divider */}
-        <div className="w-16 h-px bg-temacon-charcoal/20 mb-3" />
+        <div className="w-12 h-px bg-temacon-charcoal/15 mb-3" />
 
-        {/* Copyright */}
-        <p className="font-mono text-[9px] text-temacon-charcoal/40 tracking-wider mb-2">
-          &copy; 2026 TIENDACAMION. Todos los derechos reservados.
-        </p>
-
-        {/* Email */}
-        <a
-          href="mailto:contacto@tiendacamion.com"
-          className="text-xs text-temacon-blue hover:underline"
-        >
-          contacto@tiendacamion.com
-        </a>
-
-        {/* Privacy Policy */}
-        <button
-          onClick={() => setPrivacyOpen(true)}
-          className="text-[10px] font-mono text-black/30 hover:text-[#E31E24] transition-colors tracking-wider mt-1 bg-transparent border-none cursor-pointer p-0"
-        >
-          Política de Privacidad
-        </button>
+        {/* Copyright + Email + Privacy — todo en una línea */}
+        <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1">
+          <p className="font-mono text-[9px] text-temacon-charcoal/40 tracking-wider">
+            &copy; 2026 TIENDACAMION
+          </p>
+          <span className="text-temacon-charcoal/20">&middot;</span>
+          <a
+            href="mailto:contacto@tiendacamion.com"
+            className="text-[10px] text-temacon-charcoal/50 hover:text-[#E31E24] transition-colors font-mono"
+          >
+            contacto@tiendacamion.com
+          </a>
+          <span className="text-temacon-charcoal/20">&middot;</span>
+          <button
+            onClick={() => setPrivacyOpen(true)}
+            className="text-[10px] font-mono text-temacon-charcoal/40 hover:text-[#E31E24] transition-colors tracking-wider bg-transparent border-none cursor-pointer p-0"
+          >
+            Privacidad
+          </button>
+        </div>
       </div>
 
       {/* Privacy Policy Modal */}

@@ -71,7 +71,7 @@ const Navigation = memo(function Navigation() {
     <>
       <nav
         ref={navRef}
-        className={`fixed top-0 md:top-9 left-0 right-0 z-50 h-16 sm:h-20 flex items-center transition-all duration-500 ${
+        className={`fixed top-0 md:top-9 left-0 right-0 z-50 h-12 sm:h-16 lg:h-20 flex items-center transition-all duration-500 ${
           scrolled
             ? 'bg-white/60 backdrop-blur-2xl shadow-[0_8px_32px_rgba(0,0,0,0.08)]'
             : 'bg-transparent'
