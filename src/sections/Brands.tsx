@@ -209,6 +209,18 @@ export default function Brands() {
         </div>
       </div>
 
+      {/* ── ALIADOS ESTRATÉGICOS EN TEXTO (SEO) ──
+           Texto oculto visualmente pero indexable por Google.
+           Menciona a LOGYCA y Fedetranscarga para asociación SEO. ── */}
+      <p className="sr-only">
+        TEMACON 2026 cuenta con el respaldo de aliados estratégicos de primer nivel:
+        LOGYCA, líder en Conferencias Académicas y soluciones tecnológicas para el sector
+        transporte de carga en Colombia; y Fedetranscarga, la Federación de empresarios del
+        transporte de carga que representa los intereses del sector camionero nacional.
+        Estas alianzas garantizan contenido de alta calidad y networking con los decisores
+        más importantes de la industria del transporte de carga en Bogotá y Colombia.
+      </p>
+
       {/* Modal de ampliación */}
       {selectedBrand && (
         <BrandModal

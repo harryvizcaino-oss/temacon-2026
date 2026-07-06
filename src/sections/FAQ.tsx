@@ -9,7 +9,15 @@ import { ChevronDown, HelpCircle } from 'lucide-react';
 const FAQS = [
   {
     q: '&iquest;Qu&eacute; es TEMACON 2026?',
-    a: 'TEMACON 2026 es el Evento de Tecnolog&iacute;a, Mantenimiento y Confiabilidad l&iacute;der de Latinoam&eacute;rica para el transporte de carga. Re&uacute;ne a m&aacute;s de 400 profesionales, 12 conferencistas y marcas l&iacute;deres en tecnolog&iacute;a para flotas.',
+    a: 'TEMACON 2026 es el Evento de Tecnolog&iacute;a, Mantenimiento y Confiabilidad l&iacute;der para el transporte de carga. Re&uacute;ne a m&aacute;s de 400 profesionales, 12 conferencistas y marcas l&iacute;deres en tecnolog&iacute;a para flotas.',
+  },
+  {
+    q: '&iquest;Cu&aacute;l es la alianza con LOGYCA?',
+    a: 'LOGYCA es aliado estrat&eacute;gico de TEMACON 2026 en tres ejes: <strong>comunicaci&oacute;n</strong> del evento a sus redes, <strong>participaci&oacute;n en conferencias acad&eacute;micas</strong> con expertos del sector, y <strong>presencia de marca</strong> en todos los materiales oficiales del evento.',
+  },
+  {
+    q: '&iquest;Qu&eacute; hace Fedetranscarga como aliado?',
+    a: 'Fedetranscarga es aliado estrat&eacute;gico de TEMACON 2026 enfocado en: <strong>comunicaci&oacute;n</strong> a la comunidad transportadora, <strong>participaci&oacute;n en conferencias</strong> con l&iacute;deres del gremio, y <strong>presencia de marca</strong> como respaldo institucional del evento.',
   },
   {
     q: '&iquest;Por qu&eacute; deber&iacute;a participar como empresa?',
