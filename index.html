@@ -434,6 +434,79 @@
     <!-- End Meta Pixel (noscript) -->
 
     <div id="root"></div>
+
+    <!-- ═══════════════════════════════════════════
+         AVISO PERMANENTE — TEMACON cambia de fecha a 2027
+         Overlay fijo sobre toda la página. Sin botón de cierre.
+         pointer-events:none → la página detrás sigue funcionando.
+         El script guardián lo reinserta si alguien lo borra
+         o modifica desde DevTools.
+         ═══════════════════════════════════════════ -->
+    <div id="temacon-aviso-2027" role="dialog" aria-modal="true" aria-label="TEMACON cambia de fecha: nos vemos en abril de 2027" style="position:fixed;top:0;left:0;right:0;bottom:0;z-index:2147483647;display:flex;align-items:center;justify-content:center;margin:0;padding:0;background:rgba(0,0,0,0.88);pointer-events:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;">
+      <img src="/nos-vemos-2027.jpg" alt="TEMACON cambia de fecha, pero el encuentro continúa. Nos vemos en abril de 2027 en Bogotá, Colombia." draggable="false" style="display:block;width:auto;height:auto;max-width:92vw;max-height:94vh;object-fit:contain;margin:0;border-radius:8px;box-shadow:0 25px 80px rgba(0,0,0,0.6);pointer-events:none;user-select:none;-webkit-user-select:none;" />
+    </div>
+    <script>
+    (function () {
+      var ID = 'temacon-aviso-2027';
+      var SRC = '/nos-vemos-2027.jpg';
+      var ALT = 'TEMACON cambia de fecha, pero el encuentro continúa. Nos vemos en abril de 2027 en Bogotá, Colombia.';
+      var BOX_STYLE = 'position:fixed;top:0;left:0;right:0;bottom:0;z-index:2147483647;display:flex;align-items:center;justify-content:center;margin:0;padding:0;background:rgba(0,0,0,0.88);pointer-events:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;';
+      var IMG_STYLE = 'display:block;width:auto;height:auto;max-width:92vw;max-height:94vh;object-fit:contain;margin:0;border-radius:8px;box-shadow:0 25px 80px rgba(0,0,0,0.6);pointer-events:none;user-select:none;-webkit-user-select:none;';
+
+      function buildImg() {
+        var img = document.createElement('img');
+        img.setAttribute('src', SRC);
+        img.setAttribute('alt', ALT);
+        img.setAttribute('draggable', 'false');
+        img.setAttribute('style', IMG_STYLE);
+        return img;
+      }
+
+      function buildBox() {
+        var box = document.createElement('div');
+        box.id = ID;
+        box.setAttribute('role', 'dialog');
+        box.setAttribute('aria-modal', 'true');
+        box.setAttribute('aria-label', ALT);
+        box.setAttribute('style', BOX_STYLE);
+        box.appendChild(buildImg());
+        return box;
+      }
+
+      function repair(box) {
+        if (box.getAttribute('style') !== BOX_STYLE) box.setAttribute('style', BOX_STYLE);
+        var img = box.querySelector('img');
+        if (!img) {
+          box.appendChild(buildImg());
+        } else {
+          if (img.getAttribute('src') !== SRC) img.setAttribute('src', SRC);
+          if (img.getAttribute('style') !== IMG_STYLE) img.setAttribute('style', IMG_STYLE);
+        }
+      }
+
+      var tamperObserver = new MutationObserver(function () {
+        var box = document.getElementById(ID);
+        if (box) repair(box);
+      });
+
+      function watch(box) {
+        tamperObserver.observe(box, { attributes: true, childList: true, subtree: true });
+      }
+
+      var initial = document.getElementById(ID);
+      if (initial) watch(initial);
+
+      new MutationObserver(function () {
+        var box = document.getElementById(ID);
+        if (!box) {
+          var fresh = buildBox();
+          (document.body || document.documentElement).appendChild(fresh);
+          watch(fresh);
+        }
+      }).observe(document.documentElement, { childList: true, subtree: true });
+    })();
+    </script>
+
     <script type="module" src="/src/main.tsx"></script>
 
     <!-- Zoho PageSense — carga al final para no bloquear React -->
